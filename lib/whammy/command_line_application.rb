@@ -1,6 +1,6 @@
 module Whammy
   class CommandLineApplication
-    def initialize
+    def initialize(argv)
     end
   end
 end
