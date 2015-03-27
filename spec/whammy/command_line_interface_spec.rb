@@ -6,9 +6,9 @@ module Whammy
     let(:cli)  { CommandLineInterface.new(argv) }
 
     describe "#initialize" do
-      it "should defined @option_parser" do
-        expect(cli.instance_variable_get(:@option_parser)).to_not be_nil
-        expect(cli.instance_variable_get(:@option_parser)).to be_a(OptionParser)
+      it "defines @options_parser" do
+        expect(cli.instance_variable_get(:@options_parser)).to_not be_nil
+        expect(cli.instance_variable_get(:@options_parser)).to be_a(CommandLineOptionsParser)
       end
     end
 
