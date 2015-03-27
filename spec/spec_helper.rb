@@ -1,4 +1,4 @@
-Dir["lib/whammy/*"].each {|file| require_relative file }
+require_relative '../lib/whammy'
 
 require 'rspec'
 
