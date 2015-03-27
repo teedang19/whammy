@@ -1,6 +1,5 @@
 module Whammy
   class CommandLineOptionsParser
-
     def initialize
       @sorting_params = {}
       @options_parser = OptionParser.new do |opts|
@@ -14,5 +13,12 @@ module Whammy
       end
     end
 
+    def get_files(argv)
+      @options_parser.parse(argv)
+      rescue OptionParser::InvalidOption => e # TODO can we combine this error handling?
+        puts "#{e.message}\nTry again!"
+      rescue OptionParser::InvalidArgument => e
+        puts "#{e.message}\nTry again!"
+    end
   end
 end
