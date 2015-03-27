@@ -14,5 +14,20 @@ module Whammy
         expect(parser.instance_variable_get(:@options_parser)).to be_a(OptionParser)
       end
     end
+
+    describe "#get_files" do
+      context "when called with one file" do
+        it "returns an array of the file" do
+          expect(parser.get_files(argv)).to eql(["commas.txt"])
+        end
+      end
+
+      context "when called with multiple files" do
+        it "returns an array of all the files" do
+          two_file_argv = ["commas.txt", "pipes.txt", "--sort", "-g"]
+          expect(parser.get_files(two_file_argv)).to eql(["commas.txt", "pipes.txt"])
+        end
+      end
+    end
   end
 end
