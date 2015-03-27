@@ -37,5 +37,34 @@ module Whammy
         end
       end
     end
+
+    describe "#sorting_params" do
+      context "when called with params" do
+        it "returns the correct params for birthday" do
+          parser.instance_variable_get(:@options_parser).parse(argv) # must be called to pass in the ARGV
+          expect(parser.sorting_params).to eql({ sort_by: :birthday })
+        end
+
+        it "returns the correct params for gender" do
+          gender_argv = ["commas.txt", "--sort", "-g"]
+          parser.instance_variable_get(:@options_parser).parse(gender_argv)
+          expect(parser.sorting_params).to eql({ sort_by: :gender })
+        end
+
+        it "returns the correct params for last name" do
+          last_name_argv = ["commas.txt", "--sort", "-l"]
+          parser.instance_variable_get(:@options_parser).parse(last_name_argv)
+          expect(parser.sorting_params).to eql({ sort_by: :last_name })
+        end
+      end
+
+      context "when called without sorting params" do
+        it "returns an empty hash" do
+          no_sort_argv = ["commas.txt", "pipes.txt"]
+          parser.instance_variable_get(:@options_parser).parse(no_sort_argv)
+          expect(parser.sorting_params).to eql( {} )
+        end
+      end
+    end
   end
 end

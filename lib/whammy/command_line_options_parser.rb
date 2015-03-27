@@ -20,5 +20,9 @@ module Whammy
       rescue OptionParser::InvalidArgument => e
         puts "#{e.message}\nTry again!"
     end
+
+    def sorting_params
+      @sorting_params
+    end
   end
 end
