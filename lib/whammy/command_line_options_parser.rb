@@ -7,7 +7,7 @@ module Whammy
           case flag
           when "-b" then @sorting_params[:sort_by] = :birthday
           when "-g" then @sorting_params[:sort_by] = :gender
-          when "-l" then @sorting_params[:sort_by] = :lastname
+          when "-l" then @sorting_params[:sort_by] = :last_name
           end
         end
       end
