@@ -9,6 +9,10 @@ module Whammy
       it "should define @options_parser" do
         expect(parser.instance_variable_get(:@options_parser)).to_not be_nil
       end
+
+      it "should set @options_parser to an instance of OptionParser" do
+        expect(parser.instance_variable_get(:@options_parser)).to be_a(OptionParser)
+      end
     end
   end
 end
