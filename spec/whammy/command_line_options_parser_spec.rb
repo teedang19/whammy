@@ -13,6 +13,14 @@ module Whammy
       it "sets @options_parser to an instance of OptionParser" do
         expect(parser.instance_variable_get(:@options_parser)).to be_a(OptionParser)
       end
+
+      it "defines @sorting_params" do
+        expect(parser.instance_variable_get(:@sorting_params)).to_not be_nil
+      end
+
+      it "establishes @sorting_params as a Hash" do
+        expect(parser.instance_variable_get(:@sorting_params)).to be_a(Hash)
+      end
     end
 
     describe "#get_files" do
