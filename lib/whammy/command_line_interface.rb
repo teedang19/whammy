@@ -1,6 +1,7 @@
 module Whammy
   class CommandLineInterface
     def initialize(argv) # argv: filenames and possible flags
+      @option_parser = OptionParser.new
     end
 
     def display # TODO will call a Display class ?
