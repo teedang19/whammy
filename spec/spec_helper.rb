@@ -1,5 +1,7 @@
-require_relative "../lib/whammy"
+require 'simplecov'
+SimpleCov.start
 
+require_relative "../lib/whammy"
 require "rspec"
 
 RSpec.configure do |config|
