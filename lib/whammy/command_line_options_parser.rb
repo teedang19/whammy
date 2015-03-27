@@ -6,7 +6,7 @@ module Whammy
         opts.on("--sort ENUM", ["-b", "-g", "-l"]) do |flag|
           case flag
           when "-b" then @sorting_params[:sort_by] = :birthday
-          when "-g" then @sorting_params[:sort_by] = :gender
+          when "-g" then @sorting_params[:sort_by] = :gender # TODO sort by gender is also last_name ascending. where does this logic go?
           when "-l" then @sorting_params[:sort_by] = :last_name
           end
         end
