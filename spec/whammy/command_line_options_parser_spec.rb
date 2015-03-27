@@ -6,11 +6,11 @@ module Whammy
     let(:parser) { CommandLineOptionsParser.new }
 
     describe "#initialize" do
-      it "should define @options_parser" do
+      it "defines @options_parser" do
         expect(parser.instance_variable_get(:@options_parser)).to_not be_nil
       end
 
-      it "should set @options_parser to an instance of OptionParser" do
+      it "sets @options_parser to an instance of OptionParser" do
         expect(parser.instance_variable_get(:@options_parser)).to be_a(OptionParser)
       end
     end
