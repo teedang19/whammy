@@ -2,8 +2,8 @@ require_relative "../spec_helper"
 
 module Whammy
   describe CommandLineInterface do
-    let(:argv) { ["commas.txt", "-b"] }
-    let(:cli) { CommandLineInterface.new(argv) }
+    let(:argv) { ["commas.txt", "--sort", "-b"] }
+    let(:cli)  { CommandLineInterface.new(argv) }
 
     describe "#initialize" do
       it "should defined @option_parser" do
