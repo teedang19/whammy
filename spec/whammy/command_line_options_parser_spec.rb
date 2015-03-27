@@ -6,7 +6,7 @@ module Whammy
     let(:parser) { CommandLineOptionsParser.new }
 
     describe "#initialize" do
-      it "should defined @options_parser" do
+      it "should define @options_parser" do
         expect(parser.instance_variable_get(:@options_parser)).to_not be_nil
       end
     end
