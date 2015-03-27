@@ -8,6 +8,7 @@ module Whammy
     describe "#initialize" do
       it "should defined @option_parser" do
         expect(cli.instance_variable_get(:@option_parser)).to_not be_nil
+        expect(cli.instance_variable_get(:@option_parser)).to be_a(OptionParser)
       end
     end
 
