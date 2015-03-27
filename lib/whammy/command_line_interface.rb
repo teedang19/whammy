@@ -1,5 +1,5 @@
 module Whammy
-  class CommandLineApplication
+  class CommandLineInterface
     def initialize(argv) # argv: filenames and possible flags
     end
 

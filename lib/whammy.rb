@@ -1,3 +1,3 @@
 require "optparse"
 
-require_relative "whammy/command_line_application"
+require_relative "whammy/command_line_interface"
