@@ -2,7 +2,7 @@ require_relative "../spec_helper"
 
 module Whammy
   describe CommandLineOptionsParser do
-    let(:argv) { ["commas.txt", "-b"] }
+    let(:argv) { ["commas.txt", "--sort", "-b"] }
     let(:parser) { CommandLineOptionsParser.new }
 
     describe "#initialize" do
