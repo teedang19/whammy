@@ -13,5 +13,9 @@ module Whammy
     def parse_options(argv)
       # use OptionParser to separate argv into filenames and flags/options to pass to a Sorter class
     end
+
+    def sorting_params
+      @options_parser.sorting_params
+    end
   end
 end
