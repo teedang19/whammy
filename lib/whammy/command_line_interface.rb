@@ -17,5 +17,9 @@ module Whammy
     def sorting_params
       @options_parser.sorting_params
     end
+
+    def files
+      @options_parser.files
+    end
   end
 end
