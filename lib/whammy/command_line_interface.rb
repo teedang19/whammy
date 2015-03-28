@@ -17,5 +17,8 @@ module Whammy
     def files
       @options_parser.files
     end
+
+    def write_to_file # TODO what will this look like?
+    end
   end
 end
