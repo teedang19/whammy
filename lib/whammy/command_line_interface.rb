@@ -4,6 +4,9 @@ module Whammy
       @options_parser = CommandLineOptionsParser.new(argv)
     end
 
+    def run!
+    end
+
     def display # TODO will call a Display class ?
     end
 
