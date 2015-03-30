@@ -13,6 +13,10 @@ module Whammy
     def sort # TODO will call a Sort class ?
     end
 
+    def write_to_master?
+      @options_parser.write_to_master
+    end
+
     def sorting_params
       @options_parser.sorting_params
     end

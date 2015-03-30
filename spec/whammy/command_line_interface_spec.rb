@@ -12,6 +12,18 @@ module Whammy
       end
     end
 
+    describe "#write_to_master?" do
+      it "returns false when argv does not include '--master'" do
+        expect(cli.write_to_master?).to be(false)
+      end
+
+      it "returns true when argv includes '--master'" do
+        master_argv = ["commas.txt", "--sort", "-b", "--master"]
+        master_cli = CommandLineInterface.new(master_argv)
+        expect(master_cli.write_to_master?).to be(true)
+      end
+    end
+
     describe "#sorting_params" do
       it "delegates the retrieval of sorting_params to @options_parser" do
         expect(cli.instance_variable_get(:@options_parser)).to receive(:sorting_params)
