@@ -21,6 +21,10 @@ module Whammy
       @options_parser.files
     end
 
+    def parsed_data
+      Parser.new(files).parse! # TODO this is wishful; TEST
+    end
+
     def write_to_file # TODO what will this look like?
     end
   end
