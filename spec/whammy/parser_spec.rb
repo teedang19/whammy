@@ -34,17 +34,20 @@ module Whammy
       end
 
       context "called with a comma-delimited file" do
-        xit "returns the file parsed" do
+        it "returns the file parsed" do
+          expect(parser.parse_file(csv_file)).to eql([["Govan", "Guthrie", "male", "blue", "12/27/1971"], ["Schuldiner", "Chuck", "male", "orange", "05/13/1967"], ["Reinhardt", "Django", "male", "green", "01/23/1910"]])
         end
       end
 
       context "called with a space-delimited file" do
-        xit "returns the file parsed" do
+        it "returns the file parsed" do
+          expect(parser.parse_file(spaced_file)).to eql([["Dang", "Tam", "female", "purple", "01/13/1990"], ["Baldissero", "Shawn", "male", "green", "02/03/1987"], ["TranNgoc", "Tuyen", "female", "red", "01/13/1952"]])
         end
       end
 
       context "called with a pipe-delimited file" do
-        xit "returns the file parsed" do
+        it "returns the file parsed" do
+          expect(parser.parse_file(piped_file)).to eql([["Shore", "Pauly", "male", "pink", "02/01/1968"], ["Schwarzenegger", "Arnold", "male", "blue", "07/30/1947"], ["McDormand", "Frances", "female", "green", "06/23/1957"]])
         end
       end
     end
