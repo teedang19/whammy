@@ -1,5 +1,6 @@
 module Whammy
   class Parser
+    DELIMITERS = [/, /, / \| /]
 
     def initialize(files_array) # TODO should a Parser only be initialized with one file?
       @files = files_array
@@ -14,6 +15,10 @@ module Whammy
     end
 
     def parse_line(line)
+    end
+
+    def delimiter(line)
+      DELIMITERS.detect { |delimiter| line =~ delimiter }
     end
   end
 end
