@@ -55,6 +55,27 @@ module Whammy
     let(:csv_line) { "Govan, Guthrie, male, blue, 12/27/1971" }
     let(:piped_line) { "Shore | Pauly | male | pink | 02/01/1968" }
     let(:spaced_line) { "Dang Tam female purple 01/13/1990" }
+
+    describe "#parse_line" do
+      context "called with a comma-delimited line" do
+        it "returns a hash of the line attributes" do
+          expect(parser.parse_line(csv_line)).to eql({ last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971"})
+        end
+      end
+
+      context "called with a pipe-delimited line" do
+        it "returns a hash of the line attributes" do
+          expect(parser.parse_line(piped_line)).to eql({ last_name: "Shore", first_name: "Pauly", gender: "male", favorite_color: "pink", date_of_birth: "02/01/1968"})
+        end
+      end
+
+      context "called with a space-delimited line" do
+        it "returns a hash of the line attributes" do
+          expect(parser.parse_line(spaced_line)).to eql({ last_name: "Dang", first_name: "Tam", gender: "female", favorite_color: "purple", date_of_birth: "01/13/1990" })
+        end
+      end
+    end
+
     let(:contains_newline) { "Shore | Pauly | male | pink | 02/01/1968\n" }
 
     describe "#split_line" do
