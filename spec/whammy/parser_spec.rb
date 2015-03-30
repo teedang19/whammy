@@ -44,7 +44,7 @@ module Whammy
         expect(parser.parse_line(contains_newline)).to eql(["Shore", "Pauly", "male", "pink", "02/01/1968"])
       end
 
-      context "when given a comma-delimited line" do
+      context "called with a comma-delimited line" do
         it "returns the line parsed" do
           expect(parser.parse_line(csv_line)).to eql(["Govan", "Guthrie", "male", "blue", "12/27/1971"])
         end
@@ -54,7 +54,7 @@ module Whammy
         end
       end
 
-      context "when given a pipe-delimited line" do
+      context "called with a pipe-delimited line" do
         it "returns the line parsed" do
           expect(parser.parse_line(piped_line)).to eql(["Shore", "Pauly", "male", "pink", "02/01/1968"])
         end
@@ -64,7 +64,7 @@ module Whammy
         end
       end
 
-      context "when given a space-delimited line" do
+      context "called with a space-delimited line" do
         it "returns the line parsed" do
           expect(parser.parse_line(spaced_line)).to eql(["Dang", "Tam", "female", "purple", "01/13/1990"])
         end
