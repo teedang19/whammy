@@ -22,7 +22,7 @@ module Whammy
     end
 
     def parsed_data
-      Parser.new(files).parse! # TODO this is wishful; TEST
+      Parser.new(files).parsed_data # TODO more tests?
     end
 
     def write_to_file # TODO what will this look like?

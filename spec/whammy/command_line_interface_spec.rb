@@ -57,8 +57,8 @@ module Whammy
     end
 
     describe "#parsed_data" do
-      xit "returns the correctly parsed data" do
-        expect(cli.parsed_data).to_not be_nil
+      it "returns the correctly parsed data" do
+        expect(cli.parsed_data).to eql([{last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971"}, {last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}, {last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}])
       end
     end
   end
