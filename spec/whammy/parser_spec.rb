@@ -27,27 +27,27 @@ module Whammy
       let(:spaced_file) { "spaces.txt" }
       let(:piped_file) { "pipes.txt" }
 
-      it "passes each line of a file to #split_line" do
+      it "passes each line of a file to #parse_line" do
         comma_line_count = File.foreach(csv_file).count
-        expect(parser).to receive(:split_line).exactly(comma_line_count).times
+        expect(parser).to receive(:parse_line).exactly(comma_line_count).times
         parser.parse_file(csv_file)
       end
 
       context "called with a comma-delimited file" do
         it "parses the file" do
-          expect(parser.parse_file(csv_file)).to eql([["Govan", "Guthrie", "male", "blue", "12/27/1971"], ["Schuldiner", "Chuck", "male", "orange", "05/13/1967"], ["Reinhardt", "Django", "male", "green", "01/23/1910"]])
+          expect(parser.parse_file(csv_file)).to eql([{ last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971"}, {last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}, {last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}])
         end
       end
 
       context "called with a space-delimited file" do
         it "parses the file" do
-          expect(parser.parse_file(spaced_file)).to eql([["Dang", "Tam", "female", "purple", "01/13/1990"], ["Baldissero", "Shawn", "male", "green", "02/03/1987"], ["TranNgoc", "Tuyen", "female", "red", "01/13/1952"]])
+          expect(parser.parse_file(spaced_file)).to eql([{ last_name: "Dang", first_name: "Tam", gender: "female", favorite_color: "purple", date_of_birth: "01/13/1990" }, {last_name: "Baldissero", first_name: "Shawn", gender: "male", favorite_color: "green", date_of_birth: "02/03/1987"}, {last_name: "TranNgoc", first_name: "Tuyen", gender: "female", favorite_color: "red", date_of_birth: "01/13/1952"} ])
         end
       end
 
       context "called with a pipe-delimited file" do
         it "parses the file" do
-          expect(parser.parse_file(piped_file)).to eql([["Shore", "Pauly", "male", "pink", "02/01/1968"], ["Schwarzenegger", "Arnold", "male", "blue", "07/30/1947"], ["McDormand", "Frances", "female", "green", "06/23/1957"]])
+          expect(parser.parse_file(piped_file)).to eql([{ last_name: "Shore", first_name: "Pauly", gender: "male", favorite_color: "pink", date_of_birth: "02/01/1968"}, {last_name: "Schwarzenegger", first_name: "Arnold", gender: "male", favorite_color: "blue", date_of_birth: "07/30/1947"}, {last_name: "McDormand", first_name: "Frances", gender: "female", favorite_color: "green", date_of_birth: "06/23/1957"} ])
         end
       end
     end
