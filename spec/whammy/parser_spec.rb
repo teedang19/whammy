@@ -37,21 +37,36 @@ module Whammy
     let(:csv_line) { "Govan, Guthrie, male, blue, 12/27/1971" }
     let(:piped_line) { "Shore | Pauly | male | pink | 02/01/1968" }
     let(:spaced_line) { "Dang Tam female purple 01/13/1990" }
+    let(:contains_newline) { "Shore | Pauly | male | pink | 02/01/1968\n" }
 
     describe "#parse_line" do
 
+      it "returns an array" do
+        expect(parser.parse_line(csv_line)).to be_a(Array)
+        expect(parser.parse_line(piped_line)).to be_a(Array)
+        expect(parser.parse_line(spaced_line)).to be_a(Array)
+        expect(parser.parse_line(contains_newline)).to be_a(Array)
+      end
+
+      it "removes newlines" do
+        expect(parser.parse_line(contains_newline)).to eql(["Shore", "Pauly", "male", "pink", "02/01/1968"])
+      end
+
       context "when given a comma-delimited line" do
-        xit "returns the line parsed" do
+        it "returns the line parsed" do
+          expect(parser.parse_line(csv_line)).to eql(["Govan", "Guthrie", "male", "blue", "12/27/1971"])
         end
       end
 
       context "when given a pipe-delimited line" do
-        xit "returns the line parsed" do
+        it "returns the line parsed" do
+          expect(parser.parse_line(piped_line)).to eql(["Shore", "Pauly", "male", "pink", "02/01/1968"])
         end
       end
 
       context "when given a space-delimited line" do
-        xit "returns the line parsed" do
+        it "returns the line parsed" do
+          expect(parser.parse_line(spaced_line)).to eql(["Dang", "Tam", "female", "purple", "01/13/1990"])
         end
       end
     end

@@ -15,6 +15,7 @@ module Whammy
     end
 
     def parse_line(line)
+      line.chomp.split(delimiter(line))
     end
 
     def delimiter(line)
