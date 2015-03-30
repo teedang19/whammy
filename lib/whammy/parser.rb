@@ -7,6 +7,10 @@ module Whammy
       @files = files_array
     end
 
+    def parsed_data
+      parsed_files.flatten
+    end
+
     def parsed_files # TODO should a Parser only be initialized with one file?
       @files.map { |file| parse_file!(file) }
     end
