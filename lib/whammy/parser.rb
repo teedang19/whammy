@@ -15,6 +15,11 @@ module Whammy
       File.readlines(file).map { |line| split_line(line) }
     end
 
+    def parse_line(line)
+      values_arr = split_line(line)
+      attributeify(values_arr)
+    end
+
     def split_line(line)
       line.chomp.split(delimiter(line))
     end
