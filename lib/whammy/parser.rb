@@ -11,10 +11,10 @@ module Whammy
     end
 
     def parse_file(file)
-      File.readlines(file).map { |line| parse_line(line) }
+      File.readlines(file).map { |line| split_line(line) }
     end
 
-    def parse_line(line)
+    def split_line(line)
       line.chomp.split(delimiter(line))
     end
 

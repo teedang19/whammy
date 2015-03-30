@@ -28,9 +28,9 @@ module Whammy
       let(:spaced_file) { "spaces.txt"}
       let(:piped_file) { "pipes.txt"}
 
-      it "passes each line of a file to #parse_line" do
+      it "passes each line of a file to #split_line" do
         comma_line_count = File.foreach(csv_file).count
-        expect(parser).to receive(:parse_line).exactly(comma_line_count).times
+        expect(parser).to receive(:split_line).exactly(comma_line_count).times
         parser.parse_file(csv_file)
       end
 
@@ -58,38 +58,38 @@ module Whammy
     let(:spaced_line) { "Dang Tam female purple 01/13/1990" }
     let(:contains_newline) { "Shore | Pauly | male | pink | 02/01/1968\n" }
 
-    describe "#parse_line" do
+    describe "#split_line" do
       it "removes newlines" do
-        expect(parser.parse_line(contains_newline)).to eql(["Shore", "Pauly", "male", "pink", "02/01/1968"])
+        expect(parser.split_line(contains_newline)).to eql(["Shore", "Pauly", "male", "pink", "02/01/1968"])
       end
 
       context "called with a comma-delimited line" do
         it "parses the line" do
-          expect(parser.parse_line(csv_line)).to eql(["Govan", "Guthrie", "male", "blue", "12/27/1971"])
+          expect(parser.split_line(csv_line)).to eql(["Govan", "Guthrie", "male", "blue", "12/27/1971"])
         end
 
         it "returns an array" do
-          expect(parser.parse_line(csv_line)).to be_a(Array)
+          expect(parser.split_line(csv_line)).to be_a(Array)
         end
       end
 
       context "called with a pipe-delimited line" do
         it "parses the line" do
-          expect(parser.parse_line(piped_line)).to eql(["Shore", "Pauly", "male", "pink", "02/01/1968"])
+          expect(parser.split_line(piped_line)).to eql(["Shore", "Pauly", "male", "pink", "02/01/1968"])
         end
 
         it "returns an array" do
-          expect(parser.parse_line(piped_line)).to be_a(Array)
+          expect(parser.split_line(piped_line)).to be_a(Array)
         end
       end
 
       context "called with a space-delimited line" do
         it "parses the line" do
-          expect(parser.parse_line(spaced_line)).to eql(["Dang", "Tam", "female", "purple", "01/13/1990"])
+          expect(parser.split_line(spaced_line)).to eql(["Dang", "Tam", "female", "purple", "01/13/1990"])
         end
 
         it "returns an array" do
-          expect(parser.parse_line(spaced_line)).to be_a(Array)
+          expect(parser.split_line(spaced_line)).to be_a(Array)
         end
       end
     end
