@@ -55,5 +55,11 @@ module Whammy
         end
       end
     end
+
+    describe "#parsed_data" do
+      xit "returns the correctly parsed data" do
+        expect(cli.parsed_data).to_not be_nil
+      end
+    end
   end
 end
