@@ -24,6 +24,8 @@ module Whammy
 
     describe "#parse_file" do
       let(:csv_file) { "commas.txt"}
+      let(:spaced_file) { "spaces.txt"}
+      let(:piped_file) { "pipes.txt"}
 
       it "passes each line of a file to #parse_line" do
         comma_line_count = File.foreach(csv_file).count
@@ -31,8 +33,19 @@ module Whammy
         parser.parse_file(csv_file)
       end
 
-      xit "returns the file parsed" do
+      context "called with a comma-delimited file" do
+        xit "returns the file parsed" do
+        end
+      end
 
+      context "called with a space-delimited file" do
+        xit "returns the file parsed" do
+        end
+      end
+
+      context "called with a pipe-delimited file" do
+        xit "returns the file parsed" do
+        end
       end
     end
 
