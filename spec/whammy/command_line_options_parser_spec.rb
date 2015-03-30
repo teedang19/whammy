@@ -59,6 +59,35 @@ module Whammy
         last_name_parser = CommandLineOptionsParser.new(last_name_argv)
         expect(last_name_parser.parse_options![1]).to eql({ sort_by: :last_name })
       end
+
+      def capture_stdout(&block)
+        original_stdout = $stdout
+        $stdout = fake = StringIO.new
+        begin
+          yield
+        ensure
+          $stdout = original_stdout
+        end
+        fake.string
+      end
+
+      context "with invalid options" do
+        it "rescues the error with a message" do
+          invalid_options = ["commas.txt", "--poop", "-g"]
+          invalid_parser = CommandLineOptionsParser.new(invalid_options)
+          output = capture_stdout { invalid_parser.parse_options! }
+          expect(output).to eql("invalid option: --poop\nTry again!\n")
+        end
+      end
+
+      context "with invalid arguments to the options" do
+        it "rescues the error with a message" do
+          invalid_args = ["commas.txt", "--sort", "-x"]
+          invalid_arg_parser = CommandLineOptionsParser.new(invalid_args)
+          output = capture_stdout { invalid_arg_parser.parse_options! }
+          expect(output).to eql("invalid argument: --sort -x\nTry again!\n")
+        end
+      end
     end
   end
 end
