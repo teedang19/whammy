@@ -93,8 +93,12 @@ module Whammy
       end
 
       context "called with a space-delimited line" do
-        it "returns nil" do
-          expect(parser.delimiter(spaced_line)).to eql(nil)
+        it "returns the correct delimiter" do
+          expect(parser.delimiter(spaced_line)).to eql(/ /)
+        end
+
+        it "returns a regexp" do
+          expect(parser.delimiter(spaced_line)).to be_a(Regexp)
         end
       end
     end

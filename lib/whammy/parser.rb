@@ -1,6 +1,6 @@
 module Whammy
   class Parser
-    DELIMITERS = [/, /, / \| /]
+    DELIMITERS = [/, /, / \| /, / /]
 
     def initialize(files_array) # TODO should a Parser only be initialized with one file?
       @files = files_array
