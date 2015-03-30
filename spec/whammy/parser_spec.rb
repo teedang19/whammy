@@ -22,7 +22,16 @@ module Whammy
       end
     end
 
-    describe "#parse_file(file)" do
+    describe "#parse_file" do
+      it "passes each line of a file to #parse_line" do
+        comma_file = "commas.txt"
+        comma_line_count = File.foreach(comma_file).count
+        expect(parser).to receive(:parse_line).exactly(comma_line_count).times
+        parser.parse_file(comma_file)
+      end
+
+      xit "returns the file parsed" do
+      end
     end
   end
 end

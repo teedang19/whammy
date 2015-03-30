@@ -10,6 +10,10 @@ module Whammy
     end
 
     def parse_file(file)
+      File.readlines(file).map { |line| parse_line(line) }
+    end
+
+    def parse_line(line)
     end
   end
 end
