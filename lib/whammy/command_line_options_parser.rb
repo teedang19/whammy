@@ -1,15 +1,16 @@
 module Whammy
   class CommandLineOptionsParser
-    attr_reader :files, :sorting_params
+    attr_reader :files, :sorting_params, :write_to_master
 
     def initialize(argv)
       @options_parser = OptionParser.new
       @argv = argv
-      @files, @sorting_params = parse_options!
+      @files, @sorting_params, @write_to_master = parse_options!
     end
 
     def parse_options!
       sorting_params = {}
+      write_to_master = false
 
       @options_parser.on("--sort ENUM", ["-b", "-g", "-l"]) do |flag|
         case flag
@@ -19,8 +20,10 @@ module Whammy
         end
       end
       
+      @options_parser.on("--master") { write_to_master = true }
+
       files = @options_parser.parse(@argv)
-      [files, sorting_params]
+      [files, sorting_params, write_to_master]
 
       rescue OptionParser::InvalidOption => e # TODO can we combine this error handling?
         puts "#{e.message}\nTry again!"

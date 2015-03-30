@@ -23,6 +23,10 @@ module Whammy
         expect(parser.instance_variable_get(:@files)).to_not be_nil
         expect(parser.instance_variable_get(:@files)).to be_a(Array)
       end
+
+      it "defines @write_to_master" do
+        expect(parser.instance_variable_get(:@write_to_master)).to_not be_nil
+      end
     end
 
     describe "#parse_options!" do
@@ -58,6 +62,20 @@ module Whammy
         last_name_argv = ["commas.txt", "--sort", "-l"]
         last_name_parser = CommandLineOptionsParser.new(last_name_argv)
         expect(last_name_parser.parse_options![1]).to eql({ sort_by: :last_name })
+      end
+
+      it "separates write_to_master from the passed-in options" do
+        expect(parser.parse_options![2]).to_not be_nil
+      end
+
+      it "sets write_to_master to false when --master is not passed in" do
+        expect(parser.parse_options![2]).to be(false)
+      end
+
+      it "sets write_to_master to true when --master is passed in" do
+        master_args = ["commas.txt", "--sort", "-b", "--master"]
+        master_parser = CommandLineOptionsParser.new(master_args)
+        expect(master_parser.parse_options![2]).to be(true)
       end
 
       def capture_stdout(&block)
