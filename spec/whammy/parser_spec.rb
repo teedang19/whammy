@@ -33,5 +33,22 @@ module Whammy
       xit "returns the file parsed" do
       end
     end
+
+    describe "#parse_line" do
+      context "when given a comma-delimited line" do
+        xit "returns the line parsed" do
+        end
+      end
+
+      context "when given a pipe-delimited line" do
+        xit "returns the line parsed" do
+        end
+      end
+
+      context "when given a space-delimited line" do
+        xit "returns the line parsed" do
+        end
+      end
+    end
   end
 end
