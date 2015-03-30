@@ -66,7 +66,6 @@ module Whammy
         it "parses the line" do
           expect(parser.split_line(csv_line)).to eql(["Govan", "Guthrie", "male", "blue", "12/27/1971"])
         end
-
         it "returns an array" do
           expect(parser.split_line(csv_line)).to be_a(Array)
         end
@@ -76,7 +75,6 @@ module Whammy
         it "parses the line" do
           expect(parser.split_line(piped_line)).to eql(["Shore", "Pauly", "male", "pink", "02/01/1968"])
         end
-
         it "returns an array" do
           expect(parser.split_line(piped_line)).to be_a(Array)
         end
@@ -86,7 +84,6 @@ module Whammy
         it "parses the line" do
           expect(parser.split_line(spaced_line)).to eql(["Dang", "Tam", "female", "purple", "01/13/1990"])
         end
-
         it "returns an array" do
           expect(parser.split_line(spaced_line)).to be_a(Array)
         end
@@ -98,7 +95,6 @@ module Whammy
         it "returns the correct delimiter" do
           expect(parser.delimiter(csv_line)).to eql(/, /)
         end
-
         it "returns a regexp" do
           expect(parser.delimiter(csv_line)).to be_a(Regexp)
         end
@@ -108,7 +104,6 @@ module Whammy
         it "returns the correct delimiter" do
           expect(parser.delimiter(piped_line)).to eql(/ \| /)
         end
-
         it "returns a regexp" do
           expect(parser.delimiter(piped_line)).to be_a(Regexp)
         end
