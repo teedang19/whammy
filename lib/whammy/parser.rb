@@ -7,20 +7,20 @@ module Whammy
       @files = files_array
     end
 
-    def parse! # TODO should a Parser only be initialized with one file?
-      @files.map { |file| parse_file(file) }
+    def parsed_files # TODO should a Parser only be initialized with one file?
+      @files.map { |file| parse_file!(file) }
     end
 
-    def parse_file(file)
-      File.readlines(file).map { |line| parse_line(line) }
+    def parse_file!(file)
+      File.readlines(file).map { |line| parse_line!(line) }
     end
 
-    def parse_line(line)
-      values_arr = split_line(line)
+    def parse_line!(line)
+      values_arr = split_line!(line)
       attributeify(values_arr)
     end
 
-    def split_line(line)
+    def split_line!(line)
       line.chomp.split(delimiter(line))
     end
 
