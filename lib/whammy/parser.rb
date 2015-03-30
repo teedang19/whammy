@@ -1,6 +1,7 @@
 module Whammy
   class Parser
-    DELIMITERS = [/, /, / \| /, / /]
+    DELIMITERS = [ /, /, / \| /, / / ]
+    ATTRIBUTES = [ :last_name, :first_name, :gender, :favorite_color, :date_of_birth ]
 
     def initialize(files_array) # TODO should a Parser only be initialized with one file?
       @files = files_array
@@ -20,6 +21,14 @@ module Whammy
 
     def delimiter(line)
       DELIMITERS.detect { |delimiter| line =~ delimiter }
+    end
+
+    def attributeify(values_arr)
+      raise ArgumentError.new("There are records in your file with an incorrect number of attributes.") unless values_arr.count == ATTRIBUTES.count
+
+      attributes = {}
+      ATTRIBUTES.each_with_index { |attribute, index| attributes[attribute] = values_arr[index] }
+      attributes
     end
   end
 end
