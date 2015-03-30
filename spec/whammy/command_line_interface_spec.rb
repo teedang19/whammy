@@ -12,27 +12,6 @@ module Whammy
       end
     end
 
-    describe "#files" do
-      it "delegates the retrieval of files to @options_parser" do
-        expect(cli.instance_variable_get(:@options_parser)).to receive(:files)
-        cli.files
-      end
-
-      context "when the parser is called with one file" do
-        it "returns an array of the file" do
-          expect(cli.files).to eql(["commas.txt"])
-        end
-      end
-
-      context "when the parser is called with multiple files" do
-        it "returns an array of all the files" do
-          multiple_files_argv = ["commas.txt", "pipes.txt", "--sort", "-b"]
-          cli = CommandLineInterface.new(multiple_files_argv)
-          expect(cli.files).to eql(["commas.txt", "pipes.txt"])
-        end
-      end
-    end
-
     describe "#sorting_params" do
       it "delegates the retrieval of sorting_params to @options_parser" do
         expect(cli.instance_variable_get(:@options_parser)).to receive(:sorting_params)
@@ -56,5 +35,25 @@ module Whammy
       end
     end
 
+    describe "#files" do
+      it "delegates the retrieval of files to @options_parser" do
+        expect(cli.instance_variable_get(:@options_parser)).to receive(:files)
+        cli.files
+      end
+
+      context "when the parser is called with one file" do
+        it "returns an array of the file" do
+          expect(cli.files).to eql(["commas.txt"])
+        end
+      end
+
+      context "when the parser is called with multiple files" do
+        it "returns an array of all the files" do
+          multiple_files_argv = ["commas.txt", "pipes.txt", "--sort", "-b"]
+          cli = CommandLineInterface.new(multiple_files_argv)
+          expect(cli.files).to eql(["commas.txt", "pipes.txt"])
+        end
+      end
+    end
   end
 end
