@@ -34,7 +34,12 @@ module Whammy
       end
     end
 
+    let(:csv_line) { "Govan, Guthrie, male, blue, 12/27/1971" }
+    let(:piped_line) { "Shore | Pauly | male | pink | 02/01/1968" }
+    let(:spaced_line) { "Dang Tam female purple 01/13/1990" }
+
     describe "#parse_line" do
+
       context "when given a comma-delimited line" do
         xit "returns the line parsed" do
         end
@@ -52,10 +57,6 @@ module Whammy
     end
 
     describe "#delimiter" do
-      let(:csv_line) { "Govan, Guthrie, male, blue, 12/27/1971" }
-      let(:piped_line) { "Shore | Pauly | male | pink | 02/01/1968" }
-      let(:spaced_line) { "Dang Tam female purple 01/13/1990" }
-
       context "called with a comma-delimited line" do
         it "returns the correct delimiter" do
           expect(parser.delimiter(csv_line)).to eql(/, /)
