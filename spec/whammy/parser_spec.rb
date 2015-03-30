@@ -17,16 +17,15 @@ module Whammy
         expect(parser).to receive(:parse_file).with(files[1])
         parser.parse!
       end
-
       it "parses the files" do
         expect(parser.parse!).to eql([[["Govan", "Guthrie", "male", "blue", "12/27/1971"], ["Schuldiner", "Chuck", "male", "orange", "05/13/1967"], ["Reinhardt", "Django", "male", "green", "01/23/1910"]],[["Shore", "Pauly", "male", "pink", "02/01/1968"], ["Schwarzenegger", "Arnold", "male", "blue", "07/30/1947"], ["McDormand", "Frances", "female", "green", "06/23/1957"]]])
       end
     end
 
     describe "#parse_file" do
-      let(:csv_file) { "commas.txt"}
-      let(:spaced_file) { "spaces.txt"}
-      let(:piped_file) { "pipes.txt"}
+      let(:csv_file) { "commas.txt" }
+      let(:spaced_file) { "spaces.txt" }
+      let(:piped_file) { "pipes.txt" }
 
       it "passes each line of a file to #split_line" do
         comma_line_count = File.foreach(csv_file).count
