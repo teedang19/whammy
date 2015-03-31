@@ -34,7 +34,7 @@ module Whammy
     end
 
     describe "#parsed_data" do
-      it "returns a 1d array of hashes" do
+      it "returns an array of hashes" do
         expect(parser.parsed_data).to be_a(Array)
         parser.parsed_data.each do |element|
           expect(element).to be_a(Hash)
