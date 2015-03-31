@@ -7,6 +7,18 @@ module Whammy
       @files = files_array
     end
 
+    def line_data
+      lineify.flatten
+    end
+
+    def lineify
+      @files.map do |file|
+        File.readlines(file).map do |line|
+          split_line!(line).join(" ")
+        end
+      end
+    end
+
     def parsed_data
       parsed_files.flatten
     end

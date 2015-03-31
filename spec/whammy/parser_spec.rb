@@ -11,6 +11,28 @@ module Whammy
       end
     end
 
+    describe "#line_data" do
+      it "returns an array of strings" do
+        expect(parser.line_data).to be_a(Array)
+        parser.line_data.each { |element| expect(element).to be_a(String) }
+      end
+
+      it "returns the lines of all the files" do
+        expect(parser.line_data).to eql(["Govan Guthrie male blue 12/27/1971", "Schuldiner Chuck male orange 05/13/1967", "Reinhardt Django male green 01/23/1910", "Shore Pauly male pink 02/01/1968", "Schwarzenegger Arnold male blue 07/30/1947", "McDormand Frances female green 06/23/1957"])
+      end
+    end
+
+    describe "#lineify" do
+      it "returns an array of arrays" do
+        expect(parser.lineify).to be_a(Array)
+        parser.lineify.each { |element| expect(element).to be_a(Array) }
+      end
+
+      it "returns each file as an array of lines" do
+        expect(parser.lineify).to eql([["Govan Guthrie male blue 12/27/1971", "Schuldiner Chuck male orange 05/13/1967", "Reinhardt Django male green 01/23/1910"], ["Shore Pauly male pink 02/01/1968", "Schwarzenegger Arnold male blue 07/30/1947", "McDormand Frances female green 06/23/1957"]])
+      end
+    end
+
     describe "#parsed_data" do
       it "returns a 1d array of hashes" do
         expect(parser.parsed_data).to be_a(Array)
