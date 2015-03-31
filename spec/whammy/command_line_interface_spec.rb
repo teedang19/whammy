@@ -2,6 +2,7 @@ require_relative "../spec_helper"
 
 module Whammy
   describe CommandLineInterface do
+    let(:master_argv) { ["commas.txt", "--sort", "-b", "--master"] }
     let(:argv) { ["commas.txt", "--sort", "-b"] }
     let(:cli)  { CommandLineInterface.new(argv) }
 
@@ -9,6 +10,11 @@ module Whammy
       it "defines @options_parser" do
         expect(cli.instance_variable_get(:@options_parser)).to_not be_nil
         expect(cli.instance_variable_get(:@options_parser)).to be_a(CommandLineOptionsParser)
+      end
+
+      it "defines @database" do
+        expect(cli.instance_variable_get(:@database)).to_not be_nil
+        expect(cli.instance_variable_get(:@database)).to be_a(Database)
       end
     end
 
@@ -71,6 +77,29 @@ module Whammy
     describe "#parsed_data" do
       it "returns the correctly parsed data" do
         expect(cli.parsed_data).to eql([{last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971"}, {last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}, {last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}])
+      end
+    end
+
+    describe "#line_data" do
+      it "returns an array of strings" do
+        expect(cli.line_data).to be_a(Array)
+        cli.line_data.each { |element| expect(element).to be_a(String) }
+      end
+
+      it "returns the lines of all the files" do
+        expect(cli.line_data).to eql(["Govan Guthrie male blue 12/27/1971", "Schuldiner Chuck male orange 05/13/1967", "Reinhardt Django male green 01/23/1910"])
+      end
+    end
+
+    describe "#write_to_file" do
+      context "when writing to master" do
+        xit "writes line data to the master file" do
+        end
+      end
+
+      context "when writing to a new file" do
+        xit "writes line data to a new file" do
+        end
       end
     end
   end

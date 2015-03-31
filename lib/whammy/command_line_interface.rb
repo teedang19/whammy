@@ -2,6 +2,7 @@ module Whammy
   class CommandLineInterface
     def initialize(argv)
       @options_parser = CommandLineOptionsParser.new(argv)
+      @database = Database.new(write_to_master?)
     end
 
     def run!
@@ -29,7 +30,12 @@ module Whammy
       Parser.new(files).parsed_data # TODO more tests?
     end
 
-    def write_to_file # TODO what will this look like?
+    def line_data
+      Parser.new(files).line_data
+    end
+
+    def write_to_file
+      @database.write_data!(line_data)
     end
   end
 end
