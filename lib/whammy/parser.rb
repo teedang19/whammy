@@ -35,9 +35,7 @@ module Whammy
     def attributeify(values_arr)
       raise ArgumentError.new("There are records in your file with an incorrect number of attributes.") unless values_arr.count == ATTRIBUTES.count
 
-      attributes = {}
-      ATTRIBUTES.each_with_index { |attribute, index| attributes[attribute] = values_arr[index] }
-      attributes
+      ATTRIBUTES.each_with_index.map { |attribute, index| [attribute, values_arr[index]] }.to_h
     end
   end
 end
