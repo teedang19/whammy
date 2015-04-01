@@ -6,6 +6,7 @@ module Whammy
     let(:master_cli) { CommandLineInterface.new(master_argv) }
     let(:argv) { ["commas.txt", "--sort", "-b"] }
     let(:cli)  { CommandLineInterface.new(argv) }
+    let(:compiled_data_filename) { "data/#{DateTime.now.strftime("%m_%e_%y:%k_%M.txt")}" }
 
     describe "#initialize" do
       it "defines @options_parser" do
@@ -98,6 +99,20 @@ module Whammy
 
       context "when writing to a new file" do
         xit "writes line data to a new file" do
+        end
+      end
+    end
+
+    describe "#compiled_data_file" do
+      context "when writing to master" do
+        it "returns the compiled data filename" do
+          expect(master_cli.compiled_data_file).to eql("data/database.txt")
+        end
+      end
+
+      context "when writing to a new file" do
+        it "returns the compiled data filename" do
+          expect(cli.compiled_data_file).to eql(compiled_data_filename)
         end
       end
     end
