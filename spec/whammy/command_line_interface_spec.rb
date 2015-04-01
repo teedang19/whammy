@@ -91,7 +91,7 @@ module Whammy
       end
     end
 
-    describe "#write_to_file" do
+    describe "#write_data!" do
       context "when writing to master" do
         xit "writes line data to the master file" do
         end

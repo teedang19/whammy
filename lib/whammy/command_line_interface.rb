@@ -34,7 +34,7 @@ module Whammy
       Parser.new(files).line_data
     end
 
-    def write_to_file
+    def write_data!
       @database.write_data!(line_data)
     end
   end
