@@ -7,24 +7,24 @@ module Whammy
       @files = files_array
     end
 
-    def line_data
+    def line_data # TODO clean up these different parse methods. are there behaviors that they share, that can be made resuable?
       lineify.flatten
-    end
-
-    def lineify
-      @files.map do |file|
-        File.readlines(file).map do |line|
-          split_line!(line).join(" ")
-        end
-      end
     end
 
     def parsed_data
       parsed_files.flatten
     end
 
+    def lineify
+      @files.map { |file| lineify_file!(file) }
+    end
+
     def parsed_files # TODO should a Parser only be initialized with one file?
       @files.map { |file| parse_file!(file) }
+    end
+
+    def lineify_file!(file)
+      File.readlines(file).map { |line| split_line!(line).join(" ") }
     end
 
     def parse_file!(file)
