@@ -93,12 +93,16 @@ module Whammy
 
     describe "#write_data!" do
       context "when writing to master" do
-        xit "writes line data to the master file" do
+        it "writes line data to the master file" do
+          master_cli.write_data!
+          expect(File.read(master_cli.compiled_data_file)).to include("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\nReinhardt Django male green 01/23/1910")
         end
       end
 
       context "when writing to a new file" do
-        xit "writes line data to a new file" do
+        it "writes line data to a new file" do
+          cli.write_data!
+          expect(File.read(cli.compiled_data_file)).to include("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\nReinhardt Django male green 01/23/1910")
         end
       end
     end
