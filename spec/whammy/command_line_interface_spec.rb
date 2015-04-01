@@ -3,6 +3,7 @@ require_relative "../spec_helper"
 module Whammy
   describe CommandLineInterface do
     let(:master_argv) { ["commas.txt", "--sort", "-b", "--master"] }
+    let(:master_cli) { CommandLineInterface.new(master_argv) }
     let(:argv) { ["commas.txt", "--sort", "-b"] }
     let(:cli)  { CommandLineInterface.new(argv) }
 
@@ -24,8 +25,6 @@ module Whammy
       end
 
       it "returns true when argv includes '--master'" do
-        master_argv = ["commas.txt", "--sort", "-b", "--master"]
-        master_cli = CommandLineInterface.new(master_argv)
         expect(master_cli.write_to_master?).to be(true)
       end
     end
