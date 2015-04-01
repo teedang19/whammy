@@ -92,6 +92,7 @@ module Whammy
     end
 
     describe "#write_data!" do
+      # TODO database cleaner; allow any instance of database to receive filename and return a different name, os that we aren't calling the same file -- and we can clean out the file after every test run
       context "when writing to master" do
         it "writes line data to the master file" do
           master_cli.write_data!
