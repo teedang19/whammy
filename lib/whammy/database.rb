@@ -16,7 +16,7 @@ module Whammy
       "#{data_dir}#{@filename}"
     end
 
-    def write_data!(line_data)
+    def write!(line_data)
       File.open(filename, "a") do |file|
         line_data.map { |line| file.puts(line) }
       end

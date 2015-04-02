@@ -60,11 +60,11 @@ module Whammy
       end
     end
 
-    describe "#write_data!" do
+    describe "#write!" do
       context "when writing to master" do
         it "writes the data to the file" do
           filename = master_db.instance_variable_get(:@filename)
-          master_db.write_data!(line_data)
+          master_db.write!(line_data)
           expect(File.read(master_db.filename)).to include("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\n")
         end
       end
@@ -72,7 +72,7 @@ module Whammy
       context "when writing to a new file" do
         it "writes the data to the file" do
           filename = temp_db.instance_variable_get(:@filename)
-          temp_db.write_data!(line_data)
+          temp_db.write!(line_data)
           expect(File.read(temp_db.filename)).to include("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\n")
         end
       end

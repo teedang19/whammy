@@ -35,7 +35,7 @@ module Whammy
     end
 
     def write_data!
-      @database.write_data!(line_data)
+      @database.write!(line_data)
     end
 
     def compiled_data_file
