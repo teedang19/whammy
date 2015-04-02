@@ -6,7 +6,7 @@ module Whammy
     let(:master_cli) { CommandLineInterface.new(master_argv) }
     let(:argv) { ["commas.txt", "--sort", "-b"] }
     let(:cli)  { CommandLineInterface.new(argv) }
-    let(:compiled_data_filename) { "data/#{DateTime.now.strftime("%m_%e_%y:%k_%M.txt")}" }
+    let(:compiled_filename) { "data/#{DateTime.now.strftime("%m_%e_%y:%k_%M.txt")}" }
 
     describe "#initialize" do
       it "defines @options_parser" do
@@ -96,28 +96,28 @@ module Whammy
       context "when writing to master" do
         it "writes line data to the master file" do
           master_cli.write_data!
-          expect(File.read(master_cli.compiled_data_file)).to include("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\nReinhardt Django male green 01/23/1910")
+          expect(File.read(master_cli.compiled_filename)).to include("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\nReinhardt Django male green 01/23/1910")
         end
       end
 
       context "when writing to a new file" do
         it "writes line data to a new file" do
           cli.write_data!
-          expect(File.read(cli.compiled_data_file)).to include("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\nReinhardt Django male green 01/23/1910")
+          expect(File.read(cli.compiled_filename)).to include("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\nReinhardt Django male green 01/23/1910")
         end
       end
     end
 
-    describe "#compiled_data_file" do
+    describe "#compiled_filename" do
       context "when writing to master" do
         it "returns the compiled data filename" do
-          expect(master_cli.compiled_data_file).to eql("data/database.txt")
+          expect(master_cli.compiled_filename).to eql("data/database.txt")
         end
       end
 
       context "when writing to a new file" do
         it "returns the compiled data filename" do
-          expect(cli.compiled_data_file).to eql(compiled_data_filename)
+          expect(cli.compiled_filename).to eql(compiled_filename)
         end
       end
     end
