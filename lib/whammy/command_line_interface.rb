@@ -5,16 +5,22 @@ module Whammy
     end
 
     def run!
+      write_files!
+      display(sorted)
     end
 
-    def display # TODO will call a Display class ?
+    def display(data)
+      data.each do |record|
+        puts record.values.map{ |str| str[0..6] }.join("\t\t")
+      end
     end
 
-    def sort # TODO will call a Sort class ?
+    def sorted
+      Sorter.new.sort!(sorting_params)
     end
 
-    def sorting_params
-      @options_parser.sorting_params
+    def sort_by
+      @options_parser.sort_by
     end
 
     def files

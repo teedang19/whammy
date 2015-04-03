@@ -41,26 +41,26 @@ module Whammy
       end
     end   
 
-    describe "#sorting_params" do
-      it "delegates the retrieval of sorting_params to @options_parser" do
-        expect(cli.instance_variable_get(:@options_parser)).to receive(:sorting_params)
-        cli.sorting_params
+    describe "#sort_by" do
+      it "delegates the retrieval of sort_by to @options_parser" do
+        expect(cli.instance_variable_get(:@options_parser)).to receive(:sort_by)
+        cli.sort_by
       end
 
       it "returns the correct sorting params for birthday" do
-        expect(cli.sorting_params).to eql(:birthday)
+        expect(cli.sort_by).to eql(:birthday)
       end
 
       it "returns the correct sorting params for gender" do
         gender_argv = ["commas.txt", "--sort", "-g"]
         gender_cli = CommandLineInterface.new(gender_argv)
-        expect(gender_cli.sorting_params).to eql(:gender)
+        expect(gender_cli.sort_by).to eql(:gender)
       end
 
       it "returns the correct sorting params for last_name" do
         last_name_argv = ["commas.txt", "--sort", "-l"]
         last_name_cli = CommandLineInterface.new(last_name_argv)
-        expect(last_name_cli.sorting_params).to eql(:last_name)
+        expect(last_name_cli.sort_by).to eql(:last_name)
       end
     end
 
