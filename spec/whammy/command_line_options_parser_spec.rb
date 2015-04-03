@@ -88,13 +88,13 @@ module Whammy
         end
 
         context "--master is NOT passed in" do
-          it "sets write_to_master to false" do
+          it "returns false" do
             expect(parser.parse_options![2]).to be(false)
           end
         end
 
         context "--master is passed in" do
-          it "sets write_to_master to true when --master is passed in" do
+          it "returns true" do
             master_args = ["commas.txt", "--sort", "-b", "--master"]
             master_parser = CommandLineOptionsParser.new(master_args)
             expect(master_parser.parse_options![2]).to be(true)
