@@ -67,14 +67,14 @@ module Whammy
     describe "#write_files" do
       it "writes the data to the file" do
         db.write_files(files)
-        expect(File.read(db.data_file)).to include("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\n")
+        expect(File.read(db.data_file)).to eql("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\nReinhardt Django male green 01/23/1910\n")
       end
     end
 
     describe "#write_lines" do
       it "writes the lines to the file" do
         db.write_lines(line_data)
-        expect(File.read(db.data_file)).to include("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\n")
+        expect(File.read(db.data_file)).to eql("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\n")
       end
     end
   end

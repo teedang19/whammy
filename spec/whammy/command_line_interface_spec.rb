@@ -141,7 +141,7 @@ module Whammy
 
       it "writes line data to a new file" do
         cli.write_files!
-        expect(File.read("data/test.txt")).to include("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\nReinhardt Django male green 01/23/1910")
+        expect(File.read("data/test.txt")).to eql("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\nReinhardt Django male green 01/23/1910\n")
       end
     end
   end
