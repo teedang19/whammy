@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 
 require_relative "../lib/whammy"
-Whammy::CommandLineInterface.new(ARGV)
+Whammy::CommandLineInterface.new(ARGV).run!
