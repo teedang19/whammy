@@ -19,9 +19,27 @@ module Whammy
     describe "#initialize" do
       it "defines @options_parser" do
         expect(cli.instance_variable_get(:@options_parser)).to_not be_nil
+      end
+
+      it "sets @options_parser to a CommandLineOptionsParser" do
         expect(cli.instance_variable_get(:@options_parser)).to be_a(CommandLineOptionsParser)
       end
     end
+
+    describe "#run!" do
+      xit "TODO" do
+      end
+    end
+
+    describe "#display" do
+      xit "TODO" do
+      end
+    end
+
+    describe "#sort" do
+      xit "TODO" do
+      end
+    end   
 
     describe "#sorting_params" do
       it "delegates the retrieval of sorting_params to @options_parser" do
