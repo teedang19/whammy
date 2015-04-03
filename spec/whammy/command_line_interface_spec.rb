@@ -19,7 +19,22 @@ module Whammy
     end
 
     describe "#run!" do
-      xit "TODO" do
+      before do
+        allow_any_instance_of(Database).to receive(:data_file).and_return("data/test.txt")
+      end
+
+      after do
+        File.open("data/test.txt", "w") {}
+      end
+
+      it "calls #write_files!" do
+        expect(cli).to receive(:write_files!).exactly(1).times
+        cli.run!
+      end
+
+      it "calls #display" do
+        expect(cli).to receive(:display).exactly(1).times
+        cli.run!
       end
     end
 
@@ -123,6 +138,7 @@ module Whammy
       after do
         File.open("data/test.txt", "w") {}
       end
+
       it "writes line data to a new file" do
         cli.write_files!
         expect(File.read("data/test.txt")).to include("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\nReinhardt Django male green 01/23/1910")
