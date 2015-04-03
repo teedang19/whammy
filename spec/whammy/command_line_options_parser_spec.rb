@@ -10,13 +10,13 @@ module Whammy
         expect(parser.instance_variable_get(:@options_parser)).to_not be_nil
       end
 
-      it "sets @options_parser to an instance of OptionParser" do
+      it "sets @options_parser to an OptionParser" do
         expect(parser.instance_variable_get(:@options_parser)).to be_a(OptionParser)
       end
 
       it "defines @sorting_params" do
         expect(parser.instance_variable_get(:@sorting_params)).to_not be_nil
-        expect(parser.instance_variable_get(:@sorting_params)).to be_a(Hash)
+        expect(parser.instance_variable_get(:@sorting_params)).to be_a(Symbol)
       end
 
       it "defines @files" do
@@ -34,48 +34,90 @@ module Whammy
         expect(parser.parse_options!).to be_a(Array)
       end
 
-      it "separates the files from the passed-in options" do
-        expect(parser.parse_options![0]).to eql(["commas.txt"])
+      context "file options" do
+        it "separates the files from the other options" do
+          expect(parser.parse_options![0]).to eql(["commas.txt"])
+        end
+
+        it "can separate more than one file" do
+          multiple_file_argv = ["commas.txt", "pipes.txt", "--sort", "-g"]
+          multiple_file_parser = CommandLineOptionsParser.new(multiple_file_argv)
+          expect(multiple_file_parser.parse_options![0]).to eql(["commas.txt", "pipes.txt"])
+        end
       end
 
-      it "can separate more than one file" do
-        multiple_file_argv = ["commas.txt", "pipes.txt", "--sort", "-g"]
-        multiple_file_parser = CommandLineOptionsParser.new(multiple_file_argv)
-        expect(multiple_file_parser.parse_options![0]).to eql(["commas.txt", "pipes.txt"])
+      context "sorting params" do
+        it "separates the sorting params from the other options" do
+          expect(parser.parse_options![1]).to be_a(Symbol)
+        end
+
+        context "by birthday" do
+          it "returns the correct params for birthday" do
+            expect(parser.parse_options![1]).to eql(:birthday)
+          end
+        end
+
+        context "by gender" do
+          it "returns the correct params for gender" do
+            gender_argv = ["commas.txt", "--sort", "-g"]
+            gender_parser = CommandLineOptionsParser.new(gender_argv)
+            expect(gender_parser.parse_options![1]).to eql(:gender)
+          end
+        end
+
+        context "by last_name" do
+          it "returns the correct params for last_name" do
+            last_name_argv = ["commas.txt", "--sort", "-l"]
+            last_name_parser = CommandLineOptionsParser.new(last_name_argv)
+            expect(last_name_parser.parse_options![1]).to eql(:last_name)
+          end
+        end
+
+        context "no sorting params" do
+          it "returns nil for sorting params when none are present" do
+            sortless_argv = ["commas.txt"]
+            sortless_parser = CommandLineOptionsParser.new(sortless_argv)
+            expect(sortless_parser.parse_options![1]).to eql(nil)
+          end
+        end
       end
 
-      it "separates the sorting params from the passed-in options" do
-        expect(parser.parse_options![1]).to have_key(:sort_by)
-      end
+      context "write_to_master" do
+        it "separates write_to_master from the other options" do
+          expect(parser.parse_options![2]).to_not be_nil
+        end
 
-      it "returns the correct sorting params for birthday" do
-        expect(parser.parse_options![1]).to eql({ sort_by: :birthday })
-      end
+        context "--master is NOT passed in" do
+          it "sets write_to_master to false" do
+            expect(parser.parse_options![2]).to be(false)
+          end
+        end
 
-      it "returns the correct sorting params for gender" do
-        gender_argv = ["commas.txt", "--sort", "-g"]
-        gender_parser = CommandLineOptionsParser.new(gender_argv)
-        expect(gender_parser.parse_options![1]).to eql({ sort_by: :gender })
-      end
+        context "--master is passed in" do
+          it "sets write_to_master to true when --master is passed in" do
+            master_args = ["commas.txt", "--sort", "-b", "--master"]
+            master_parser = CommandLineOptionsParser.new(master_args)
+            expect(master_parser.parse_options![2]).to be(true)
+          end
+        end
 
-      it "returns the correct sorting params for birthday" do
-        last_name_argv = ["commas.txt", "--sort", "-l"]
-        last_name_parser = CommandLineOptionsParser.new(last_name_argv)
-        expect(last_name_parser.parse_options![1]).to eql({ sort_by: :last_name })
-      end
+        context "with no sorting params" do
+          context "--master is passed in" do
+            it "is still set" do
+              sortless_master_argv = ["commas.txt", "--master"]
+              sortless_master_parser = CommandLineOptionsParser.new(sortless_master_argv)
+              expect(sortless_master_parser.parse_options![2]).to eql(true)
+            end
+          end
 
-      it "separates write_to_master from the passed-in options" do
-        expect(parser.parse_options![2]).to_not be_nil
-      end
-
-      it "sets write_to_master to false when --master is not passed in" do
-        expect(parser.parse_options![2]).to be(false)
-      end
-
-      it "sets write_to_master to true when --master is passed in" do
-        master_args = ["commas.txt", "--sort", "-b", "--master"]
-        master_parser = CommandLineOptionsParser.new(master_args)
-        expect(master_parser.parse_options![2]).to be(true)
+          context "--master is NOT passed in" do
+            it "is still set" do
+              sortless_argv = ["commas.txt"]
+              sortless_parser = CommandLineOptionsParser.new(sortless_argv)
+              expect(sortless_parser.parse_options![2]).to eql(false)
+            end
+          end
+        end
       end
 
       def capture_stdout(&block)
