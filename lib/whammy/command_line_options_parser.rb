@@ -15,7 +15,7 @@ module Whammy
       @options_parser.on("--sort ENUM", ["-b", "-g", "-l"]) do |flag|
         case flag
         when "-b" then sort_by = :birthday
-        when "-g" then sort_by = :gender # TODO sort by gender is also last_name ascending. where does this logic go?
+        when "-g" then sort_by = :gender
         when "-l" then sort_by = :last_name
         end
       end
