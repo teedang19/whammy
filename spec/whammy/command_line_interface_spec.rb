@@ -8,6 +8,14 @@ module Whammy
     let(:cli)  { CommandLineInterface.new(argv) }
     let(:compiled_filename) { "data/#{DateTime.now.strftime("%m_%e_%y:%k_%M.txt")}" }
 
+    before(:each) do
+      allow_any_instance_of(Database).to receive(:data_file).and_return("data/test.txt")
+    end
+
+    after(:each) do
+      File.open("data/test.txt", "w") {}
+    end
+
     describe "#initialize" do
       it "defines @options_parser" do
         expect(cli.instance_variable_get(:@options_parser)).to_not be_nil
@@ -60,10 +68,9 @@ module Whammy
     end
 
     describe "#write_files!" do
-      # TODO database cleaner; allow any instance of database to receive filename and return a different name, os that we aren't calling the same file -- and we can clean out the file after every test run; remove hardcoding of db file
       it "writes line data to a new file" do
         cli.write_files!
-        expect(File.read("data/database.txt")).to include("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\nReinhardt Django male green 01/23/1910")
+        expect(File.read("data/test.txt")).to include("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\nReinhardt Django male green 01/23/1910")
       end
     end
   end
