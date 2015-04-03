@@ -59,31 +59,11 @@ module Whammy
       end
     end
 
-    describe "#parsed_data" do
-      it "returns the correctly parsed data" do
-        expect(cli.parsed_data).to eql([{last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971"}, {last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}, {last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}])
-      end
-    end
-
-    describe "#line_data" do
-      it "returns an array of strings" do
-        expect(cli.line_data).to be_a(Array)
-        cli.line_data.each { |element| expect(element).to be_a(String) }
-      end
-
-      it "returns the lines of all the files" do
-        expect(cli.line_data).to eql(["Govan Guthrie male blue 12/27/1971", "Schuldiner Chuck male orange 05/13/1967", "Reinhardt Django male green 01/23/1910"])
-      end
-    end
-
-    describe "#write_data!" do
-      # TODO database cleaner; allow any instance of database to receive filename and return a different name, os that we aren't calling the same file -- and we can clean out the file after every test run
-
-      context "when writing to a new file" do
-        xit "writes line data to a new file" do
-          cli.write_data!
-          expect(File.read(cli.compiled_filename)).to include("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\nReinhardt Django male green 01/23/1910")
-        end
+    describe "#write_files!" do
+      # TODO database cleaner; allow any instance of database to receive filename and return a different name, os that we aren't calling the same file -- and we can clean out the file after every test run; remove hardcoding of db file
+      it "writes line data to a new file" do
+        cli.write_files!
+        expect(File.read("data/database.txt")).to include("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\nReinhardt Django male green 01/23/1910")
       end
     end
   end

@@ -21,15 +21,8 @@ module Whammy
       @options_parser.files
     end
 
-    def parsed_data
-      Parser.new(files).parsed_data # TODO more tests?
-    end
-
-    def line_data
-      Parser.new(files).line_data
-    end
-
-    def write_data!
+    def write_files!
+      Database.new.write_files(files)
     end
   end
 end
