@@ -39,7 +39,10 @@ module Whammy
     end
 
     describe "#display" do
-      xit "TODO" do
+      it "outputs the data to the screen" do
+        data = [{last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971"}, {last_name: "Schemel", first_name: "Patty", gender: "female", favorite_color: "orange", date_of_birth: "04/24/1967"}]
+        expect{cli.display(data)}.to output("Govan\t\tGuthrie\t\tmale\t\tblue\t\t12/27/1971\nSchemel\t\tPatty\t\tfemale\t\torange\t\t04/24/1967\n"
+).to_stdout
       end
     end
 
