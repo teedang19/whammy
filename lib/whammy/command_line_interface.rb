@@ -11,7 +11,7 @@ module Whammy
 
     def display(data)
       data.each do |record|
-        puts record.values.map{ |str| str[0..6] }.join("\t\t")
+        puts record.values.join("\t\t")
       end
     end
 
