@@ -2,7 +2,6 @@ module Whammy
   class CommandLineInterface
     def initialize(argv)
       @options_parser = CommandLineOptionsParser.new(argv)
-      @database = Database.new(write_to_master?)
     end
 
     def run!
@@ -12,10 +11,6 @@ module Whammy
     end
 
     def sort # TODO will call a Sort class ?
-    end
-
-    def write_to_master?
-      @options_parser.write_to_master
     end
 
     def sorting_params
@@ -35,11 +30,6 @@ module Whammy
     end
 
     def write_data!
-      @database.write!(line_data)
-    end
-
-    def compiled_filename
-      @database.filename
     end
   end
 end
