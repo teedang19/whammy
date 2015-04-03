@@ -17,7 +17,7 @@ module Whammy
 
     private
 
-    def ladies_first # TODO also last_name_ascending
+    def ladies_first
       @data.sort_by { |record| [record[:gender], record[:last_name]] }
     end
 
