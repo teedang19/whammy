@@ -3,10 +3,6 @@ module Whammy
     DELIMITERS = [ /, /, / \| /, / / ]
     ATTRIBUTES = [ :last_name, :first_name, :gender, :favorite_color, :date_of_birth ]
 
-    def initialize(files_array) # TODO should a Parser only be initialized with one file?
-      @files = files_array
-    end
-
     def line_data # TODO clean up these different parse methods. are there behaviors that they share, that can be made resuable?
       lineify.flatten
     end
