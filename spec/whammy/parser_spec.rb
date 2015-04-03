@@ -3,27 +3,28 @@ require_relative "../spec_helper"
 module Whammy
   describe Parser do
     let(:files) { ["commas.txt", "pipes.txt"] }
+    let(:file) { files[0] }
     let(:parser) { Parser.new }
 
     describe "#line_data" do
       it "returns an array of strings" do
-        expect(parser.line_data).to be_a(Array)
-        parser.line_data.each { |element| expect(element).to be_a(String) }
+        expect(parser.line_data(files)).to be_a(Array)
+        parser.line_data(files).each { |element| expect(element).to be_a(String) }
       end
 
       it "returns the lines of all the files" do
-        expect(parser.line_data).to eql(["Govan Guthrie male blue 12/27/1971", "Schuldiner Chuck male orange 05/13/1967", "Reinhardt Django male green 01/23/1910", "Shore Pauly male pink 02/01/1968", "Schwarzenegger Arnold male blue 07/30/1947", "McDormand Frances female green 06/23/1957"])
+        expect(parser.line_data(files)).to eql(["Govan Guthrie male blue 12/27/1971", "Schuldiner Chuck male orange 05/13/1967", "Reinhardt Django male green 01/23/1910", "Shore Pauly male pink 02/01/1968", "Schwarzenegger Arnold male blue 07/30/1947", "McDormand Frances female green 06/23/1957"])
       end
     end
 
     describe "#lineify" do
-      it "returns an array of arrays" do
-        expect(parser.lineify).to be_a(Array)
-        parser.lineify.each { |element| expect(element).to be_a(Array) }
+      it "returns an array of strings" do
+        expect(parser.lineify(file)).to be_a(Array)
+        parser.lineify(file).each { |element| expect(element).to be_a(String) }
       end
 
-      it "returns each file as an array of lines" do
-        expect(parser.lineify).to eql([["Govan Guthrie male blue 12/27/1971", "Schuldiner Chuck male orange 05/13/1967", "Reinhardt Django male green 01/23/1910"], ["Shore Pauly male pink 02/01/1968", "Schwarzenegger Arnold male blue 07/30/1947", "McDormand Frances female green 06/23/1957"]])
+      it "returns the file as an array of lines" do
+        expect(parser.lineify(file)).to eql(["Govan Guthrie male blue 12/27/1971", "Schuldiner Chuck male orange 05/13/1967", "Reinhardt Django male green 01/23/1910"])
       end
     end
 
