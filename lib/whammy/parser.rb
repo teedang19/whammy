@@ -15,7 +15,7 @@ module Whammy
       split_lines(file).map { |values| attributeify(values) }
     end
 
-    # private # TODO allow testing of private methods
+    # private # TODO should these methods be private?
 
     def split_lines(file)
       File.readlines(file).map { |line| split(line) }
