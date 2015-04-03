@@ -3,9 +3,9 @@ module Whammy
     require 'grape'
 
     class API < Grape::API
-      version 'v1', using: :header, vendor: 'whammy'
+      version 'v1', using: :path, vendor: 'whammy'
       format :json
-      prefix 'api/v1'
+      prefix :api
     end
   end
 end
