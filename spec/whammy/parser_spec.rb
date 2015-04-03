@@ -111,31 +111,31 @@ module Whammy
       end
     end
 
-    describe "#delimiter" do
+    describe "#delimiter_of" do
       context "called with a comma-delimited line" do
         it "returns the correct delimiter" do
-          expect(parser.delimiter(csv_line)).to eql(/, /)
+          expect(parser.delimiter_of(csv_line)).to eql(/, /)
         end
         it "returns a regexp" do
-          expect(parser.delimiter(csv_line)).to be_a(Regexp)
+          expect(parser.delimiter_of(csv_line)).to be_a(Regexp)
         end
       end
 
       context "called with a pipe-delimited line" do
         it "returns the correct delimiter" do
-          expect(parser.delimiter(piped_line)).to eql(/ \| /)
+          expect(parser.delimiter_of(piped_line)).to eql(/ \| /)
         end
         it "returns a regexp" do
-          expect(parser.delimiter(piped_line)).to be_a(Regexp)
+          expect(parser.delimiter_of(piped_line)).to be_a(Regexp)
         end
       end
 
       context "called with a space-delimited line" do
         it "returns the correct delimiter" do
-          expect(parser.delimiter(spaced_line)).to eql(/ /)
+          expect(parser.delimiter_of(spaced_line)).to eql(/ /)
         end
         it "returns a regexp" do
-          expect(parser.delimiter(spaced_line)).to be_a(Regexp)
+          expect(parser.delimiter_of(spaced_line)).to be_a(Regexp)
         end
       end
     end

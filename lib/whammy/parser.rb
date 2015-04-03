@@ -22,10 +22,10 @@ module Whammy
     end
 
     def split(line)
-      line.chomp.split(delimiter(line))
+      line.chomp.split(delimiter_of(line))
     end
 
-    def delimiter(line)
+    def delimiter_of(line)
       DELIMITERS.detect { |delimiter| line =~ delimiter }
     end
 
