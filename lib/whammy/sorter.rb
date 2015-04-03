@@ -6,7 +6,18 @@ module Whammy
       @data = Database.new.read # will be master
     end
 
-    def ladies_first
+    def sort!(method=nil)
+      case method
+      when :gender then ladies_first
+      when :birthday then oldest_first
+      when :last_name then last_name_ascending
+      else @data
+      end
+    end
+
+    private
+
+    def ladies_first # TODO also last_name_ascending
       @data.sort_by { |record| record[:gender] }
     end
 
@@ -21,8 +32,6 @@ module Whammy
     def last_name_descending
       last_name_sort(:desc)
     end
-
-    private
 
     def last_name_sort(direction)
       case direction
