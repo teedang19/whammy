@@ -36,8 +36,32 @@ module Whammy
       end
     end
 
-    describe "#sort" do
-      xit "TODO" do
+    describe "#sorted_data" do
+      it "returns an array" do
+        expect(cli.sorted_data).to be_a(Array)
+      end
+
+      it "returns an array of hash data" do
+        cli.sorted_data.each do |element|
+          expect(element).to be_a(Hash)
+        end
+      end
+
+      context "no sorting" do
+        xit "returns the data from the database" do
+        end
+      end
+      context "gender" do
+        xit "TODO" do
+        end
+      end
+      context "last_name" do
+        xit "TODO" do
+        end
+      end
+      context "birthday" do
+        xit "TODO" do
+        end
       end
     end   
 

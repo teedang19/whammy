@@ -6,7 +6,7 @@ module Whammy
 
     def run!
       write_files!
-      display(sorted)
+      display(sorted_data)
     end
 
     def display(data)
@@ -15,8 +15,8 @@ module Whammy
       end
     end
 
-    def sorted
-      Sorter.new.sort!(sorting_params)
+    def sorted_data
+      Sorter.new.sort!(sort_by)
     end
 
     def sort_by
