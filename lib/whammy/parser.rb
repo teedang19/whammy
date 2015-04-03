@@ -8,20 +8,19 @@ module Whammy
     end
 
     def lineify(file)
-      File.readlines(file).map { |line| split_line!(line).join(" ") }
+      split_lines(file).map { |values| values.join(" ") }
     end
 
-    def parse_file!(file)
-      File.readlines(file).map { |line| parse_line!(line) }
+    def parse(file)
+      split_lines(file).map { |values| attributeify(values) }
     end
 
-    def parse_line!(line)
-      values_arr = split_line!(line)
-      attributeify(values_arr)
-    end
+    private
 
-    def split_line!(line)
-      line.chomp.split(delimiter(line))
+    def split_lines(file)
+      File.readlines(file).map do |line|
+        line.chomp.split(delimiter(line))
+      end
     end
 
     def delimiter(line)
