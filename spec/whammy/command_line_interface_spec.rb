@@ -61,7 +61,7 @@ module Whammy
       context "no sorting" do
         no_sort_argv = ["commas.txt"]
         no_sort_cli = CommandLineInterface.new(no_sort_cli)
-        it "returns \ data from the database" do
+        it "returns data from the database" do
           expect(no_sort_cli.sorted_data).to eql([{last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971"}, {last_name: "Schemel", first_name: "Patty", gender: "female", favorite_color: "orange", date_of_birth: "04/24/1967"}, {last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}, {last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}, {last_name: "Dang", first_name: "Tam", gender: "female", favorite_color: "blue", date_of_birth: "01/13/1990"}])
         end
       end
@@ -92,17 +92,17 @@ module Whammy
     end   
 
     describe "#sort_by" do
-      it "returns the correct sorting params for birthday" do
+      it "returns the correct symbol for birthday" do
         expect(cli.sort_by).to eql(:birthday)
       end
 
-      it "returns the correct sorting params for gender" do
+      it "returns the correct symbol for gender" do
         gender_argv = ["commas.txt", "--sort", "-g"]
         gender_cli = CommandLineInterface.new(gender_argv)
         expect(gender_cli.sort_by).to eql(:gender)
       end
 
-      it "returns the correct sorting params for last_name" do
+      it "returns the correct symbol for last_name" do
         last_name_argv = ["commas.txt", "--sort", "-l"]
         last_name_cli = CommandLineInterface.new(last_name_argv)
         expect(last_name_cli.sort_by).to eql(:last_name)
@@ -110,11 +110,6 @@ module Whammy
     end
 
     describe "#files" do
-      it "delegates the retrieval of files to @options_parser" do
-        expect(cli.instance_variable_get(:@options_parser)).to receive(:files)
-        cli.files
-      end
-
       context "when the parser is called with one file" do
         it "returns an array of the file" do
           expect(cli.files).to eql(["commas.txt"])
