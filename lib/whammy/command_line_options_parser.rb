@@ -10,7 +10,7 @@ module Whammy
 
     def parse_options!
       sort_by = nil
-      write_to_master = false
+      write_to_master = false # TODO remove or implement
 
       @options_parser.on("--sort ENUM", ["-b", "-g", "-l"]) do |flag|
         case flag
