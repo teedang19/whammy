@@ -13,21 +13,6 @@ module Whammy
         expect(cli.instance_variable_get(:@options_parser)).to_not be_nil
         expect(cli.instance_variable_get(:@options_parser)).to be_a(CommandLineOptionsParser)
       end
-
-      it "defines @database" do
-        expect(cli.instance_variable_get(:@database)).to_not be_nil
-        expect(cli.instance_variable_get(:@database)).to be_a(Database)
-      end
-    end
-
-    describe "#write_to_master?" do
-      it "returns false when argv does not include '--master'" do
-        expect(cli.write_to_master?).to be(false)
-      end
-
-      it "returns true when argv includes '--master'" do
-        expect(master_cli.write_to_master?).to be(true)
-      end
     end
 
     describe "#sorting_params" do
@@ -93,31 +78,11 @@ module Whammy
 
     describe "#write_data!" do
       # TODO database cleaner; allow any instance of database to receive filename and return a different name, os that we aren't calling the same file -- and we can clean out the file after every test run
-      context "when writing to master" do
-        it "writes line data to the master file" do
-          master_cli.write_data!
-          expect(File.read(master_cli.compiled_filename)).to include("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\nReinhardt Django male green 01/23/1910")
-        end
-      end
 
       context "when writing to a new file" do
-        it "writes line data to a new file" do
+        xit "writes line data to a new file" do
           cli.write_data!
           expect(File.read(cli.compiled_filename)).to include("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\nReinhardt Django male green 01/23/1910")
-        end
-      end
-    end
-
-    describe "#compiled_filename" do
-      context "when writing to master" do
-        it "returns the compiled data filename" do
-          expect(master_cli.compiled_filename).to eql("data/database.txt")
-        end
-      end
-
-      context "when writing to a new file" do
-        it "returns the compiled data filename" do
-          expect(cli.compiled_filename).to eql(compiled_filename)
         end
       end
     end
