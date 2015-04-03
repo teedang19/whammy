@@ -120,23 +120,11 @@ module Whammy
         end
       end
 
-      def capture_stdout(&block)
-        original_stdout = $stdout
-        $stdout = fake = StringIO.new
-        begin
-          yield
-        ensure
-          $stdout = original_stdout
-        end
-        fake.string
-      end
-
       context "with invalid options" do
         it "rescues the error with a message" do
           invalid_options = ["commas.txt", "--poop", "-g"]
           invalid_parser = CommandLineOptionsParser.new(invalid_options)
-          output = capture_stdout { invalid_parser.parse_options! }
-          expect(output).to eql("invalid option: --poop\nTry again!\n")
+          expect{ invalid_parser.parse_options! }.to output("invalid option: --poop\nTry again!\n").to_stdout
         end
       end
 
@@ -144,8 +132,7 @@ module Whammy
         it "rescues the error with a message" do
           invalid_args = ["commas.txt", "--sort", "-x"]
           invalid_arg_parser = CommandLineOptionsParser.new(invalid_args)
-          output = capture_stdout { invalid_arg_parser.parse_options! }
-          expect(output).to eql("invalid argument: --sort -x\nTry again!\n")
+          expect{ invalid_arg_parser.parse_options! }.to output("invalid argument: --sort -x\nTry again!\n").to_stdout
         end
       end
     end
