@@ -8,14 +8,6 @@ module Whammy
     let(:cli)  { CommandLineInterface.new(argv) }
     let(:compiled_filename) { "data/#{DateTime.now.strftime("%m_%e_%y:%k_%M.txt")}" }
 
-    before(:each) do
-      allow_any_instance_of(Database).to receive(:data_file).and_return("data/test.txt")
-    end
-
-    after(:each) do
-      File.open("data/test.txt", "w") {}
-    end
-
     describe "#initialize" do
       it "defines @options_parser" do
         expect(cli.instance_variable_get(:@options_parser)).to_not be_nil
@@ -37,6 +29,10 @@ module Whammy
     end
 
     describe "#sorted_data" do
+      before(:each) do
+        allow_any_instance_of(Database).to receive(:data_file).and_return("data/example_db.txt")
+      end
+
       it "returns an array" do
         expect(cli.sorted_data).to be_a(Array)
       end
@@ -48,19 +44,34 @@ module Whammy
       end
 
       context "no sorting" do
-        xit "returns the data from the database" do
+        no_sort_argv = ["commas.txt"]
+        no_sort_cli = CommandLineInterface.new(no_sort_cli)
+        it "returns \ data from the database" do
+          expect(no_sort_cli.sorted_data).to eql([{last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971"}, {last_name: "Schemel", first_name: "Patty", gender: "female", favorite_color: "orange", date_of_birth: "04/24/1967"}, {last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}, {last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}, {last_name: "Dang", first_name: "Tam", gender: "female", favorite_color: "blue", date_of_birth: "01/13/1990"}])
         end
       end
+
       context "gender" do
-        xit "TODO" do
+        it "returns data sorted by gender and last name ascending" do
+          gender_argv = ["commas.txt", "--sort", "-g"]
+          gender_cli = CommandLineInterface.new(gender_argv)
+          expect(gender_cli.sorted_data).to eql([{last_name: "Dang", first_name: "Tam", gender: "female", favorite_color: "blue", date_of_birth: "01/13/1990"}, {last_name: "Schemel", first_name: "Patty", gender: "female", favorite_color: "orange", date_of_birth: "04/24/1967"}, {last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971"}, {last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}, {last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}])
         end
       end
+
       context "last_name" do
-        xit "TODO" do
+        it "returns data sorted by last name descending" do
+          last_name_argv = ["commas.txt", "--sort", "-l"]
+          last_name_cli = CommandLineInterface.new(last_name_argv)
+          expect(last_name_cli.sorted_data).to eql([{last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}, {last_name: "Schemel", first_name: "Patty", gender: "female", favorite_color: "orange", date_of_birth: "04/24/1967"}, {last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}, {last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971"}, {last_name: "Dang", first_name: "Tam", gender: "female", favorite_color: "blue", date_of_birth: "01/13/1990"}])
         end
       end
+
       context "birthday" do
-        xit "TODO" do
+        it "returns data sorted by birthday ascending" do
+          birthday_argv = ["commas.txt", "--sort", "-b"]
+          birthday_cli = CommandLineInterface.new(birthday_argv)
+          expect(birthday_cli.sorted_data).to eql([{last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}, {last_name: "Schemel", first_name: "Patty", gender: "female", favorite_color: "orange", date_of_birth: "04/24/1967"}, {last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}, {last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971"}, {last_name: "Dang", first_name: "Tam", gender: "female", favorite_color: "blue", date_of_birth: "01/13/1990"}])
         end
       end
     end   
@@ -105,6 +116,13 @@ module Whammy
     end
 
     describe "#write_files!" do
+      before do
+        allow_any_instance_of(Database).to receive(:data_file).and_return("data/test.txt")
+      end
+
+      after do
+        File.open("data/test.txt", "w") {}
+      end
       it "writes line data to a new file" do
         cli.write_files!
         expect(File.read("data/test.txt")).to include("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\nReinhardt Django male green 01/23/1910")
