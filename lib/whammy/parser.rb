@@ -15,12 +15,14 @@ module Whammy
       split_lines(file).map { |values| attributeify(values) }
     end
 
-    private
+    # private # TODO allow testing of private methods
 
     def split_lines(file)
-      File.readlines(file).map do |line|
-        line.chomp.split(delimiter(line))
-      end
+      File.readlines(file).map { |line| split(line) }
+    end
+
+    def split(line)
+      line.chomp.split(delimiter(line))
     end
 
     def delimiter(line)
