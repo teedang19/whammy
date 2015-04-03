@@ -14,9 +14,9 @@ module Whammy
         expect(parser.instance_variable_get(:@options_parser)).to be_a(OptionParser)
       end
 
-      it "defines @sorting_params" do
-        expect(parser.instance_variable_get(:@sorting_params)).to_not be_nil
-        expect(parser.instance_variable_get(:@sorting_params)).to be_a(Symbol)
+      it "defines @sort_by" do
+        expect(parser.instance_variable_get(:@sort_by)).to_not be_nil
+        expect(parser.instance_variable_get(:@sort_by)).to be_a(Symbol)
       end
 
       it "defines @files" do
