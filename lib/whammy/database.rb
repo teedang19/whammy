@@ -15,6 +15,10 @@ module Whammy
       "#{data_dir}#{@filename}"
     end
 
+    def read
+      @parser.parse(data_file)
+    end
+
     def write_files(files)
       lines = @parser.line_data(files)
       write_lines(lines)

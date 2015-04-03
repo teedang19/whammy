@@ -47,6 +47,23 @@ module Whammy
       end
     end
 
+    describe "#read" do
+      it "returns an array" do
+        expect(db.read).to be_a(Array)
+      end
+
+      it "returns an array of hashes" do
+        db.read.each do |element|
+          expect(element).to be_a(Hash)
+        end
+      end
+
+      it "returns the data from the database file" do
+        db.write_files(files)
+        expect(db.read).to eql([{last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971"},{last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"},{last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}])
+      end
+    end
+
     describe "#write_files" do
       it "writes the data to the file" do
         db.write_files(files)
