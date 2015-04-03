@@ -42,11 +42,6 @@ module Whammy
     end   
 
     describe "#sort_by" do
-      it "delegates the retrieval of sort_by to @options_parser" do
-        expect(cli.instance_variable_get(:@options_parser)).to receive(:sort_by)
-        cli.sort_by
-      end
-
       it "returns the correct sorting params for birthday" do
         expect(cli.sort_by).to eql(:birthday)
       end
