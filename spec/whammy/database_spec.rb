@@ -1,12 +1,20 @@
 require_relative "../spec_helper"
 
-# TODO database cleaner
-
 module Whammy
   describe Database do
     let(:db) { Database.new }
     let(:files) { ["commas.txt"] }
     let(:line_data) { ["Govan Guthrie male blue 12/27/1971", "Schuldiner Chuck male orange 05/13/1967"] }
+
+    before(:each) do |example|
+      unless example.metadata[:skip_before]
+        allow_any_instance_of(Database).to receive(:data_file).and_return("data/test.txt")
+      end
+    end
+
+    after(:each) do
+      File.open("data/test.txt", "w") {}
+    end
 
     describe "#initialize" do
       it "defines @filename" do
