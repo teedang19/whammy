@@ -4,19 +4,25 @@ module Whammy
 
     def initialize
       @filename = MASTER_DB
+      @parser = Parser.new
     end
 
     def data_dir
       "data/"
     end
 
-    def filename
+    def data_file
       "#{data_dir}#{@filename}"
     end
 
-    def write!(line_data)
-      File.open(filename, "a") do |file|
-        line_data.map { |line| file.puts(line) }
+    def write_files(files)
+      lines = @parser.line_data(files)
+      write_lines(lines)
+    end
+
+    def write_lines(lines)
+      File.open(data_file, "a") do |file|
+        lines.each { |line| file.puts(line) }
       end
     end
   end
