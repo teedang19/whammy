@@ -7,16 +7,8 @@ module Whammy
       files.map { |file| lineify(file) }.flatten
     end
 
-    def parsed_data
-      parsed_files.flatten
-    end
-
     def lineify(file)
       File.readlines(file).map { |line| split_line!(line).join(" ") }
-    end
-
-    def parsed_files # TODO should a Parser only be initialized with one file?
-      @files.map { |file| parse_file!(file) }
     end
 
     def parse_file!(file)
