@@ -10,7 +10,7 @@ module Whammy
       case method
       when :gender then ladies_first
       when :birthday then oldest_first
-      when :last_name then last_name_ascending
+      when :last_name then last_name_descending
       else @data
       end
     end
