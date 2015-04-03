@@ -40,7 +40,7 @@ module Whammy
       end
     end
 
-    describe "#data_file" do
+    describe "#data_file", :skip_before do
       it "returns the path of the data file" do
         filename = db.instance_variable_get(:@filename)
         expect(db.data_file).to eql("data/#{filename}")
