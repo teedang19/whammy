@@ -1,3 +1,5 @@
+require "date"
+
 module Whammy
   class Sorter
     def initialize
