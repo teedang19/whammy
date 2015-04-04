@@ -85,17 +85,17 @@ module Whammy
         end
       end
 
-      context "birthday" do
-        it "returns data sorted by birthday ascending" do
-          birthday_argv = ["commas.txt", "--sort", "-b"]
-          birthday_cli = CommandLineInterface.new(birthday_argv)
-          expect(birthday_cli.sorted_data).to eql([{last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}, {last_name: "Schemel", first_name: "Patty", gender: "female", favorite_color: "orange", date_of_birth: "04/24/1967"}, {last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}, {last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971"}, {last_name: "Dang", first_name: "Tam", gender: "female", favorite_color: "blue", date_of_birth: "01/13/1990"}])
+      context "birthdate" do
+        it "returns data sorted by birthdate ascending" do
+          birthdate_argv = ["commas.txt", "--sort", "-b"]
+          birthdate_cli = CommandLineInterface.new(birthdate_argv)
+          expect(birthdate_cli.sorted_data).to eql([{last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}, {last_name: "Schemel", first_name: "Patty", gender: "female", favorite_color: "orange", date_of_birth: "04/24/1967"}, {last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}, {last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971"}, {last_name: "Dang", first_name: "Tam", gender: "female", favorite_color: "blue", date_of_birth: "01/13/1990"}])
         end
       end
     end   
 
     describe "#sort_by" do
-      it "returns the correct symbol for birthday" do
+      it "returns the correct symbol for birthdate" do
         expect(cli.sort_by).to eql(:birthdate)
       end
 

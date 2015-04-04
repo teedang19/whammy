@@ -51,8 +51,8 @@ module Whammy
           expect(parser.parse_options![1]).to be_a(Symbol)
         end
 
-        context "by birthday" do
-          it "returns the correct params for birthday" do
+        context "by birthdate" do
+          it "returns the correct params for birthdate" do
             expect(parser.parse_options![1]).to eql(:birthdate)
           end
         end
