@@ -32,7 +32,7 @@ module Whammy
         end
       end
 
-      before(:each) do |example|
+      before(:each) do
         allow_any_instance_of(Database).to receive(:data_file).and_return("data/example_db.txt")
       end
 
