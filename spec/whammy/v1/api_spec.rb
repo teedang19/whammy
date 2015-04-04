@@ -40,7 +40,9 @@ module Whammy
         xit "returns database records sorted by gender" do
         end
 
-        xit "returns a 200" do
+        it "returns a 200 status" do
+          get "api/v1/records/gender"
+          expect(last_response.status).to eq(200)
         end
       end
 
@@ -48,7 +50,9 @@ module Whammy
         xit "returns database records sorted by birthdate" do
         end
 
-        xit "returns a 200" do
+        it "returns a 200 status" do
+          get "api/v1/records/birthdate"
+          expect(last_response.status).to eq(200)
         end
       end
 
@@ -56,7 +60,9 @@ module Whammy
         xit "returns database records sorted by last_name" do
         end
 
-        xit "returns a 200" do
+        it "returns a 200 status" do
+          get "api/v1/records/name"
+          expect(last_response.status).to eq(200)
         end
       end
     end
