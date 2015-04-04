@@ -1,3 +1,3 @@
-require_relative 'lib/whammy'
+require './lib/whammy.rb'
 
 run Whammy::V1::API
