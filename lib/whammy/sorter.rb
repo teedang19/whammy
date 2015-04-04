@@ -6,7 +6,7 @@ module Whammy
       @data = Database.new.read # will be master
     end
 
-    def sort!(method=nil)
+    def sort!(method=nil) # TODO is this method brittle? for expecting a symbol.
       case method
       when :gender then ladies_first
       when :birthdate then oldest_first
