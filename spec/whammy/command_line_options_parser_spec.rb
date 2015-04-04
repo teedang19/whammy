@@ -53,7 +53,7 @@ module Whammy
 
         context "by birthday" do
           it "returns the correct params for birthday" do
-            expect(parser.parse_options![1]).to eql(:birthday)
+            expect(parser.parse_options![1]).to eql(:birthdate)
           end
         end
 

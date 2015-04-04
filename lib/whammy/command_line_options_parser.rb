@@ -14,7 +14,7 @@ module Whammy
 
       @options_parser.on("--sort ENUM", ["-b", "-g", "-l"]) do |flag|
         case flag
-        when "-b" then sort_by = :birthday
+        when "-b" then sort_by = :birthdate
         when "-g" then sort_by = :gender
         when "-l" then sort_by = :last_name
         end

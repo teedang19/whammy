@@ -9,7 +9,7 @@ module Whammy
     def sort!(method=nil)
       case method
       when :gender then ladies_first
-      when :birthday then oldest_first
+      when :birthdate then oldest_first
       when :last_name then last_name_descending
       else @data
       end

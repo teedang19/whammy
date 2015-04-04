@@ -96,7 +96,7 @@ module Whammy
 
     describe "#sort_by" do
       it "returns the correct symbol for birthday" do
-        expect(cli.sort_by).to eql(:birthday)
+        expect(cli.sort_by).to eql(:birthdate)
       end
 
       it "returns the correct symbol for gender" do
