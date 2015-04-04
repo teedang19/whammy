@@ -11,6 +11,14 @@ module Whammy
       end
 
       describe "POST /api/v1/records" do
+        before(:each) do
+          allow_any_instance_of(Database).to receive(:data_file).and_return("data/test.txt")
+        end
+
+        after(:each) do
+          File.open("data/test.txt", "w") {}
+        end
+
         xit "posts a JSON record" do
         end
 
@@ -22,6 +30,10 @@ module Whammy
 
         xit "returns a 301 for posted records" do
         end
+      end
+
+      before(:each) do |example|
+        allow_any_instance_of(Database).to receive(:data_file).and_return("data/example_db.txt")
       end
 
       describe "GET /api/v1/records/gender" do
