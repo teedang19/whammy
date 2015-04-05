@@ -35,6 +35,11 @@ module Whammy
     let(:spaced_line) { "Dang Tam female purple 01/13/1990" }
     let(:contains_newline) { "Shore | Pauly | male | pink | 02/01/1968\n" }
 
+    describe "#split_lines" do
+      xit "returns the file as an array of split lines" do
+      end
+    end
+
     describe "#split" do
       it "removes newlines" do
         expect(parser.split(contains_newline)).to eql(["Shore", "Pauly", "male", "pink", "02/01/1968"])
