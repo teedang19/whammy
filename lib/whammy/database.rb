@@ -16,7 +16,7 @@ module Whammy
     end
 
     def read
-      @parser.parse(data_file)
+      @parser.parse_file(data_file)
     end
 
     def write_files(files)
