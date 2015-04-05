@@ -20,14 +20,29 @@ module Whammy
     end
 
     def write_files(files)
-      lines = @parser.line_data(files)
-      write_lines(lines)
+      files.each { |file| write_file(file) }
     end
 
-    def write_lines(lines)
+    def write_file(file)
+      File.foreach(file) { |line| write_line(line) }
+    end
+
+    def write_line(entry)
+      record = get_data(entry)
       File.open(data_file, "a") do |file|
-        lines.each { |line| file.puts(line) }
+        file.puts normalize(record)
       end
+      record
+    end
+
+    private
+
+    def get_data(entry)
+      @parser.parse_entry(entry)
+    end
+
+    def normalize(record) # defines a format consistency for records to be written
+      record.values.join(" ")
     end
   end
 end
