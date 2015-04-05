@@ -2,7 +2,8 @@ require_relative "../spec_helper"
 
 module Whammy
   describe CommandLineOptionsParser do
-    let(:argv) { ["commas.txt", "--sort", "-b"] }
+    let(:file) { "spec/fixtures/files/commas.txt"}
+    let(:argv) { [file, "--sort", "-b"] }
     let(:parser) { CommandLineOptionsParser.new(argv) }
 
     describe "#initialize" do
@@ -36,13 +37,13 @@ module Whammy
 
       context "file options" do
         it "separates the files from other options" do
-          expect(parser.parse_options![0]).to eql(["commas.txt"])
+          expect(parser.parse_options![0]).to eql(["spec/fixtures/files/commas.txt"])
         end
 
         it "separates more than one file" do
-          multiple_file_argv = ["commas.txt", "pipes.txt", "--sort", "-g"]
+          multiple_file_argv = ["spec/fixtures/files/commas.txt", "spec/fixtures/files/pipes.txt", "--sort", "-g"]
           multiple_file_parser = CommandLineOptionsParser.new(multiple_file_argv)
-          expect(multiple_file_parser.parse_options![0]).to eql(["commas.txt", "pipes.txt"])
+          expect(multiple_file_parser.parse_options![0]).to eql(["spec/fixtures/files/commas.txt", "spec/fixtures/files/pipes.txt"])
         end
       end
 
@@ -59,7 +60,7 @@ module Whammy
 
         context "by gender" do
           it "returns the correct params" do
-            gender_argv = ["commas.txt", "--sort", "-g"]
+            gender_argv = [file, "--sort", "-g"]
             gender_parser = CommandLineOptionsParser.new(gender_argv)
             expect(gender_parser.parse_options![1]).to eql(:gender)
           end
@@ -67,7 +68,7 @@ module Whammy
 
         context "by last_name" do
           it "returns the correct params" do
-            last_name_argv = ["commas.txt", "--sort", "-l"]
+            last_name_argv = [file, "--sort", "-l"]
             last_name_parser = CommandLineOptionsParser.new(last_name_argv)
             expect(last_name_parser.parse_options![1]).to eql(:last_name)
           end
@@ -75,7 +76,7 @@ module Whammy
 
         context "no sorting params" do
           it "returns nil for sorting params" do
-            sortless_argv = ["commas.txt"]
+            sortless_argv = [file]
             sortless_parser = CommandLineOptionsParser.new(sortless_argv)
             expect(sortless_parser.parse_options![1]).to eql(nil)
           end
@@ -95,7 +96,7 @@ module Whammy
 
         context "--master is passed in" do
           it "returns true" do
-            master_args = ["commas.txt", "--sort", "-b", "--master"]
+            master_args = [file, "--sort", "-b", "--master"]
             master_parser = CommandLineOptionsParser.new(master_args)
             expect(master_parser.parse_options![2]).to be(true)
           end
@@ -104,7 +105,7 @@ module Whammy
         context "with no sorting params" do
           context "--master is passed in" do
             it "is still set" do
-              sortless_master_argv = ["commas.txt", "--master"]
+              sortless_master_argv = [file, "--master"]
               sortless_master_parser = CommandLineOptionsParser.new(sortless_master_argv)
               expect(sortless_master_parser.parse_options![2]).to eql(true)
             end
@@ -112,7 +113,7 @@ module Whammy
 
           context "--master is NOT passed in" do
             it "is still set" do
-              sortless_argv = ["commas.txt"]
+              sortless_argv = [file]
               sortless_parser = CommandLineOptionsParser.new(sortless_argv)
               expect(sortless_parser.parse_options![2]).to eql(false)
             end
@@ -122,7 +123,7 @@ module Whammy
 
       context "with invalid options" do
         it "rescues the error with a message" do
-          invalid_options = ["commas.txt", "--poop", "-g"]
+          invalid_options = [file, "--poop", "-g"]
           invalid_parser = CommandLineOptionsParser.new(invalid_options)
           expect{ invalid_parser.parse_options! }.to output("invalid option: --poop\nTry again!\n").to_stdout
         end
@@ -130,7 +131,7 @@ module Whammy
 
       context "with invalid arguments to the options" do
         it "rescues the error with a message" do
-          invalid_args = ["commas.txt", "--sort", "-x"]
+          invalid_args = [file, "--sort", "-x"]
           invalid_arg_parser = CommandLineOptionsParser.new(invalid_args)
           expect{ invalid_arg_parser.parse_options! }.to output("invalid argument: --sort -x\nTry again!\n").to_stdout
         end
