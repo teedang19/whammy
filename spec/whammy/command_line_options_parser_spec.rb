@@ -35,11 +35,11 @@ module Whammy
       end
 
       context "file options" do
-        it "separates the files from the other options" do
+        it "separates the files from other options" do
           expect(parser.parse_options![0]).to eql(["commas.txt"])
         end
 
-        it "can separate more than one file" do
+        it "separates more than one file" do
           multiple_file_argv = ["commas.txt", "pipes.txt", "--sort", "-g"]
           multiple_file_parser = CommandLineOptionsParser.new(multiple_file_argv)
           expect(multiple_file_parser.parse_options![0]).to eql(["commas.txt", "pipes.txt"])
@@ -47,18 +47,18 @@ module Whammy
       end
 
       context "sorting params" do
-        it "separates the sorting params from the other options" do
+        it "separates the sorting params from other options" do
           expect(parser.parse_options![1]).to be_a(Symbol)
         end
 
         context "by birthdate" do
-          it "returns the correct params for birthdate" do
+          it "returns the correct params" do
             expect(parser.parse_options![1]).to eql(:birthdate)
           end
         end
 
         context "by gender" do
-          it "returns the correct params for gender" do
+          it "returns the correct params" do
             gender_argv = ["commas.txt", "--sort", "-g"]
             gender_parser = CommandLineOptionsParser.new(gender_argv)
             expect(gender_parser.parse_options![1]).to eql(:gender)
@@ -66,7 +66,7 @@ module Whammy
         end
 
         context "by last_name" do
-          it "returns the correct params for last_name" do
+          it "returns the correct params" do
             last_name_argv = ["commas.txt", "--sort", "-l"]
             last_name_parser = CommandLineOptionsParser.new(last_name_argv)
             expect(last_name_parser.parse_options![1]).to eql(:last_name)
@@ -74,7 +74,7 @@ module Whammy
         end
 
         context "no sorting params" do
-          it "returns nil for sorting params when none are present" do
+          it "returns nil for sorting params" do
             sortless_argv = ["commas.txt"]
             sortless_parser = CommandLineOptionsParser.new(sortless_argv)
             expect(sortless_parser.parse_options![1]).to eql(nil)
@@ -83,7 +83,7 @@ module Whammy
       end
 
       context "write_to_master" do
-        it "separates write_to_master from the other options" do
+        it "separates write_to_master from other options" do
           expect(parser.parse_options![2]).to_not be_nil
         end
 
