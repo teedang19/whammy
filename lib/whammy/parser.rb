@@ -3,18 +3,6 @@ module Whammy
     DELIMITERS = [ /, /, / \| /, / / ]
     ATTRIBUTES = [ :last_name, :first_name, :gender, :favorite_color, :date_of_birth ]
 
-    def line_data(files)
-      files.map { |file| lineify(file) }.flatten
-    end
-
-    def lineify(file)
-      split_lines(file).map { |values| values.join(" ") }
-    end
-
-    def parsed_data(files)
-      files.map { |file| parse(file) }.flatten
-    end
-
     def parse(file)
       split_lines(file).map { |values| attributeify(values) }
     end
