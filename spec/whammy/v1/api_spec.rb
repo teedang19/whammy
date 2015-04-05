@@ -11,7 +11,7 @@ module Whammy
       end
 
       describe "POST /api/v1/records" do
-        let(:test_db) {"spec/fixtures/files/test_db.txt"}
+        let(:test_db) { "spec/fixtures/files/test_db.txt" }
 
         before(:each) do
           allow_any_instance_of(Database).to receive(:data_file).and_return(test_db)
