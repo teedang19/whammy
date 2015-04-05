@@ -5,23 +5,23 @@ module Whammy
     let(:parser) { Parser.new }
 
     describe "#parse_file" do
-      let(:csv_file) { "commas.txt" }
-      let(:spaced_file) { "spaces.txt" }
-      let(:piped_file) { "pipes.txt" }
+      let(:csv_file) { "spec/fixtures/files/commas.txt" }
+      let(:spaced_file) { "spec/fixtures/files/spaces.txt" }
+      let(:piped_file) { "spec/fixtures/files/pipes.txt" }
 
-      context "called with a comma-delimited file" do
+      context "with a comma-delimited file" do
         it "parses the file" do
           expect(parser.parse_file(csv_file)).to eql([{ last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971"}, {last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}, {last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}])
         end
       end
 
-      context "called with a space-delimited file" do
+      context "with a space-delimited file" do
         it "parses the file" do
           expect(parser.parse_file(spaced_file)).to eql([{ last_name: "Dang", first_name: "Tam", gender: "female", favorite_color: "purple", date_of_birth: "01/13/1990" }, {last_name: "Baldissero", first_name: "Shawn", gender: "male", favorite_color: "green", date_of_birth: "02/03/1987"}, {last_name: "TranNgoc", first_name: "Tuyen", gender: "female", favorite_color: "red", date_of_birth: "01/13/1952"} ])
         end
       end
 
-      context "called with a pipe-delimited file" do
+      context "with a pipe-delimited file" do
         it "parses the file" do
           expect(parser.parse_file(piped_file)).to eql([{ last_name: "Shore", first_name: "Pauly", gender: "male", favorite_color: "pink", date_of_birth: "02/01/1968"}, {last_name: "Schwarzenegger", first_name: "Arnold", gender: "male", favorite_color: "blue", date_of_birth: "07/30/1947"}, {last_name: "McDormand", first_name: "Frances", gender: "female", favorite_color: "green", date_of_birth: "06/23/1957"} ])
         end
@@ -55,7 +55,7 @@ module Whammy
           expect{ parser.parse_entry(too_few) }.to raise_error(ArgumentError)
         end
 
-        it "works for hashes with more than the required attributes" do
+        it "works for hashes with extra attributes" do
           expect(parser.parse_entry(big)).to eql({ last_name: "Shore", first_name: "Pauly", gender: "male", favorite_color: "pink", date_of_birth: "02/01/1968"})
         end
       end
@@ -76,7 +76,7 @@ module Whammy
       end
     end
 
-    let(:file) { "commas.txt" }
+    let(:file) { "spec/fixtures/files/commas.txt" }
 
     describe "#split_lines" do
       it "returns an array" do
@@ -104,7 +104,7 @@ module Whammy
         expect(parser.split(contains_newline)).to eql(["Shore", "Pauly", "male", "pink", "02/01/1968"])
       end
 
-      context "called with a comma-delimited line" do
+      context "with a comma-delimited line" do
         it "parses the line" do
           expect(parser.split(csv_line)).to eql(["Govan", "Guthrie", "male", "blue", "12/27/1971"])
         end
@@ -113,7 +113,7 @@ module Whammy
         end
       end
 
-      context "called with a pipe-delimited line" do
+      context "with a pipe-delimited line" do
         it "parses the line" do
           expect(parser.split(piped_line)).to eql(["Shore", "Pauly", "male", "pink", "02/01/1968"])
         end
@@ -122,7 +122,7 @@ module Whammy
         end
       end
 
-      context "called with a space-delimited line" do
+      context "with a space-delimited line" do
         it "parses the line" do
           expect(parser.split(spaced_line)).to eql(["Dang", "Tam", "female", "purple", "01/13/1990"])
         end
@@ -133,7 +133,7 @@ module Whammy
     end
 
     describe "#delimiter_of" do
-      context "called with a comma-delimited line" do
+      context "with a comma-delimited line" do
         it "returns the correct delimiter" do
           expect(parser.delimiter_of(csv_line)).to eql(/, /)
         end
@@ -142,7 +142,7 @@ module Whammy
         end
       end
 
-      context "called with a pipe-delimited line" do
+      context "with a pipe-delimited line" do
         it "returns the correct delimiter" do
           expect(parser.delimiter_of(piped_line)).to eql(/ \| /)
         end
@@ -151,7 +151,7 @@ module Whammy
         end
       end
 
-      context "called with a space-delimited line" do
+      context "with a space-delimited line" do
         it "returns the correct delimiter" do
           expect(parser.delimiter_of(spaced_line)).to eql(/ /)
         end
@@ -164,7 +164,7 @@ module Whammy
     describe "#attributeify" do
       let(:values_arr) { ["Govan", "Guthrie", "male", "blue", "12/27/1971"] }
 
-      it "raises an ArgumentError with a line of the incorrect length" do
+      it "raises an ArgumentError with an array of the incorrect length" do
         too_long_arr = values_arr.push("potatoes")
         expect{ parser.attributeify(too_long_arr) }.to raise_error(ArgumentError)
       end
