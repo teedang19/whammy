@@ -22,7 +22,7 @@ module Whammy
     end
 
     def attributeify(values_arr)
-      raise ArgumentError.new("There are records in your file with an incorrect number of attributes.") unless values_arr.count == ATTRIBUTES.count
+      raise ArgumentError.new("ERROR: Incorrect number of attributes.") unless values_arr.count == ATTRIBUTES.count
 
       ATTRIBUTES.each_with_index.map { |attribute, index| [attribute, values_arr[index]] }.to_h
     end
