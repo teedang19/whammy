@@ -14,7 +14,7 @@ module Whammy
     end
 
     def split(line)
-      line.chomp.split(delimiter_of(line))
+      line.chomp.split delimiter_of(line)
     end
 
     def delimiter_of(line)
