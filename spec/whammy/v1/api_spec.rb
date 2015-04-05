@@ -11,32 +11,34 @@ module Whammy
       end
 
       describe "POST /api/v1/records" do
+        let(:test_db) {"spec/fixtures/files/test_db.txt"}
+
         before(:each) do
-          allow_any_instance_of(Database).to receive(:data_file).and_return("data/test.txt")
+          allow_any_instance_of(Database).to receive(:data_file).and_return(test_db)
         end
 
         after(:each) do
-          File.open("data/test.txt", "w") {}
+          File.open(test_db, "w") {}
         end
 
         context "with out of order params" do
           it "writes a JSON record to the db" do
             post "/api/v1/records", record: { gender: "female", first_name: "Patty", favorite_color: "orange", date_of_birth: "04/24/1967", last_name: "Schemel" }
-            expect(File.read("data/test.txt")).to eql("Schemel Patty female orange 04/24/1967\n")
+            expect(File.read(test_db)).to eql("Schemel Patty female orange 04/24/1967\n")
           end
         end
 
         context "with ordered params" do
           it "writes a JSON record to the db" do
             post "/api/v1/records", record: { last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971" }
-            expect(File.read("data/test.txt")).to eql("Govan Guthrie male blue 12/27/1971\n")
+            expect(File.read(test_db)).to eql("Govan Guthrie male blue 12/27/1971\n")
           end
         end
 
         context "with more than enough params" do
           it "writes a JSON record to the db" do
             post "/api/v1/records", record: { profession: "musician", last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", eye_color: "hazel", date_of_birth: "12/27/1971" }
-            expect(File.read("data/test.txt")).to eql("Govan Guthrie male blue 12/27/1971\n")
+            expect(File.read(test_db)).to eql("Govan Guthrie male blue 12/27/1971\n")
           end
         end
 
