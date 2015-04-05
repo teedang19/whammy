@@ -2,36 +2,38 @@ require_relative "../spec_helper"
 
 module Whammy
   describe CommandLineInterface do
-    let(:master_argv) { ["commas.txt", "--sort", "-b", "--master"] }
+    let(:file) { "spec/fixtures/files/commas.txt"}
+
+    let(:master_argv) { [file, "--sort", "-b", "--master"] }
     let(:master_cli) { CommandLineInterface.new(master_argv) }
-    let(:argv) { ["commas.txt", "--sort", "-b"] }
+
+    let(:argv) { [file, "--sort", "-b"] }
     let(:cli)  { CommandLineInterface.new(argv) }
-    let(:compiled_filename) { "data/#{DateTime.now.strftime("%m_%e_%y:%k_%M.txt")}" }
 
     describe "#initialize" do
       it "defines @options_parser" do
         expect(cli.instance_variable_get(:@options_parser)).to_not be_nil
       end
-
       it "sets @options_parser to a CommandLineOptionsParser" do
         expect(cli.instance_variable_get(:@options_parser)).to be_a(CommandLineOptionsParser)
       end
     end
 
     describe "#run!" do
+      let(:test_database) { "spec/fixtures/files/test_db.txt" }
+
       before do
-        allow_any_instance_of(Database).to receive(:data_file).and_return("data/test.txt")
+        allow_any_instance_of(Database).to receive(:data_file).and_return(test_database)
       end
 
       after do
-        File.open("data/test.txt", "w") {}
+        File.open(test_database, "w") {}
       end
 
       it "calls #write_files!" do
         expect(cli).to receive(:write_files!).exactly(1).times
         cli.run!
       end
-
       it "calls #display" do
         expect(cli).to receive(:display).exactly(1).times
         cli.run!
@@ -39,16 +41,18 @@ module Whammy
     end
 
     describe "#display" do
+      let(:data) { [{last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971"}] }
+
       it "outputs the data to the screen" do
-        data = [{last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971"}, {last_name: "Schemel", first_name: "Patty", gender: "female", favorite_color: "orange", date_of_birth: "04/24/1967"}]
-        expect{cli.display(data)}.to output("Govan\t\tGuthrie\t\tmale\t\tblue\t\t12/27/1971\nSchemel\t\tPatty\t\tfemale\t\torange\t\t04/24/1967\n"
-).to_stdout
+        expect{cli.display(data)}.to output("Govan\t\tGuthrie\t\tmale\t\tblue\t\t12/27/1971\n").to_stdout
       end
     end
 
     describe "#sorted_data" do
+      let(:example_data) { "spec/fixtures/files/example_db.txt"}
+
       before(:each) do
-        allow_any_instance_of(Database).to receive(:data_file).and_return("data/example_db.txt")
+        allow_any_instance_of(Database).to receive(:data_file).and_return(example_data)
       end
 
       it "returns an array" do
@@ -65,7 +69,7 @@ module Whammy
         no_sort_argv = ["commas.txt"]
         no_sort_cli = CommandLineInterface.new(no_sort_cli)
         it "returns data from the database" do
-          expect(no_sort_cli.sorted_data).to eql([{last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971"}, {last_name: "Schemel", first_name: "Patty", gender: "female", favorite_color: "orange", date_of_birth: "04/24/1967"}, {last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}, {last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}, {last_name: "Dang", first_name: "Tam", gender: "female", favorite_color: "blue", date_of_birth: "01/13/1990"}])
+          expect(no_sort_cli.sorted_data).to eql([{last_name: "Schemel", first_name: "Patty", gender: "female", favorite_color: "orange", date_of_birth: "04/24/1967"}, {last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}, {last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}])
         end
       end
 
@@ -73,7 +77,7 @@ module Whammy
         it "returns data sorted by gender and last name ascending" do
           gender_argv = ["commas.txt", "--sort", "-g"]
           gender_cli = CommandLineInterface.new(gender_argv)
-          expect(gender_cli.sorted_data).to eql([{last_name: "Dang", first_name: "Tam", gender: "female", favorite_color: "blue", date_of_birth: "01/13/1990"}, {last_name: "Schemel", first_name: "Patty", gender: "female", favorite_color: "orange", date_of_birth: "04/24/1967"}, {last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971"}, {last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}, {last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}])
+          expect(gender_cli.sorted_data).to eql([{last_name: "Schemel", first_name: "Patty", gender: "female", favorite_color: "orange", date_of_birth: "04/24/1967"}, {last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}, {last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}])
         end
       end
 
@@ -81,7 +85,7 @@ module Whammy
         it "returns data sorted by last name descending" do
           last_name_argv = ["commas.txt", "--sort", "-l"]
           last_name_cli = CommandLineInterface.new(last_name_argv)
-          expect(last_name_cli.sorted_data).to eql([{last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}, {last_name: "Schemel", first_name: "Patty", gender: "female", favorite_color: "orange", date_of_birth: "04/24/1967"}, {last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}, {last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971"}, {last_name: "Dang", first_name: "Tam", gender: "female", favorite_color: "blue", date_of_birth: "01/13/1990"}])
+          expect(last_name_cli.sorted_data).to eql([{last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}, {last_name: "Schemel", first_name: "Patty", gender: "female", favorite_color: "orange", date_of_birth: "04/24/1967"}, {last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}])
         end
       end
 
@@ -89,7 +93,7 @@ module Whammy
         it "returns data sorted by birthdate ascending" do
           birthdate_argv = ["commas.txt", "--sort", "-b"]
           birthdate_cli = CommandLineInterface.new(birthdate_argv)
-          expect(birthdate_cli.sorted_data).to eql([{last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}, {last_name: "Schemel", first_name: "Patty", gender: "female", favorite_color: "orange", date_of_birth: "04/24/1967"}, {last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}, {last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971"}, {last_name: "Dang", first_name: "Tam", gender: "female", favorite_color: "blue", date_of_birth: "01/13/1990"}])
+          expect(birthdate_cli.sorted_data).to eql([{last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}, {last_name: "Schemel", first_name: "Patty", gender: "female", favorite_color: "orange", date_of_birth: "04/24/1967"}, {last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}])
         end
       end
     end   
@@ -115,7 +119,7 @@ module Whammy
     describe "#files" do
       context "when the parser is called with one file" do
         it "returns an array of the file" do
-          expect(cli.files).to eql(["commas.txt"])
+          expect(cli.files).to eql(["spec/fixtures/files/commas.txt"])
         end
       end
 
@@ -129,17 +133,19 @@ module Whammy
     end
 
     describe "#write_files!" do
+      let(:test_database) { "spec/fixtures/files/test_db.txt" }
+
       before do
-        allow_any_instance_of(Database).to receive(:data_file).and_return("data/test.txt")
+        allow_any_instance_of(Database).to receive(:data_file).and_return(test_database)
       end
 
       after do
-        File.open("data/test.txt", "w") {}
+        File.open(test_database, "w") {}
       end
 
       it "writes line data to a new file" do
         cli.write_files!
-        expect(File.read("data/test.txt")).to eql("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\nReinhardt Django male green 01/23/1910\n")
+        expect(File.read(test_database)).to eql("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\nReinhardt Django male green 01/23/1910\n")
       end
     end
   end
