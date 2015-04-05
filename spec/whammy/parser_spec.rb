@@ -2,8 +2,7 @@ require_relative "../spec_helper"
 
 module Whammy
   describe Parser do
-    let(:files) { ["commas.txt", "pipes.txt"] }
-    let(:file) { files[0] }
+    let(:file) { "commas.txt" }
     let(:parser) { Parser.new }
 
     describe "#parse_file" do
