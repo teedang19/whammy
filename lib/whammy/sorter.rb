@@ -6,8 +6,8 @@ module Whammy
       @data = Database.new.read # will be master
     end
 
-    def sort!(method=nil) # TODO is this method brittle? for expecting a symbol.
-      case method
+    def sort!(method=nil)
+      case method # method.try(:to_sym) -- RAILS ONLY
       when :gender then ladies_first
       when :birthdate then oldest_first
       when :last_name then last_name_descending
