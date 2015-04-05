@@ -2,7 +2,7 @@ require_relative "../spec_helper"
 
 module Whammy
   describe CommandLineInterface do
-    let(:file) { "spec/fixtures/files/commas.txt"}
+    let(:file) { "spec/fixtures/files/commas.txt" }
 
     let(:master_argv) { [file, "--sort", "-b", "--master"] }
     let(:master_cli) { CommandLineInterface.new(master_argv) }
@@ -41,18 +41,18 @@ module Whammy
     end
 
     describe "#display" do
-      let(:data) { [{last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971"}] }
+      let(:data) { [ { last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971" } ] }
 
-      it "outputs the data" do
+      it "outputs the data to stdout" do
         expect{cli.display(data)}.to output("Govan\t\tGuthrie\t\tmale\t\tblue\t\t12/27/1971\n").to_stdout
       end
     end
 
     describe "#sorted_data" do
-      let(:example_data) { "spec/fixtures/files/example_db.txt"}
+      let(:example_db) { "spec/fixtures/files/example_db.txt" }
 
       before(:each) do
-        allow_any_instance_of(Database).to receive(:data_file).and_return(example_data)
+        allow_any_instance_of(Database).to receive(:data_file).and_return(example_db)
       end
 
       it "returns an array" do
@@ -66,33 +66,37 @@ module Whammy
       end
 
       context "no sorting" do
-        no_sort_argv = ["commas.txt"]
+        no_sort_argv = ["spec/fixtures/files/commas.txt"]
         no_sort_cli = CommandLineInterface.new(no_sort_cli)
+
         it "returns the data" do
           expect(no_sort_cli.sorted_data).to eql([{last_name: "Schemel", first_name: "Patty", gender: "female", favorite_color: "orange", date_of_birth: "04/24/1967"}, {last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}, {last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}])
         end
       end
 
       context "gender" do
-        it "returns data sorted by gender & last name ascending" do
-          gender_argv = ["--sort", "-g"]
-          gender_cli = CommandLineInterface.new(gender_argv)
+        gender_argv = ["--sort", "-g"]
+        gender_cli = CommandLineInterface.new(gender_argv)
+
+        it "returns data sorted by gender & last name asc" do
           expect(gender_cli.sorted_data).to eql([{last_name: "Schemel", first_name: "Patty", gender: "female", favorite_color: "orange", date_of_birth: "04/24/1967"}, {last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}, {last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}])
         end
       end
 
       context "last_name" do
-        it "returns data sorted by last name descending" do
-          last_name_argv = ["--sort", "-l"]
-          last_name_cli = CommandLineInterface.new(last_name_argv)
+        last_name_argv = ["--sort", "-l"]
+        last_name_cli = CommandLineInterface.new(last_name_argv)
+
+        it "returns data sorted by last name desc" do
           expect(last_name_cli.sorted_data).to eql([{last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}, {last_name: "Schemel", first_name: "Patty", gender: "female", favorite_color: "orange", date_of_birth: "04/24/1967"}, {last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}])
         end
       end
 
       context "birthdate" do
-        it "returns data sorted by birthdate ascending" do
-          birthdate_argv = ["--sort", "-b"]
-          birthdate_cli = CommandLineInterface.new(birthdate_argv)
+        birthdate_argv = ["--sort", "-b"]
+        birthdate_cli = CommandLineInterface.new(birthdate_argv)
+
+        it "returns data sorted by birthdate asc" do
           expect(birthdate_cli.sorted_data).to eql([{last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}, {last_name: "Schemel", first_name: "Patty", gender: "female", favorite_color: "orange", date_of_birth: "04/24/1967"}, {last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}])
         end
       end
@@ -117,17 +121,18 @@ module Whammy
     end
 
     describe "#files" do
-      context "when the parser is called with one file" do
+      context "with one file" do
         it "returns an array of the file" do
           expect(cli.files).to eql(["spec/fixtures/files/commas.txt"])
         end
       end
 
-      context "when the parser is called with multiple files" do
+      context "with multiple files" do
+        multiple_files_argv = ["spec/fixtures/files/commas.txt", "spec/fixtures/files/pipes.txt", "--sort", "-b"]
+        multiple_cli = CommandLineInterface.new(multiple_files_argv)
+        
         it "returns an array of all the files" do
-          multiple_files_argv = ["spec/fixtures/files/commas.txt", "spec/fixtures/files/pipes.txt", "--sort", "-b"]
-          cli = CommandLineInterface.new(multiple_files_argv)
-          expect(cli.files).to eql(["spec/fixtures/files/commas.txt", "spec/fixtures/files/pipes.txt"])
+          expect(multiple_cli.files).to eql(["spec/fixtures/files/commas.txt", "spec/fixtures/files/pipes.txt"])
         end
       end
     end
@@ -143,7 +148,7 @@ module Whammy
         File.open(test_database, "w") {}
       end
 
-      it "writes line data to a new file" do
+      it "writes the file's records to the db" do
         cli.write_files!
         expect(File.read(test_database)).to eql("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\nReinhardt Django male green 01/23/1910\n")
       end
