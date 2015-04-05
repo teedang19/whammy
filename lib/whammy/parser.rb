@@ -11,6 +11,10 @@ module Whammy
       split_lines(file).map { |values| values.join(" ") }
     end
 
+    def parsed_data(files)
+      files.map { |file| parse(file) }.flatten
+    end
+
     def parse(file)
       split_lines(file).map { |values| attributeify(values) }
     end
