@@ -3,18 +3,18 @@ require_relative "../spec_helper"
 module Whammy
   describe Database do
     let(:db) { Database.new }
-    let(:files) { ["commas.txt", "pipes.txt"] }
-    let(:file) { files[0]}
-    let(:line_data) { ["Govan Guthrie male blue 12/27/1971", "Schuldiner Chuck male orange 05/13/1967"] }
+    let(:files) { ["spec/fixtures/files/commas.txt", "spec/fixtures/files/pipes.txt"] }
+    let(:file) { files[0] }
+    let(:test_db) { "spec/fixtures/files/test_db.txt" }
 
     before(:each) do |example|
       unless example.metadata[:skip_before]
-        allow_any_instance_of(Database).to receive(:data_file).and_return("data/test.txt")
+        allow_any_instance_of(Database).to receive(:data_file).and_return(test_db)
       end
     end
 
     after(:each) do
-      File.open("data/test.txt", "w") {}
+      File.open(test_db, "w") {}
     end
 
     describe "#initialize" do
@@ -49,8 +49,10 @@ module Whammy
     end
 
     describe "#read" do
+      let(:example_db) { "spec/fixtures/files/example_db.txt" }
+
       before(:each) do
-        allow_any_instance_of(Database).to receive(:data_file).and_return("data/example_db.txt")
+        allow_any_instance_of(Database).to receive(:data_file).and_return(example_db)
       end
 
       it "returns an array" do
@@ -64,7 +66,7 @@ module Whammy
       end
 
       it "returns the data from the database file" do
-        expect(db.read).to eql([{last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971"}, {last_name: "Schemel", first_name: "Patty", gender: "female", favorite_color: "orange", date_of_birth: "04/24/1967"}, {last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}, {last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}, {last_name: "Dang", first_name: "Tam", gender: "female", favorite_color: "blue", date_of_birth: "01/13/1990"}])
+        expect(db.read).to eql([{last_name: "Schemel", first_name: "Patty", gender: "female", favorite_color: "orange", date_of_birth: "04/24/1967"}, {last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}, {last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}])
       end
     end
 
@@ -88,21 +90,21 @@ module Whammy
         let(:csv_line) { "Shore, Pauly, male, pink, 02/01/1968\n" }
         let(:piped_line) { "Schuldiner | Chuck | male | orange | 05/13/1967\n" }
 
-        context "given a space separated line" do
+        context "space separated line" do
           it "writes the line to the db" do
             db.write_line(spaced_line)
             expect(File.read(db.data_file)).to eql("Govan Guthrie male blue 12/27/1971\n")
           end
         end
 
-        context "given a csv line" do
+        context "csv separated line" do
           it "writes the line to the db" do
             db.write_line(csv_line)
             expect(File.read(db.data_file)).to eql("Shore Pauly male pink 02/01/1968\n")
           end
         end
 
-        context "given a pipe separated line" do
+        context "pipe separated line" do
           it "writes the line to the db" do
             db.write_line(piped_line)
             expect(File.read(db.data_file)).to eql("Schuldiner Chuck male orange 05/13/1967\n")
@@ -129,7 +131,7 @@ module Whammy
         end
 
         context "with more than enough attributes" do
-          it "still writes the attributes" do
+          it "writes only the needed attributes" do
             db.write_line(more_than_enough)
             expect(File.read(db.data_file)).to eql("Govan Guthrie male blue 12/27/1971\n")
           end
