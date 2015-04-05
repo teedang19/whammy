@@ -19,16 +19,47 @@ module Whammy
           File.open("data/test.txt", "w") {}
         end
 
-        xit "posts a JSON record" do
+        context "with out of order params" do
+          it "writes a JSON record to the db" do
+            post "/api/v1/records", record: { gender: "female", first_name: "Patty", favorite_color: "orange", date_of_birth: "04/24/1967", last_name: "Schemel" }
+            expect(File.read("data/test.txt")).to eql("Schemel Patty female orange 04/24/1967\n")
+          end
         end
 
-        xit "doesn't allow records to post without proper parameters" do
+        context "with ordered params" do
+          it "writes a JSON record to the db" do
+            post "/api/v1/records", record: { last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971" }
+            expect(File.read("data/test.txt")).to eql("Govan Guthrie male blue 12/27/1971\n")
+          end
         end
 
-        xit "returns the posted record" do
+        context "with more than enough params" do
+          it "writes a JSON record to the db" do
+            post "/api/v1/records", record: { profession: "musician", last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", eye_color: "hazel", date_of_birth: "12/27/1971" }
+            expect(File.read("data/test.txt")).to eql("Govan Guthrie male blue 12/27/1971\n")
+          end
         end
 
-        xit "returns a 301 for posted records" do
+        context "with too few params" do
+          it "doesn't allow records to post without proper parameters" do
+            post "/api/v1/records", record: { last_name: "Govan", first_name: "Guthrie", favorite_color: "blue", date_of_birth: "12/27/1971" }
+            expect(JSON.parse(last_response.body)).to eql({"error"=> "record[gender] is missing"})
+          end
+
+          it "returns a 400" do
+            post "/api/v1/records", record: { last_name: "Govan", first_name: "Guthrie", favorite_color: "blue", date_of_birth: "12/27/1971" }
+            expect(last_response.status).to eql(400)
+          end
+        end
+
+        it "returns the posted record" do
+          post "/api/v1/records", record: { last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971" }
+          expect(JSON.parse(last_response.body)).to eql({"last_name"=>"Govan", "first_name"=>"Guthrie", "gender"=>"male", "favorite_color"=>"blue", "date_of_birth"=>"12/27/1971"})
+        end
+
+        it "returns a 201 for posted records" do
+          post "/api/v1/records", record: { last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971" }
+          expect(last_response.status).to eql(201)
         end
       end
 
