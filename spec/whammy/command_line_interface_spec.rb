@@ -43,7 +43,7 @@ module Whammy
     describe "#display" do
       let(:data) { [{last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971"}] }
 
-      it "outputs the data to the screen" do
+      it "outputs the data" do
         expect{cli.display(data)}.to output("Govan\t\tGuthrie\t\tmale\t\tblue\t\t12/27/1971\n").to_stdout
       end
     end
@@ -59,7 +59,7 @@ module Whammy
         expect(cli.sorted_data).to be_a(Array)
       end
 
-      it "returns an array of hash data" do
+      it "returns an array of hashes" do
         cli.sorted_data.each do |element|
           expect(element).to be_a(Hash)
         end
@@ -68,14 +68,14 @@ module Whammy
       context "no sorting" do
         no_sort_argv = ["commas.txt"]
         no_sort_cli = CommandLineInterface.new(no_sort_cli)
-        it "returns data from the database" do
+        it "returns the data" do
           expect(no_sort_cli.sorted_data).to eql([{last_name: "Schemel", first_name: "Patty", gender: "female", favorite_color: "orange", date_of_birth: "04/24/1967"}, {last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}, {last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}])
         end
       end
 
       context "gender" do
-        it "returns data sorted by gender and last name ascending" do
-          gender_argv = ["commas.txt", "--sort", "-g"]
+        it "returns data sorted by gender & last name ascending" do
+          gender_argv = ["--sort", "-g"]
           gender_cli = CommandLineInterface.new(gender_argv)
           expect(gender_cli.sorted_data).to eql([{last_name: "Schemel", first_name: "Patty", gender: "female", favorite_color: "orange", date_of_birth: "04/24/1967"}, {last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}, {last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}])
         end
@@ -83,7 +83,7 @@ module Whammy
 
       context "last_name" do
         it "returns data sorted by last name descending" do
-          last_name_argv = ["commas.txt", "--sort", "-l"]
+          last_name_argv = ["--sort", "-l"]
           last_name_cli = CommandLineInterface.new(last_name_argv)
           expect(last_name_cli.sorted_data).to eql([{last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}, {last_name: "Schemel", first_name: "Patty", gender: "female", favorite_color: "orange", date_of_birth: "04/24/1967"}, {last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}])
         end
@@ -91,7 +91,7 @@ module Whammy
 
       context "birthdate" do
         it "returns data sorted by birthdate ascending" do
-          birthdate_argv = ["commas.txt", "--sort", "-b"]
+          birthdate_argv = ["--sort", "-b"]
           birthdate_cli = CommandLineInterface.new(birthdate_argv)
           expect(birthdate_cli.sorted_data).to eql([{last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}, {last_name: "Schemel", first_name: "Patty", gender: "female", favorite_color: "orange", date_of_birth: "04/24/1967"}, {last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}])
         end
@@ -99,18 +99,18 @@ module Whammy
     end   
 
     describe "#sort_by" do
-      it "returns the correct symbol for birthdate" do
+      it "returns the symbol for birthdate" do
         expect(cli.sort_by).to eql(:birthdate)
       end
 
-      it "returns the correct symbol for gender" do
-        gender_argv = ["commas.txt", "--sort", "-g"]
+      it "returns the symbol for gender" do
+        gender_argv = ["--sort", "-g"]
         gender_cli = CommandLineInterface.new(gender_argv)
         expect(gender_cli.sort_by).to eql(:gender)
       end
 
-      it "returns the correct symbol for last_name" do
-        last_name_argv = ["commas.txt", "--sort", "-l"]
+      it "returns the symbol for last_name" do
+        last_name_argv = ["--sort", "-l"]
         last_name_cli = CommandLineInterface.new(last_name_argv)
         expect(last_name_cli.sort_by).to eql(:last_name)
       end
@@ -125,9 +125,9 @@ module Whammy
 
       context "when the parser is called with multiple files" do
         it "returns an array of all the files" do
-          multiple_files_argv = ["commas.txt", "pipes.txt", "--sort", "-b"]
+          multiple_files_argv = ["spec/fixtures/files/commas.txt", "spec/fixtures/files/pipes.txt", "--sort", "-b"]
           cli = CommandLineInterface.new(multiple_files_argv)
-          expect(cli.files).to eql(["commas.txt", "pipes.txt"])
+          expect(cli.files).to eql(["spec/fixtures/files/commas.txt", "spec/fixtures/files/pipes.txt"])
         end
       end
     end
