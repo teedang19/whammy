@@ -22,17 +22,17 @@ module Whammy
           Database.new.write_line(params[:record])
         end
 
-        desc "return records sorted by gender, women first && last name ascending"
+        desc "return records gender-sorted: women first && last name ascending"
         get :gender do
           { records: Sorter.new.sort!(:gender) }
         end
 
-        desc "return records sorted by birthdate, oldest first"
+        desc "return records birthdate-sorted: oldest first"
         get :birthdate do
           { records: Sorter.new.sort!(:birthdate) }
         end
 
-        desc "return records sorted by last name, descending"
+        desc "return records last-name-sorted: descending"
         get :name do
           { records: Sorter.new.sort!(:last_name) }
         end
