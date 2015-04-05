@@ -2,7 +2,6 @@ require_relative "../spec_helper"
 
 module Whammy
   describe Parser do
-    let(:file) { "commas.txt" }
     let(:parser) { Parser.new }
 
     describe "#parse_file" do
@@ -28,6 +27,56 @@ module Whammy
         end
       end
     end
+
+    describe "#parse_entry" do
+      context "given a string" do
+        let(:valid_str) { "Shore | Pauly | male | pink | 02/01/1968" }
+        let(:invalid_str) { "Emmanuel | Rahm | male | green" }
+
+        it "returns the string as a hash of attributes" do
+          expect(parser.parse_entry(valid_str)).to eql({ last_name: "Shore", first_name: "Pauly", gender: "male", favorite_color: "pink", date_of_birth: "02/01/1968"})
+        end
+
+        it "raises an error for invalid length strings" do
+          expect{ parser.parse_entry(invalid_str) }.to raise_error(ArgumentError)
+        end
+      end
+
+      context "given a hash" do
+        let(:out_of_order) { { first_name: "Pauly", gender: "male", date_of_birth: "02/01/1968", last_name: "Shore", favorite_color: "pink" } }
+        let(:too_few) { { last_name: "Shore", first_name: "Pauly", gender: "male", favorite_color: "pink" } }
+        let(:big) { { last_name: "Shore", first_name: "Pauly", favorite_movie: "Inceno Man", gender: "male", favorite_color: "pink", date_of_birth: "02/01/1968" } }
+
+        it "returns the hash in the correct order" do
+          expect(parser.parse_entry(out_of_order)).to eql({ last_name: "Shore", first_name: "Pauly", gender: "male", favorite_color: "pink", date_of_birth: "02/01/1968"})
+        end
+
+        it "raises an error for hashes with too few attributes" do
+          expect{ parser.parse_entry(too_few) }.to raise_error(ArgumentError)
+        end
+
+        it "works for hashes with more than the required attributes" do
+          expect(parser.parse_entry(big)).to eql({ last_name: "Shore", first_name: "Pauly", gender: "male", favorite_color: "pink", date_of_birth: "02/01/1968"})
+        end
+      end
+    end
+
+    describe "#is_valid?" do
+      xit "TODO" do
+      end
+    end
+
+    describe "#all_values_present?" do
+      xit "TODO" do
+      end
+    end
+
+    describe "#ordered_attributes" do
+      xit "TODO" do
+      end
+    end
+
+    let(:file) { "commas.txt" }
 
     describe "#split_lines" do
       it "returns an array" do

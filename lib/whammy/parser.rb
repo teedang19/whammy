@@ -7,7 +7,25 @@ module Whammy
       split_lines(file).map { |values| attributeify(values) }
     end
 
+    def parse_entry(entry)
+      return ordered_attributes(entry) if is_valid?(entry)
+      attributeify split(entry)
+    end
+
     # private # TODO should these methods be private?
+
+    def is_valid?(entry)
+      entry.is_a?(Hash) && all_values_present?(entry)
+    end
+
+    def all_values_present?(entry)
+      raise ArgumentError.new("ERROR: Missing attributes.") unless ATTRIBUTES.all? { |attribute| entry.has_key?(attribute) }
+      true
+    end
+
+    def ordered_attributes(entry)
+      ATTRIBUTES.map { |attribute| [attribute, entry[attribute]] }.to_h
+    end
 
     def split_lines(file)
       File.readlines(file).map { |line| split(line) }
