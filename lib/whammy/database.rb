@@ -4,8 +4,8 @@ module Whammy
   class Database
     MASTER_DB = "database.txt"
 
-    def initialize(master=true)
-      @filename = master ? MASTER_DB : DateTime.now.strftime("%m_%d_%y:%k_%M.txt")
+    def initialize(use_master=true)
+      @filename = use_master ? MASTER_DB : DateTime.now.strftime("%m_%d_%y:%k_%M.txt")
       @parser = Parser.new
     end
 
