@@ -61,21 +61,6 @@ module Whammy
       end
     end
 
-    describe "#is_valid?" do
-      xit "TODO" do
-      end
-    end
-
-    describe "#all_values_present?" do
-      xit "TODO" do
-      end
-    end
-
-    describe "#ordered_attributes" do
-      xit "TODO" do
-      end
-    end
-
     let(:file) { "spec/fixtures/files/commas.txt" }
 
     describe "#split_lines" do
