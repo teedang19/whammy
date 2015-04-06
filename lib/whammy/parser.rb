@@ -4,16 +4,12 @@ module Whammy
     ATTRIBUTES = [ :last_name, :first_name, :gender, :favorite_color, :date_of_birth ]
 
     def parse_file(file)
-      split_lines(file).map { |values| set_attributes(values) }
+      File.readlines(file).map { |line| parse_entry(line) }
     end
 
     def parse_entry(entry)
       return ordered_attributes(entry) if valid_entry?(entry)
       set_attributes split(entry)
-    end
-
-    def split_lines(file)
-      File.readlines(file).map { |line| split(line) }
     end
 
     def split(line)

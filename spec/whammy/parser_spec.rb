@@ -61,24 +61,6 @@ module Whammy
       end
     end
 
-    let(:file) { "spec/fixtures/files/commas.txt" }
-
-    describe "#split_lines" do
-      it "returns an array" do
-        expect(parser.split_lines(file)).to be_a(Array)
-      end
-
-      it "returns an array of arrays" do
-        parser.split_lines(file).each do |element|
-          expect(element).to be_a(Array)
-        end
-      end
-
-      it "returns the file as an array of split lines" do
-        expect(parser.split_lines(file)).to eql([["Govan", "Guthrie", "male", "blue", "12/27/1971"], ["Schuldiner", "Chuck", "male", "orange", "05/13/1967"], ["Reinhardt", "Django", "male", "green", "01/23/1910"]])
-      end
-    end
-
     let(:csv_line) { "Govan, Guthrie, male, blue, 12/27/1971" }
     let(:piped_line) { "Shore | Pauly | male | pink | 02/01/1968" }
     let(:spaced_line) { "Dang Tam female purple 01/13/1990" }
