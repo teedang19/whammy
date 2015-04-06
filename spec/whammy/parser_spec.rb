@@ -161,16 +161,16 @@ module Whammy
       end
     end
 
-    describe "#attributeify" do
+    describe "#set_attributes" do
       let(:values_arr) { ["Govan", "Guthrie", "male", "blue", "12/27/1971"] }
 
       it "raises an ArgumentError with an array of the incorrect length" do
         too_long_arr = values_arr.push("potatoes")
-        expect{ parser.attributeify(too_long_arr) }.to raise_error(ArgumentError)
+        expect{ parser.set_attributes(too_long_arr) }.to raise_error(ArgumentError)
       end
 
       it "hashes the array into attributes" do
-        expect(parser.attributeify(values_arr)).to eql({ last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971"})
+        expect(parser.set_attributes(values_arr)).to eql({ last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971"})
       end
     end
   end
