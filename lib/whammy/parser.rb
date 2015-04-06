@@ -8,13 +8,13 @@ module Whammy
     end
 
     def parse_entry(entry)
-      return ordered_attributes(entry) if is_valid?(entry)
+      return ordered_attributes(entry) if valid_entry?(entry)
       set_attributes split(entry)
     end
 
     # private # TODO should these methods be private?
 
-    def is_valid?(entry)
+    def valid_entry?(entry)
       entry.is_a?(Hash) && all_values_present?(entry)
     end
 
