@@ -12,21 +12,6 @@ module Whammy
       set_attributes split(entry)
     end
 
-    # private # TODO should these methods be private?
-
-    def valid_entry?(entry)
-      entry.is_a?(Hash) && all_values_present?(entry)
-    end
-
-    def all_values_present?(entry)
-      raise ArgumentError.new("ERROR: Missing attributes.") unless ATTRIBUTES.all? { |attribute| entry.has_key?(attribute) }
-      true
-    end
-
-    def ordered_attributes(entry)
-      ATTRIBUTES.map { |attribute| [attribute, entry[attribute]] }.to_h
-    end
-
     def split_lines(file)
       File.readlines(file).map { |line| split(line) }
     end
@@ -43,6 +28,21 @@ module Whammy
       raise ArgumentError.new("ERROR: Incorrect number of attributes.") unless values_arr.count == ATTRIBUTES.count
 
       ATTRIBUTES.each_with_index.map { |attribute, index| [attribute, values_arr[index]] }.to_h
+    end
+
+    private
+
+    def valid_entry?(entry)
+      entry.is_a?(Hash) && all_values_present?(entry)
+    end
+
+    def all_values_present?(entry)
+      raise ArgumentError.new("ERROR: Missing attributes.") unless ATTRIBUTES.all? { |attribute| entry.has_key?(attribute) }
+      true
+    end
+
+    def ordered_attributes(entry)
+      ATTRIBUTES.map { |attribute| [attribute, entry[attribute]] }.to_h
     end
   end
 end
