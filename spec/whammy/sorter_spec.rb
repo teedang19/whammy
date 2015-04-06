@@ -17,6 +17,13 @@ module Whammy
       it "sets @data to the data read from the database" do
         expect(sorter.instance_variable_get(:@data)).to eql([{last_name: "Schemel", first_name: "Patty", gender: "female", favorite_color: "orange", date_of_birth: "04/24/1967"}, {last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}, {last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}])
       end
+
+      let(:random_db) { Database.new }
+
+      it "reads from the database passed in, if there is one" do
+        expect(random_db).to receive(:read).exactly(1).times
+        Sorter.new(random_db)
+      end
     end
 
     describe "#sort!" do
