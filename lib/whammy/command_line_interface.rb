@@ -22,7 +22,7 @@ module Whammy
     end
 
     def display_file_location
-      puts "\nYour data is located at #{compiled_filename}."
+      puts "\n\nYour data is located at #{compiled_filename}."
     end
 
     def sort_by

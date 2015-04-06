@@ -123,7 +123,7 @@ module Whammy
       end
 
       it "outputs the filename of the compiled data" do
-        expect{cli.display_file_location}.to output("\nYour data is located at #{example_db}.\n").to_stdout
+        expect{cli.display_file_location}.to output("\n\nYour data is located at #{example_db}.\n").to_stdout
       end
     end
 

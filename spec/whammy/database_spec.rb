@@ -3,7 +3,7 @@ require_relative "../spec_helper"
 module Whammy
   describe Database do
     let(:temp_db) { Database.new(false) }
-    let(:temp_filename) { DateTime.now.strftime("%m_%d_%y:%k_%M.txt") }
+    let(:temp_filename) { DateTime.now.strftime("%m_%d_%y:%I_%M.txt") }
     let(:master_db) { Database.new }
     let(:files) { ["spec/fixtures/files/commas.txt", "spec/fixtures/files/pipes.txt"] }
     let(:file) { files[0] }
