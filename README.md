@@ -20,4 +20,4 @@ I develop almost exclusively in Rails, and when you're outside of the framework 
 **I don't know what 'parse' means**   
 This one gave me the most trouble. What should a ``Parser`` do, and what does it mean to ``parse`` something? Is it like splitting a line? Is it more like assigning values to attributes? What kinds of things should it be able to parse -- entire files? One file at a time? One line at a time? All of the above? The words ``parse``, ``split``, ``line``, ``record``, and ``entry`` started to blend together. It was difficult to determine what messages a parser should respond to, how much it should be capable of, and what kind of data it should return. My ``Parser`` class saw the most change as the app evolved, and unfortunately I think it's the messiest class.
 
-####Thank you.
+####Thank you
