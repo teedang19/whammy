@@ -1,6 +1,5 @@
 # whammy
-[whammy-bar](http://imgur.com/OGKaalF)   
-[whammy-bar](http://i.imgur.com/OGKaalF.gifv)   
+![whammy-bar](http://imgur.com/OGKaalF.gif)   
 *Steve Vai whammying it up*
 
 This page is a reflection about working on this challenge. [Click here for API Documentation.](https://github.com/teedang19/whammy/wiki)
