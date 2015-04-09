@@ -66,7 +66,31 @@ module Whammy
       end
 
       it "returns the data from the database file" do
-        expect(db.read).to eql([{last_name: "Schemel", first_name: "Patty", gender: "female", favorite_color: "orange", date_of_birth: "04/24/1967"}, {last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}, {last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}])
+        expect(db.read).to eql(
+          [
+            {
+              last_name: "Schemel",
+              first_name: "Patty",
+              gender: "female",
+              favorite_color: "orange",
+              date_of_birth: "04/24/1967"
+            },
+            {
+              last_name: "Schuldiner",
+              first_name: "Chuck",
+              gender: "male",
+              favorite_color: "orange",
+              date_of_birth: "05/13/1967"
+            },
+            {
+              last_name: "Reinhardt",
+              first_name: "Django",
+              gender: "male",
+              favorite_color: "green",
+              date_of_birth: "01/23/1910"
+            }
+          ]
+        )
       end
     end
 
@@ -113,9 +137,34 @@ module Whammy
       end
 
       context "given a hash" do
-        let(:out_of_order) { {first_name: "Guthrie", favorite_color: "blue", last_name: "Govan", date_of_birth: "12/27/1971", gender: "male"}}
-        let(:too_few) { {first_name: "Guthrie", date_of_birth: "12/27/1971"} }
-        let(:more_than_enough) { {eye_color: "hazel", first_name: "Guthrie", profession: "guitarist", favorite_color: "blue", last_name: "Govan", date_of_birth: "12/27/1971", gender: "male"} }
+        let(:out_of_order) {
+          {
+            first_name: "Guthrie",
+            favorite_color: "blue",
+            last_name: "Govan",
+            date_of_birth: "12/27/1971",
+            gender: "male"
+          }
+        }
+
+        let(:too_few) {
+          {
+            first_name: "Guthrie",
+            date_of_birth: "12/27/1971"
+          }
+        }
+
+        let(:more_than_enough) {
+          {
+            eye_color: "hazel",
+            first_name: "Guthrie",
+            profession: "guitarist",
+            favorite_color: "blue",
+            last_name: "Govan",
+            date_of_birth: "12/27/1971",
+            gender: "male"
+          }
+        }
 
         context "with out-of-order attributes" do
           it "writes the attributes in the correct order" do
