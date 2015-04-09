@@ -103,7 +103,7 @@ module Whammy
     describe "#parse_entry" do
       context "given a string" do
         let(:valid_str) { "Shore | Pauly | male | pink | 02/01/1968" }
-        let(:invalid_str) { "Emmanuel | Rahm | male | green" }
+        let(:too_few_attrs) { "Emmanuel | Rahm | male | green" }
 
         it "returns the string as a hash of attributes" do
           expect(parser.parse_entry(valid_str)).to eql(
@@ -117,8 +117,8 @@ module Whammy
           )
         end
 
-        it "raises an error for invalid length strings" do
-          expect{ parser.parse_entry(invalid_str) }.to raise_error(ArgumentError)
+        it "raises an error for strings with too few attributes" do
+          expect{ parser.parse_entry(too_few_attrs) }.to raise_error(ArgumentError)
         end
       end
 
