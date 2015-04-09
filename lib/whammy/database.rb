@@ -11,12 +11,12 @@ module Whammy
       "data/"
     end
 
-    def data_file
+    def data_filename
       "#{data_dir}#{@filename}"
     end
 
     def read
-      @parser.parse_file(data_file)
+      @parser.parse_file(data_filename)
     end
 
     def write_files(files)
@@ -29,7 +29,7 @@ module Whammy
 
     def write_line(entry)
       record = get_data(entry)
-      File.open(data_file, "a") do |file|
+      File.open(data_filename, "a") do |file|
         file.puts normalize(record)
       end
       record

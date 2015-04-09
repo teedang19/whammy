@@ -9,7 +9,7 @@ module Whammy
 
     before(:each) do |example|
       unless example.metadata[:skip_before]
-        allow_any_instance_of(Database).to receive(:data_file).and_return(test_db)
+        allow_any_instance_of(Database).to receive(:data_filename).and_return(test_db)
       end
     end
 
@@ -41,10 +41,10 @@ module Whammy
       end
     end
 
-    describe "#data_file", :skip_before do
+    describe "#data_filename", :skip_before do
       it "returns the path of the data file" do
         filename = db.instance_variable_get(:@filename)
-        expect(db.data_file).to eql("data/#{filename}")
+        expect(db.data_filename).to eql("data/#{filename}")
       end
     end
 
@@ -52,7 +52,7 @@ module Whammy
       let(:example_db) { "spec/fixtures/files/example_db.txt" }
 
       before(:each) do
-        allow_any_instance_of(Database).to receive(:data_file).and_return(example_db)
+        allow_any_instance_of(Database).to receive(:data_filename).and_return(example_db)
       end
 
       it "returns an array" do
@@ -97,14 +97,14 @@ module Whammy
     describe "#write_files" do
       it "writes each file to the db" do
         db.write_files(files)
-        expect(File.read(db.data_file)).to eql("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\nReinhardt Django male green 01/23/1910\nShore Pauly male pink 02/01/1968\nSchwarzenegger Arnold male blue 07/30/1947\nMcDormand Frances female green 06/23/1957\n")
+        expect(File.read(db.data_filename)).to eql("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\nReinhardt Django male green 01/23/1910\nShore Pauly male pink 02/01/1968\nSchwarzenegger Arnold male blue 07/30/1947\nMcDormand Frances female green 06/23/1957\n")
       end
     end
 
     describe "#write_file" do
       it "writes the file to the db" do
         db.write_file(file)
-        expect(File.read(db.data_file)).to eql("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\nReinhardt Django male green 01/23/1910\n")
+        expect(File.read(db.data_filename)).to eql("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\nReinhardt Django male green 01/23/1910\n")
       end
     end
 
@@ -117,21 +117,21 @@ module Whammy
         context "space separated line" do
           it "writes the line to the db" do
             db.write_line(spaced_line)
-            expect(File.read(db.data_file)).to eql("Govan Guthrie male blue 12/27/1971\n")
+            expect(File.read(db.data_filename)).to eql("Govan Guthrie male blue 12/27/1971\n")
           end
         end
 
         context "csv separated line" do
           it "writes the line to the db" do
             db.write_line(csv_line)
-            expect(File.read(db.data_file)).to eql("Shore Pauly male pink 02/01/1968\n")
+            expect(File.read(db.data_filename)).to eql("Shore Pauly male pink 02/01/1968\n")
           end
         end
 
         context "pipe separated line" do
           it "writes the line to the db" do
             db.write_line(piped_line)
-            expect(File.read(db.data_file)).to eql("Schuldiner Chuck male orange 05/13/1967\n")
+            expect(File.read(db.data_filename)).to eql("Schuldiner Chuck male orange 05/13/1967\n")
           end
         end
       end
@@ -169,7 +169,7 @@ module Whammy
         context "with out-of-order attributes" do
           it "writes the attributes in the correct order" do
             db.write_line(out_of_order)
-            expect(File.read(db.data_file)).to eql("Govan Guthrie male blue 12/27/1971\n")
+            expect(File.read(db.data_filename)).to eql("Govan Guthrie male blue 12/27/1971\n")
           end
         end
 
@@ -182,7 +182,7 @@ module Whammy
         context "with more than enough attributes" do
           it "writes only the needed attributes" do
             db.write_line(more_than_enough)
-            expect(File.read(db.data_file)).to eql("Govan Guthrie male blue 12/27/1971\n")
+            expect(File.read(db.data_filename)).to eql("Govan Guthrie male blue 12/27/1971\n")
           end
         end
       end

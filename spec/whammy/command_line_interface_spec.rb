@@ -23,7 +23,7 @@ module Whammy
       let(:test_database) { "spec/fixtures/files/test_db.txt" }
 
       before do
-        allow_any_instance_of(Database).to receive(:data_file).and_return(test_database)
+        allow_any_instance_of(Database).to receive(:data_filename).and_return(test_database)
       end
 
       after do
@@ -60,7 +60,7 @@ module Whammy
       let(:example_db) { "spec/fixtures/files/example_db.txt" }
 
       before(:each) do
-        allow_any_instance_of(Database).to receive(:data_file).and_return(example_db)
+        allow_any_instance_of(Database).to receive(:data_filename).and_return(example_db)
       end
 
       it "returns an array" do
@@ -253,7 +253,7 @@ module Whammy
       let(:test_database) { "spec/fixtures/files/test_db.txt" }
 
       before do
-        allow_any_instance_of(Database).to receive(:data_file).and_return(test_database)
+        allow_any_instance_of(Database).to receive(:data_filename).and_return(test_database)
       end
 
       after do

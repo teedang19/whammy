@@ -14,7 +14,7 @@ module Whammy
         let(:test_db) { "spec/fixtures/files/test_db.txt" }
 
         before(:each) do
-          allow_any_instance_of(Database).to receive(:data_file).and_return(test_db)
+          allow_any_instance_of(Database).to receive(:data_filename).and_return(test_db)
         end
 
         after(:each) do
@@ -118,7 +118,7 @@ module Whammy
       let(:example_db) { "spec/fixtures/files/example_db.txt" }
 
       before(:each) do
-        allow_any_instance_of(Database).to receive(:data_file).and_return(example_db)
+        allow_any_instance_of(Database).to receive(:data_filename).and_return(example_db)
       end
 
       describe "GET /api/v1/records/gender" do
