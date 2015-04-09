@@ -10,7 +10,7 @@ module Whammy
 
     def parse_options!
       sort_by = nil
-      write_to_master = false # TODO remove or implement
+      write_to_master = false
 
       @options_parser.on("--sort ENUM", ["-b", "-g", "-l"]) do |flag|
         case flag
@@ -25,7 +25,7 @@ module Whammy
       files = @options_parser.parse(@argv)
       [files, sort_by, write_to_master]
 
-      rescue OptionParser::InvalidOption => e # TODO can we combine this error handling?
+      rescue OptionParser::InvalidOption => e
         puts "#{e.message}\nTry again!"
       rescue OptionParser::InvalidArgument => e
         puts "#{e.message}\nTry again!"
