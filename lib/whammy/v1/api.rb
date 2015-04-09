@@ -19,7 +19,8 @@ module Whammy
           end
         end
         post do
-          Database.new.write_line(params[:record])
+          record = Database.new.write_line(params[:record])
+          { record: record }
         end
 
         desc "return records gender-sorted: women first && last name ascending"

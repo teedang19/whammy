@@ -30,12 +30,14 @@ module Whammy
             date_of_birth: "12/27/1971"
           }
           expect(JSON.parse(last_response.body)).to eql(
-            {
-              "last_name"=>"Govan",
-              "first_name"=>"Guthrie",
-              "gender"=>"male",
-              "favorite_color"=>"blue",
-              "date_of_birth"=>"12/27/1971"
+            { "record" =>
+              {
+                "last_name"=>"Govan",
+                "first_name"=>"Guthrie",
+                "gender"=>"male",
+                "favorite_color"=>"blue",
+                "date_of_birth"=>"12/27/1971"
+              }
             }
           )
         end
