@@ -2,7 +2,9 @@ require_relative "../spec_helper"
 
 module Whammy
   describe Database do
-    let(:db) { Database.new }
+    let(:temp_db) { Database.new(false) }
+    let(:temp_filename) { DateTime.now.strftime("%m_%d_%y:%k_%M.txt") }
+    let(:master_db) { Database.new }
     let(:files) { ["spec/fixtures/files/commas.txt", "spec/fixtures/files/pipes.txt"] }
     let(:file) { files[0] }
     let(:test_db) { "spec/fixtures/files/test_db.txt" }
@@ -18,33 +20,48 @@ module Whammy
     end
 
     describe "#initialize" do
-      it "defines @filename" do
-        expect(db.instance_variable_get(:@filename)).to_not be_nil
-      end
-
-      it "sets @filename to the master db" do
-        expect(db.instance_variable_get(:@filename)).to eql("database.txt")
-      end
-
       it "defines @parser" do
-        expect(db.instance_variable_get(:@parser)).to_not be_nil
+        expect(master_db.instance_variable_get(:@parser)).to_not be_nil
       end
 
       it "sets @parser to a new Parser" do
-        expect(db.instance_variable_get(:@parser)).to be_a(Parser)
+        expect(master_db.instance_variable_get(:@parser)).to be_a(Parser)
+      end
+
+      it "defines @filename" do
+        expect(master_db.instance_variable_get(:@filename)).to_not be_nil
+      end
+
+      context "writing to master" do
+        it "sets @filename to the master db" do
+          expect(master_db.instance_variable_get(:@filename)).to eql("database.txt")
+        end
+      end
+
+      context "writing to a new file" do
+        it "sets @filename to a new Datetime string" do
+          expect(temp_db.instance_variable_get(:@filename)).to eql(temp_filename)
+        end
       end
     end
 
     describe "#data_dir" do
       it "returns the path of the data directory" do
-        expect(db.data_dir).to eql("data/")
+        expect(master_db.data_dir).to eql("data/")
       end
     end
 
     describe "#data_filename", :skip_before do
-      it "returns the path of the data file" do
-        filename = db.instance_variable_get(:@filename)
-        expect(db.data_filename).to eql("data/#{filename}")
+      context "wrtiing to master" do
+        it "returns the path of the data file" do
+          expect(master_db.data_filename).to eql("data/database.txt")
+        end
+      end
+
+      context "writing to a new file" do
+        it "returns the path of the data file" do
+          expect(temp_db.data_filename).to eql("data/#{temp_filename}")
+        end
       end
     end
 
@@ -56,17 +73,17 @@ module Whammy
       end
 
       it "returns an array" do
-        expect(db.read).to be_a(Array)
+        expect(master_db.read).to be_a(Array)
       end
 
       it "returns an array of hashes" do
-        db.read.each do |element|
+        master_db.read.each do |element|
           expect(element).to be_a(Hash)
         end
       end
 
       it "returns the data from the database file" do
-        expect(db.read).to eql(
+        expect(master_db.read).to eql(
           [
             {
               last_name: "Schemel",
@@ -96,15 +113,15 @@ module Whammy
 
     describe "#write_files" do
       it "writes each file to the db" do
-        db.write_files(files)
-        expect(File.read(db.data_filename)).to eql("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\nReinhardt Django male green 01/23/1910\nShore Pauly male pink 02/01/1968\nSchwarzenegger Arnold male blue 07/30/1947\nMcDormand Frances female green 06/23/1957\n")
+        master_db.write_files(files)
+        expect(File.read(master_db.data_filename)).to eql("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\nReinhardt Django male green 01/23/1910\nShore Pauly male pink 02/01/1968\nSchwarzenegger Arnold male blue 07/30/1947\nMcDormand Frances female green 06/23/1957\n")
       end
     end
 
     describe "#write_file" do
       it "writes the file to the db" do
-        db.write_file(file)
-        expect(File.read(db.data_filename)).to eql("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\nReinhardt Django male green 01/23/1910\n")
+        master_db.write_file(file)
+        expect(File.read(master_db.data_filename)).to eql("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\nReinhardt Django male green 01/23/1910\n")
       end
     end
 
@@ -116,22 +133,22 @@ module Whammy
 
         context "space separated line" do
           it "writes the line to the db" do
-            db.write_line(spaced_line)
-            expect(File.read(db.data_filename)).to eql("Govan Guthrie male blue 12/27/1971\n")
+            master_db.write_line(spaced_line)
+            expect(File.read(master_db.data_filename)).to eql("Govan Guthrie male blue 12/27/1971\n")
           end
         end
 
         context "csv separated line" do
           it "writes the line to the db" do
-            db.write_line(csv_line)
-            expect(File.read(db.data_filename)).to eql("Shore Pauly male pink 02/01/1968\n")
+            master_db.write_line(csv_line)
+            expect(File.read(master_db.data_filename)).to eql("Shore Pauly male pink 02/01/1968\n")
           end
         end
 
         context "pipe separated line" do
           it "writes the line to the db" do
-            db.write_line(piped_line)
-            expect(File.read(db.data_filename)).to eql("Schuldiner Chuck male orange 05/13/1967\n")
+            master_db.write_line(piped_line)
+            expect(File.read(master_db.data_filename)).to eql("Schuldiner Chuck male orange 05/13/1967\n")
           end
         end
       end
@@ -168,21 +185,21 @@ module Whammy
 
         context "with out-of-order attributes" do
           it "writes the attributes in the correct order" do
-            db.write_line(out_of_order)
-            expect(File.read(db.data_filename)).to eql("Govan Guthrie male blue 12/27/1971\n")
+            master_db.write_line(out_of_order)
+            expect(File.read(master_db.data_filename)).to eql("Govan Guthrie male blue 12/27/1971\n")
           end
         end
 
         context "with too few attributes" do
           it "raises an error" do
-            expect{db.write_line(too_few)}.to raise_error(ArgumentError)
+            expect{master_db.write_line(too_few)}.to raise_error(ArgumentError)
           end
         end
 
         context "with more than enough attributes" do
           it "writes only the needed attributes" do
-            db.write_line(more_than_enough)
-            expect(File.read(db.data_filename)).to eql("Govan Guthrie male blue 12/27/1971\n")
+            master_db.write_line(more_than_enough)
+            expect(File.read(master_db.data_filename)).to eql("Govan Guthrie male blue 12/27/1971\n")
           end
         end
       end

@@ -17,6 +17,14 @@ module Whammy
       it "sets @options_parser to a CommandLineOptionsParser" do
         expect(cli.instance_variable_get(:@options_parser)).to be_a(CommandLineOptionsParser)
       end
+
+      it "defines @database" do
+        expect(cli.instance_variable_get(:@database)).to_not be_nil
+      end
+
+      it "sets @database to be a Database" do
+        expect(cli.instance_variable_get(:@database)).to be_a(Database)
+      end
     end
 
     describe "#run!" do
@@ -36,6 +44,11 @@ module Whammy
       end
       it "calls #display" do
         expect(cli).to receive(:display).exactly(1).times
+        cli.run!
+      end
+
+      it "calls #display_file_location" do
+        expect(cli).to receive(:display_file_location).exactly(1).times
         cli.run!
       end
     end
@@ -204,7 +217,19 @@ module Whammy
           )
         end
       end
-    end   
+    end
+
+    describe "#display_file_location" do
+      let(:example_db) { "spec/fixtures/files/example_db.txt" }
+
+      before(:each) do
+        allow_any_instance_of(Database).to receive(:data_filename).and_return(example_db)
+      end
+
+      it "outputs the filename of the compiled data" do
+        expect{cli.display_file_location}.to output("\nYour data is located at #{example_db}.\n").to_stdout
+      end
+    end
 
     describe "#sort_by" do
       context "birthdate" do
@@ -249,6 +274,20 @@ module Whammy
       end
     end
 
+    describe "#write_to_master" do
+      context "when writing to master" do
+        it "returns true" do
+          expect(master_cli.write_to_master?).to eql(true)
+        end
+      end
+
+      context "when writing to a new file" do
+        it "returns false" do
+          expect(cli.write_to_master?).to eql(false)
+        end
+      end
+    end
+
     describe "#write_files!" do
       let(:test_database) { "spec/fixtures/files/test_db.txt" }
 
@@ -263,6 +302,18 @@ module Whammy
       it "writes the file's records to the db" do
         cli.write_files!
         expect(File.read(test_database)).to eql("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\nReinhardt Django male green 01/23/1910\n")
+      end
+    end
+
+    describe "#compiled_filename" do
+      let(:example_db) { "spec/fixtures/files/example_db.txt" }
+
+      before(:each) do
+        allow_any_instance_of(Database).to receive(:data_filename).and_return(example_db)
+      end
+
+      it "returns the filename of the data" do
+        expect(cli.compiled_filename).to eql(example_db)
       end
     end
   end

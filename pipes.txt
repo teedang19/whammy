@@ -1,0 +1,3 @@
+Shore | Pauly | male | pink | 02/01/1968
+Schwarzenegger | Arnold | male | blue | 07/30/1947
+McDormand | Frances | female | green | 06/23/1957

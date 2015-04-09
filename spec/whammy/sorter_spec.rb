@@ -41,6 +41,13 @@ module Whammy
           ]
         )
       end
+
+      let(:random_db) { Database.new }
+
+      it "reads from the database passed in, if there is one" do
+        expect(random_db).to receive(:read).exactly(1).times
+        Sorter.new(random_db)
+      end
     end
 
     describe "#sort!" do
