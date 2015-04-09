@@ -5,7 +5,7 @@ module Whammy
     MASTER_DB = "database.txt"
 
     def initialize(use_master = true)
-      @filename = use_master ? MASTER_DB : DateTime.now.strftime("%m_%d_%y:%I_%M.txt")
+      @filename = use_master ? MASTER_DB : DateTime.now.strftime("%m_%d_%y:%I_%M_%S.txt")
       @parser = Parser.new
     end
 
