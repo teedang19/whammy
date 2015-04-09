@@ -31,7 +31,7 @@ module Whammy
       let(:test_database) { "spec/fixtures/files/test_db.txt" }
 
       before do
-        allow_any_instance_of(Database).to receive(:data_file).and_return(test_database)
+        allow_any_instance_of(Database).to receive(:data_filename).and_return(test_database)
       end
 
       after do
@@ -54,7 +54,15 @@ module Whammy
     end
 
     describe "#display" do
-      let(:data) { [ { last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971" } ] }
+      let(:data) {[
+        {
+          last_name: "Govan",
+          first_name: "Guthrie",
+          gender: "male",
+          favorite_color: "blue",
+          date_of_birth: "12/27/1971"
+        }
+      ]}
 
       it "outputs the data to stdout" do
         expect{cli.display(data)}.to output("Govan\t\tGuthrie\t\tmale\t\tblue\t\t12/27/1971\n").to_stdout
@@ -65,7 +73,7 @@ module Whammy
       let(:example_db) { "spec/fixtures/files/example_db.txt" }
 
       before(:each) do
-        allow_any_instance_of(Database).to receive(:data_file).and_return(example_db)
+        allow_any_instance_of(Database).to receive(:data_filename).and_return(example_db)
       end
 
       it "returns an array" do
@@ -83,7 +91,31 @@ module Whammy
         no_sort_cli = CommandLineInterface.new(no_sort_cli)
 
         it "returns the data" do
-          expect(no_sort_cli.sorted_data).to eql([{last_name: "Schemel", first_name: "Patty", gender: "female", favorite_color: "orange", date_of_birth: "04/24/1967"}, {last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}, {last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}])
+          expect(no_sort_cli.sorted_data).to eql(
+            [
+              {
+                last_name: "Schemel",
+                first_name: "Patty",
+                gender: "female",
+                favorite_color: "orange",
+                date_of_birth: "04/24/1967"
+              },
+              {
+                last_name: "Schuldiner",
+                first_name: "Chuck",
+                gender: "male",
+                favorite_color: "orange",
+                date_of_birth: "05/13/1967"
+              },
+              {
+                last_name: "Reinhardt",
+                first_name: "Django",
+                gender: "male",
+                favorite_color: "green",
+                date_of_birth: "01/23/1910"
+              }
+            ]
+          )
         end
       end
 
@@ -92,7 +124,31 @@ module Whammy
         gender_cli = CommandLineInterface.new(gender_argv)
 
         it "returns data sorted by gender & last name asc" do
-          expect(gender_cli.sorted_data).to eql([{last_name: "Schemel", first_name: "Patty", gender: "female", favorite_color: "orange", date_of_birth: "04/24/1967"}, {last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}, {last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}])
+          expect(gender_cli.sorted_data).to eql(
+            [
+              {
+                last_name: "Schemel",
+                first_name: "Patty",
+                gender: "female",
+                favorite_color: "orange",
+                date_of_birth: "04/24/1967"
+              },
+              {
+                last_name: "Reinhardt",
+                first_name: "Django",
+                gender: "male",
+                favorite_color: "green",
+                date_of_birth: "01/23/1910"
+              },
+              {
+                last_name: "Schuldiner",
+                first_name: "Chuck",
+                gender: "male",
+                favorite_color: "orange",
+                date_of_birth: "05/13/1967"
+              }
+            ]
+          )
         end
       end
 
@@ -101,7 +157,31 @@ module Whammy
         last_name_cli = CommandLineInterface.new(last_name_argv)
 
         it "returns data sorted by last name desc" do
-          expect(last_name_cli.sorted_data).to eql([{last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}, {last_name: "Schemel", first_name: "Patty", gender: "female", favorite_color: "orange", date_of_birth: "04/24/1967"}, {last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}])
+          expect(last_name_cli.sorted_data).to eql(
+            [
+              {
+                last_name: "Schuldiner",
+                first_name: "Chuck",
+                gender: "male",
+                favorite_color: "orange",
+                date_of_birth: "05/13/1967"
+              },
+              {
+                last_name: "Schemel",
+                first_name: "Patty",
+                gender: "female",
+                favorite_color: "orange",
+                date_of_birth: "04/24/1967"
+              },
+              {
+                last_name: "Reinhardt",
+                first_name: "Django",
+                gender: "male",
+                favorite_color: "green",
+                date_of_birth: "01/23/1910"
+              }
+            ]
+          )
         end
       end
 
@@ -110,7 +190,31 @@ module Whammy
         birthdate_cli = CommandLineInterface.new(birthdate_argv)
 
         it "returns data sorted by birthdate asc" do
-          expect(birthdate_cli.sorted_data).to eql([{last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}, {last_name: "Schemel", first_name: "Patty", gender: "female", favorite_color: "orange", date_of_birth: "04/24/1967"}, {last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}])
+          expect(birthdate_cli.sorted_data).to eql(
+            [
+              {
+                last_name: "Reinhardt",
+                first_name: "Django",
+                gender: "male",
+                favorite_color: "green",
+                date_of_birth: "01/23/1910"
+              },
+              {
+                last_name: "Schemel",
+                first_name: "Patty",
+                gender: "female",
+                favorite_color: "orange",
+                date_of_birth: "04/24/1967"
+              },
+              {
+                last_name: "Schuldiner",
+                first_name: "Chuck",
+                gender: "male",
+                favorite_color: "orange",
+                date_of_birth: "05/13/1967"
+              }
+            ]
+          )
         end
       end
     end
@@ -119,7 +223,7 @@ module Whammy
       let(:example_db) { "spec/fixtures/files/example_db.txt" }
 
       before(:each) do
-        allow_any_instance_of(Database).to receive(:data_file).and_return(example_db)
+        allow_any_instance_of(Database).to receive(:data_filename).and_return(example_db)
       end
 
       it "outputs the filename of the compiled data" do
@@ -188,7 +292,7 @@ module Whammy
       let(:test_database) { "spec/fixtures/files/test_db.txt" }
 
       before do
-        allow_any_instance_of(Database).to receive(:data_file).and_return(test_database)
+        allow_any_instance_of(Database).to receive(:data_filename).and_return(test_database)
       end
 
       after do
@@ -205,7 +309,7 @@ module Whammy
       let(:example_db) { "spec/fixtures/files/example_db.txt" }
 
       before(:each) do
-        allow_any_instance_of(Database).to receive(:data_file).and_return(example_db)
+        allow_any_instance_of(Database).to receive(:data_filename).and_return(example_db)
       end
 
       it "returns the filename of the data" do

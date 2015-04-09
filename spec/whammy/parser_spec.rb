@@ -11,19 +11,91 @@ module Whammy
 
       context "with a comma-delimited file" do
         it "parses the file" do
-          expect(parser.parse_file(csv_file)).to eql([{ last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971"}, {last_name: "Schuldiner", first_name: "Chuck", gender: "male", favorite_color: "orange", date_of_birth: "05/13/1967"}, {last_name: "Reinhardt", first_name: "Django", gender: "male", favorite_color: "green", date_of_birth: "01/23/1910"}])
+          expect(parser.parse_file(csv_file)).to eql(
+            [
+              {
+                last_name: "Govan",
+                first_name: "Guthrie",
+                gender: "male",
+                favorite_color: "blue",
+                date_of_birth: "12/27/1971"
+              },
+              {
+                last_name: "Schuldiner",
+                first_name: "Chuck",
+                gender: "male",
+                favorite_color: "orange",
+                date_of_birth: "05/13/1967"
+              },
+              {
+                last_name: "Reinhardt",
+                first_name: "Django",
+                gender: "male",
+                favorite_color: "green",
+                date_of_birth: "01/23/1910"
+              }
+            ]
+          )
         end
       end
 
       context "with a space-delimited file" do
         it "parses the file" do
-          expect(parser.parse_file(spaced_file)).to eql([{ last_name: "Dang", first_name: "Tam", gender: "female", favorite_color: "purple", date_of_birth: "01/13/1990" }, {last_name: "Baldissero", first_name: "Shawn", gender: "male", favorite_color: "green", date_of_birth: "02/03/1987"}, {last_name: "TranNgoc", first_name: "Tuyen", gender: "female", favorite_color: "red", date_of_birth: "01/13/1952"} ])
+          expect(parser.parse_file(spaced_file)).to eql(
+            [
+              {
+                last_name: "Dang",
+                first_name: "Tam",
+                gender: "female",
+                favorite_color: "purple",
+                date_of_birth: "01/13/1990"
+              },
+              {
+                last_name: "Baldissero",
+                first_name: "Shawn",
+                gender: "male",
+                favorite_color: "green",
+                date_of_birth: "02/03/1987"
+              },
+              {
+                last_name: "TranNgoc",
+                first_name: "Tuyen",
+                gender: "female",
+                favorite_color: "red",
+                date_of_birth: "01/13/1952"
+              }
+            ]
+          )
         end
       end
 
       context "with a pipe-delimited file" do
         it "parses the file" do
-          expect(parser.parse_file(piped_file)).to eql([{ last_name: "Shore", first_name: "Pauly", gender: "male", favorite_color: "pink", date_of_birth: "02/01/1968"}, {last_name: "Schwarzenegger", first_name: "Arnold", gender: "male", favorite_color: "blue", date_of_birth: "07/30/1947"}, {last_name: "McDormand", first_name: "Frances", gender: "female", favorite_color: "green", date_of_birth: "06/23/1957"} ])
+          expect(parser.parse_file(piped_file)).to eql(
+            [
+              {
+                last_name: "Shore",
+                first_name: "Pauly",
+                gender: "male",
+                favorite_color: "pink",
+                date_of_birth: "02/01/1968"
+              },
+              {
+                last_name: "Schwarzenegger",
+                first_name: "Arnold",
+                gender: "male",
+                favorite_color: "blue",
+                date_of_birth: "07/30/1947"
+              },
+              {
+                last_name: "McDormand",
+                first_name: "Frances",
+                gender: "female",
+                favorite_color: "green",
+                date_of_birth: "06/23/1957"
+              }
+            ]
+          )
         end
       end
     end
@@ -31,24 +103,66 @@ module Whammy
     describe "#parse_entry" do
       context "given a string" do
         let(:valid_str) { "Shore | Pauly | male | pink | 02/01/1968" }
-        let(:invalid_str) { "Emmanuel | Rahm | male | green" }
+        let(:too_few_attrs) { "Emmanuel | Rahm | male | green" }
 
         it "returns the string as a hash of attributes" do
-          expect(parser.parse_entry(valid_str)).to eql({ last_name: "Shore", first_name: "Pauly", gender: "male", favorite_color: "pink", date_of_birth: "02/01/1968"})
+          expect(parser.parse_entry(valid_str)).to eql(
+            {
+              last_name: "Shore",
+              first_name: "Pauly",
+              gender: "male",
+              favorite_color: "pink",
+              date_of_birth: "02/01/1968"
+            }
+          )
         end
 
-        it "raises an error for invalid length strings" do
-          expect{ parser.parse_entry(invalid_str) }.to raise_error(ArgumentError)
+        it "raises an error for strings with too few attributes" do
+          expect{ parser.parse_entry(too_few_attrs) }.to raise_error(ArgumentError)
         end
       end
 
       context "given a hash" do
-        let(:out_of_order) { { first_name: "Pauly", gender: "male", date_of_birth: "02/01/1968", last_name: "Shore", favorite_color: "pink" } }
-        let(:too_few) { { last_name: "Shore", first_name: "Pauly", gender: "male", favorite_color: "pink" } }
-        let(:big) { { last_name: "Shore", first_name: "Pauly", favorite_movie: "Inceno Man", gender: "male", favorite_color: "pink", date_of_birth: "02/01/1968" } }
+        let(:out_of_order) {
+          {
+            first_name: "Pauly",
+            gender: "male",
+            date_of_birth: "02/01/1968",
+            last_name: "Shore",
+            favorite_color: "pink"
+          }
+        }
+
+        let(:too_few) {
+          {
+            last_name: "Shore",
+            first_name: "Pauly",
+            gender: "male",
+            favorite_color: "pink"
+          }
+        }
+
+        let(:big) {
+          {
+            last_name: "Shore",
+            first_name: "Pauly",
+            favorite_movie: "Inceno Man",
+            gender: "male",
+            favorite_color: "pink",
+            date_of_birth: "02/01/1968"
+          }
+        }
 
         it "returns the hash in the correct order" do
-          expect(parser.parse_entry(out_of_order)).to eql({ last_name: "Shore", first_name: "Pauly", gender: "male", favorite_color: "pink", date_of_birth: "02/01/1968"})
+          expect(parser.parse_entry(out_of_order)).to eql(
+            {
+              last_name: "Shore",
+              first_name: "Pauly",
+              gender: "male",
+              favorite_color: "pink",
+              date_of_birth: "02/01/1968"
+            }
+          )
         end
 
         it "raises an error for hashes with too few attributes" do
@@ -56,7 +170,15 @@ module Whammy
         end
 
         it "works for hashes with extra attributes" do
-          expect(parser.parse_entry(big)).to eql({ last_name: "Shore", first_name: "Pauly", gender: "male", favorite_color: "pink", date_of_birth: "02/01/1968"})
+          expect(parser.parse_entry(big)).to eql(
+            {
+              last_name: "Shore",
+              first_name: "Pauly",
+              gender: "male",
+              favorite_color: "pink",
+              date_of_birth: "02/01/1968"
+            }
+          )
         end
       end
     end
@@ -137,7 +259,15 @@ module Whammy
       end
 
       it "hashes the array into attributes" do
-        expect(parser.set_attributes(values_arr)).to eql({ last_name: "Govan", first_name: "Guthrie", gender: "male", favorite_color: "blue", date_of_birth: "12/27/1971"})
+        expect(parser.set_attributes(values_arr)).to eql(
+          {
+            last_name: "Govan",
+            first_name: "Guthrie",
+            gender: "male",
+            favorite_color: "blue",
+            date_of_birth: "12/27/1971"
+          }
+        )
       end
     end
   end

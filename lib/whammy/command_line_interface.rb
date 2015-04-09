@@ -42,7 +42,7 @@ module Whammy
     end
 
     def compiled_filename
-      @database.data_file
+      @database.data_filename
     end
   end
 end
