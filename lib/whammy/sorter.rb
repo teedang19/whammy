@@ -6,7 +6,7 @@ module Whammy
       @data = database ? database.read : Database.new.read # will be master
     end
 
-    def sort!(method=nil)
+    def sort!(method = nil)
       case method # method.try(:to_sym) -- RAILS ONLY
       when :gender then ladies_first
       when :birthdate then oldest_first
