@@ -54,26 +54,23 @@ module Whammy
     end
 
     describe "#display" do
-      let(:data) {[
-        {
-          last_name: "Govan",
-          first_name: "Guthrie",
-          gender: "male",
-          favorite_color: "blue",
-          date_of_birth: "12/27/1971"
-        }
-      ]}
-
       it "outputs the data to stdout" do
+        data = [
+          {
+            last_name: "Govan",
+            first_name: "Guthrie",
+            gender: "male",
+            favorite_color: "blue",
+            date_of_birth: "12/27/1971"
+          }
+        ]
         expect{cli.display(data)}.to output("Govan\t\tGuthrie\t\tmale\t\tblue\t\t12/27/1971\n").to_stdout
       end
     end
 
     describe "#sorted_data" do
-      let(:example_db) { "spec/fixtures/files/example_db.txt" }
-
       before(:each) do
-        allow_any_instance_of(Database).to receive(:data_filename).and_return(example_db)
+        allow_any_instance_of(Database).to receive(:data_filename).and_return("spec/fixtures/files/example_db.txt")
       end
 
       it "returns an array" do
@@ -87,10 +84,9 @@ module Whammy
       end
 
       context "no sorting" do
-        no_sort_argv = ["spec/fixtures/files/commas.txt"]
-        no_sort_cli = CommandLineInterface.new(no_sort_cli)
-
         it "returns the data" do
+          no_sort_argv = ["spec/fixtures/files/commas.txt"]
+          no_sort_cli = CommandLineInterface.new(no_sort_cli)
           expect(no_sort_cli.sorted_data).to eql(
             [
               {
@@ -120,10 +116,9 @@ module Whammy
       end
 
       context "gender" do
-        gender_argv = ["--sort", "-g"]
-        gender_cli = CommandLineInterface.new(gender_argv)
-
         it "returns data sorted by gender & last name asc" do
+          gender_argv = ["--sort", "-g"]
+          gender_cli = CommandLineInterface.new(gender_argv)
           expect(gender_cli.sorted_data).to eql(
             [
               {
@@ -153,10 +148,9 @@ module Whammy
       end
 
       context "last_name" do
-        last_name_argv = ["--sort", "-l"]
-        last_name_cli = CommandLineInterface.new(last_name_argv)
-
         it "returns data sorted by last name desc" do
+          last_name_argv = ["--sort", "-l"]
+          last_name_cli = CommandLineInterface.new(last_name_argv)
           expect(last_name_cli.sorted_data).to eql(
             [
               {
@@ -186,10 +180,9 @@ module Whammy
       end
 
       context "birthdate" do
-        birthdate_argv = ["--sort", "-b"]
-        birthdate_cli = CommandLineInterface.new(birthdate_argv)
-
         it "returns data sorted by birthdate asc" do
+          birthdate_argv = ["--sort", "-b"]
+          birthdate_cli = CommandLineInterface.new(birthdate_argv)
           expect(birthdate_cli.sorted_data).to eql(
             [
               {
@@ -239,19 +232,17 @@ module Whammy
       end
 
       context "gender" do
-        gender_argv = ["--sort", "-g"]
-        gender_cli = CommandLineInterface.new(gender_argv)
-
         it "returns the symbol for gender" do
+          gender_argv = ["--sort", "-g"]
+          gender_cli = CommandLineInterface.new(gender_argv)
           expect(gender_cli.sort_by).to eql(:gender)
         end
       end
 
       context "last_name" do
-        last_name_argv = ["--sort", "-l"]
-        last_name_cli = CommandLineInterface.new(last_name_argv)
-
         it "returns the symbol for last_name" do
+          last_name_argv = ["--sort", "-l"]
+          last_name_cli = CommandLineInterface.new(last_name_argv)
           expect(last_name_cli.sort_by).to eql(:last_name)
         end
       end
@@ -264,11 +255,10 @@ module Whammy
         end
       end
 
-      context "with multiple files" do
-        multiple_files_argv = ["spec/fixtures/files/commas.txt", "spec/fixtures/files/pipes.txt", "--sort", "-b"]
-        multiple_cli = CommandLineInterface.new(multiple_files_argv)
-        
+      context "with multiple files" do      
         it "returns an array of all the files" do
+          multiple_files_argv = ["spec/fixtures/files/commas.txt", "spec/fixtures/files/pipes.txt", "--sort", "-b"]
+          multiple_cli = CommandLineInterface.new(multiple_files_argv)
           expect(multiple_cli.files).to eql(["spec/fixtures/files/commas.txt", "spec/fixtures/files/pipes.txt"])
         end
       end
