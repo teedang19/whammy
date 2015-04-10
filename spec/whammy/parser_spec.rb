@@ -102,10 +102,8 @@ module Whammy
 
     describe "#parse_entry" do
       context "given a string" do
-        let(:valid_str) { "Shore | Pauly | male | pink | 02/01/1968" }
-        let(:too_few_attrs) { "Emmanuel | Rahm | male | green" }
-
         it "returns the string as a hash of attributes" do
+          valid_str = "Shore | Pauly | male | pink | 02/01/1968"
           expect(parser.parse_entry(valid_str)).to eql(
             {
               last_name: "Shore",
@@ -118,42 +116,21 @@ module Whammy
         end
 
         it "raises an error for strings with too few attributes" do
+          too_few_attrs = "Emmanuel | Rahm | male | green"
           expect{ parser.parse_entry(too_few_attrs) }.to raise_error(ArgumentError)
         end
       end
 
       context "given a hash" do
-        let(:out_of_order) {
-          {
+        it "returns the hash in the correct order" do
+          out_of_order = {
             first_name: "Pauly",
             gender: "male",
             date_of_birth: "02/01/1968",
             last_name: "Shore",
             favorite_color: "pink"
           }
-        }
 
-        let(:too_few) {
-          {
-            last_name: "Shore",
-            first_name: "Pauly",
-            gender: "male",
-            favorite_color: "pink"
-          }
-        }
-
-        let(:big) {
-          {
-            last_name: "Shore",
-            first_name: "Pauly",
-            favorite_movie: "Inceno Man",
-            gender: "male",
-            favorite_color: "pink",
-            date_of_birth: "02/01/1968"
-          }
-        }
-
-        it "returns the hash in the correct order" do
           expect(parser.parse_entry(out_of_order)).to eql(
             {
               last_name: "Shore",
@@ -166,10 +143,19 @@ module Whammy
         end
 
         it "raises an error for hashes with too few attributes" do
+          too_few = { last_name: "Shore", first_name: "Pauly", gender: "male", favorite_color: "pink" }
           expect{ parser.parse_entry(too_few) }.to raise_error(ArgumentError)
         end
 
         it "works for hashes with extra attributes" do
+          big = {
+            last_name: "Shore",
+            first_name: "Pauly",
+            favorite_movie: "Inceno Man",
+            gender: "male",
+            favorite_color: "pink",
+            date_of_birth: "02/01/1968"
+          }
           expect(parser.parse_entry(big)).to eql(
             {
               last_name: "Shore",
@@ -251,14 +237,13 @@ module Whammy
     end
 
     describe "#set_attributes" do
-      let(:values_arr) { ["Govan", "Guthrie", "male", "blue", "12/27/1971"] }
-
       it "raises an ArgumentError with an array of the incorrect length" do
-        too_long_arr = values_arr.push("potatoes")
+        too_long_arr = ["Govan", "Guthrie", "male", "blue", "12/27/1971", "potatoes"]
         expect{ parser.set_attributes(too_long_arr) }.to raise_error(ArgumentError)
       end
 
       it "hashes the array into attributes" do
+        values_arr = ["Govan", "Guthrie", "male", "blue", "12/27/1971"]
         expect(parser.set_attributes(values_arr)).to eql(
           {
             last_name: "Govan",
