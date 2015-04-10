@@ -5,8 +5,6 @@ module Whammy
     let(:temp_db) { Database.new(false) }
     let(:temp_filename) { DateTime.now.strftime("%m_%d_%y:%I_%M_%S.txt") }
     let(:master_db) { Database.new }
-    let(:files) { ["spec/fixtures/files/commas.txt", "spec/fixtures/files/pipes.txt"] }
-    let(:file) { files[0] }
     let(:test_db) { "spec/fixtures/files/test_db.txt" }
 
     before(:each) do |example|
@@ -66,10 +64,8 @@ module Whammy
     end
 
     describe "#read" do
-      let(:example_db) { "spec/fixtures/files/example_db.txt" }
-
       before(:each) do
-        allow_any_instance_of(Database).to receive(:data_filename).and_return(example_db)
+        allow_any_instance_of(Database).to receive(:data_filename).and_return("spec/fixtures/files/example_db.txt")
       end
 
       it "returns an array" do
@@ -113,6 +109,7 @@ module Whammy
 
     describe "#write_files" do
       it "writes each file to the db" do
+        files = ["spec/fixtures/files/commas.txt", "spec/fixtures/files/pipes.txt"]
         master_db.write_files(files)
         expect(File.read(master_db.data_filename)).to eql("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\nReinhardt Django male green 01/23/1910\nShore Pauly male pink 02/01/1968\nSchwarzenegger Arnold male blue 07/30/1947\nMcDormand Frances female green 06/23/1957\n")
       end
@@ -120,6 +117,7 @@ module Whammy
 
     describe "#write_file" do
       it "writes the file to the db" do
+        file = "spec/fixtures/files/commas.txt"
         master_db.write_file(file)
         expect(File.read(master_db.data_filename)).to eql("Govan Guthrie male blue 12/27/1971\nSchuldiner Chuck male orange 05/13/1967\nReinhardt Django male green 01/23/1910\n")
       end
@@ -127,12 +125,9 @@ module Whammy
 
     describe "#write_line" do
       context "given a string" do
-        let(:spaced_line) { "Govan Guthrie male blue 12/27/1971\n" }
-        let(:csv_line) { "Shore, Pauly, male, pink, 02/01/1968\n" }
-        let(:piped_line) { "Schuldiner | Chuck | male | orange | 05/13/1967\n" }
-
         context "space separated line" do
           it "writes the line to the db" do
+            spaced_line = "Govan Guthrie male blue 12/27/1971\n"
             master_db.write_line(spaced_line)
             expect(File.read(master_db.data_filename)).to eql("Govan Guthrie male blue 12/27/1971\n")
           end
@@ -140,6 +135,7 @@ module Whammy
 
         context "csv separated line" do
           it "writes the line to the db" do
+            csv_line = "Shore, Pauly, male, pink, 02/01/1968\n"
             master_db.write_line(csv_line)
             expect(File.read(master_db.data_filename)).to eql("Shore Pauly male pink 02/01/1968\n")
           end
@@ -147,6 +143,7 @@ module Whammy
 
         context "pipe separated line" do
           it "writes the line to the db" do
+            piped_line = "Schuldiner | Chuck | male | orange | 05/13/1967\n"
             master_db.write_line(piped_line)
             expect(File.read(master_db.data_filename)).to eql("Schuldiner Chuck male orange 05/13/1967\n")
           end
@@ -154,37 +151,15 @@ module Whammy
       end
 
       context "given a hash" do
-        let(:out_of_order) {
-          {
-            first_name: "Guthrie",
-            favorite_color: "blue",
-            last_name: "Govan",
-            date_of_birth: "12/27/1971",
-            gender: "male"
-          }
-        }
-
-        let(:too_few) {
-          {
-            first_name: "Guthrie",
-            date_of_birth: "12/27/1971"
-          }
-        }
-
-        let(:more_than_enough) {
-          {
-            eye_color: "hazel",
-            first_name: "Guthrie",
-            profession: "guitarist",
-            favorite_color: "blue",
-            last_name: "Govan",
-            date_of_birth: "12/27/1971",
-            gender: "male"
-          }
-        }
-
         context "with out-of-order attributes" do
           it "writes the attributes in the correct order" do
+            out_of_order = {
+              first_name: "Guthrie",
+              favorite_color: "blue",
+              last_name: "Govan",
+              date_of_birth: "12/27/1971",
+              gender: "male"
+            }
             master_db.write_line(out_of_order)
             expect(File.read(master_db.data_filename)).to eql("Govan Guthrie male blue 12/27/1971\n")
           end
@@ -192,12 +167,22 @@ module Whammy
 
         context "with too few attributes" do
           it "raises an error" do
+            too_few = { first_name: "Guthrie", date_of_birth: "12/27/1971" }
             expect{master_db.write_line(too_few)}.to raise_error(ArgumentError)
           end
         end
 
         context "with more than enough attributes" do
           it "writes only the needed attributes" do
+            more_than_enough = {
+              eye_color: "hazel",
+              first_name: "Guthrie",
+              profession: "guitarist",
+              favorite_color: "blue",
+              last_name: "Govan",
+              date_of_birth: "12/27/1971",
+              gender: "male"
+            }
             master_db.write_line(more_than_enough)
             expect(File.read(master_db.data_filename)).to eql("Govan Guthrie male blue 12/27/1971\n")
           end
