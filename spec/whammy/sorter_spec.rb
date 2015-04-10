@@ -3,10 +3,9 @@ require_relative "../spec_helper"
 module Whammy
   describe Sorter do
     let(:sorter) { Sorter.new }
-    let(:example_db) { "spec/fixtures/files/example_db.txt" }
 
     before(:each) do
-      allow_any_instance_of(Database).to receive(:data_filename).and_return(example_db)
+      allow_any_instance_of(Database).to receive(:data_filename).and_return("spec/fixtures/files/example_db.txt")
     end
 
     describe "#initialize" do
@@ -42,9 +41,8 @@ module Whammy
         )
       end
 
-      let(:random_db) { Database.new }
-
       it "reads from the database passed in, if there is one" do
+        random_db = Database.new
         expect(random_db).to receive(:read).exactly(1).times
         Sorter.new(random_db)
       end
