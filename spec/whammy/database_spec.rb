@@ -17,32 +17,6 @@ module Whammy
       File.open(test_db, "w") {}
     end
 
-    describe "#initialize" do
-      it "defines @parser" do
-        expect(master_db.instance_variable_get(:@parser)).to_not be_nil
-      end
-
-      it "sets @parser to a new Parser" do
-        expect(master_db.instance_variable_get(:@parser)).to be_a(Parser)
-      end
-
-      it "defines @filename" do
-        expect(master_db.instance_variable_get(:@filename)).to_not be_nil
-      end
-
-      context "writing to master" do
-        it "sets @filename to the master db" do
-          expect(master_db.instance_variable_get(:@filename)).to eql("database.txt")
-        end
-      end
-
-      context "writing to a new file" do
-        it "sets @filename to a new Datetime string" do
-          expect(temp_db.instance_variable_get(:@filename)).to eql(temp_filename)
-        end
-      end
-    end
-
     describe "#data_dir" do
       it "returns the path of the data directory" do
         expect(master_db.data_dir).to eql("data/")
