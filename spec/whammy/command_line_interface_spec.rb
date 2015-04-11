@@ -10,23 +10,6 @@ module Whammy
     let(:argv) { [file, "--sort", "-b"] }
     let(:cli)  { CommandLineInterface.new(argv) }
 
-    describe "#initialize" do
-      it "defines @options_parser" do
-        expect(cli.instance_variable_get(:@options_parser)).to_not be_nil
-      end
-      it "sets @options_parser to a CommandLineOptionsParser" do
-        expect(cli.instance_variable_get(:@options_parser)).to be_a(CommandLineOptionsParser)
-      end
-
-      it "defines @database" do
-        expect(cli.instance_variable_get(:@database)).to_not be_nil
-      end
-
-      it "sets @database to be a Database" do
-        expect(cli.instance_variable_get(:@database)).to be_a(Database)
-      end
-    end
-
     describe "#run!" do
       let(:test_database) { "spec/fixtures/files/test_db.txt" }
 
