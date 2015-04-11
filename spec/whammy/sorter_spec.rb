@@ -9,10 +9,6 @@ module Whammy
     end
 
     describe "#initialize" do
-      it "defines @data" do
-        expect(sorter.instance_variable_get(:@data)).to_not be_nil
-      end
-
       it "sets @data to the data read from the database" do
         expect(sorter.instance_variable_get(:@data)).to eql(
           [
