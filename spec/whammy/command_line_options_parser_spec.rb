@@ -6,30 +6,6 @@ module Whammy
     let(:argv) { [file, "--sort", "-b"] }
     let(:parser) { CommandLineOptionsParser.new(argv) }
 
-    describe "#initialize" do
-      it "defines @options_parser" do
-        expect(parser.instance_variable_get(:@options_parser)).to_not be_nil
-      end
-
-      it "sets @options_parser to an OptionParser" do
-        expect(parser.instance_variable_get(:@options_parser)).to be_a(OptionParser)
-      end
-
-      it "defines @sort_by" do
-        expect(parser.instance_variable_get(:@sort_by)).to_not be_nil
-        expect(parser.instance_variable_get(:@sort_by)).to be_a(Symbol)
-      end
-
-      it "defines @files" do
-        expect(parser.instance_variable_get(:@files)).to_not be_nil
-        expect(parser.instance_variable_get(:@files)).to be_a(Array)
-      end
-
-      it "defines @write_to_master" do
-        expect(parser.instance_variable_get(:@write_to_master)).to_not be_nil
-      end
-    end
-
     describe "#parse_options!" do
       it "returns an array" do
         expect(parser.parse_options!).to be_a(Array)
