@@ -3,6 +3,7 @@ require "date"
 module Whammy
   class Database
     MASTER_DB = "database.txt"
+    private_constant :MASTER_DB
 
     def initialize(use_master = true)
       @filename = use_master ? MASTER_DB : DateTime.now.strftime("%m_%d_%y:%I_%M_%S.txt")

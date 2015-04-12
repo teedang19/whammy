@@ -2,6 +2,7 @@ module Whammy
   class Parser
     DELIMITERS = [ /, /, / \| /, / / ]
     ATTRIBUTES = [ :last_name, :first_name, :gender, :favorite_color, :date_of_birth ]
+    private_constant :ATTRIBUTES
 
     def parse_file(file)
       File.readlines(file).map { |line| parse_entry(line) }
