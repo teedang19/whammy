@@ -105,7 +105,7 @@ module Whammy
             expect(JSON.parse(last_response.body)).to eql({ "error"=> "record[gender] is missing" })
           end
 
-          it "returns a 400" do
+          it "returns a 400 status" do
             post "/api/v1/records", record: {
               last_name: "Govan",
               first_name: "Guthrie",

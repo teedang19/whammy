@@ -215,7 +215,7 @@ module Whammy
       end
 
       context "gender" do
-        it "returns the symbol for gender" do
+        it "returns the correct symbol" do
           gender_argv = ["--sort", "-g"]
           gender_cli = CommandLineInterface.new(gender_argv)
           expect(gender_cli.sort_by).to eql(:gender)
@@ -223,7 +223,7 @@ module Whammy
       end
 
       context "last_name" do
-        it "returns the symbol for last_name" do
+        it "returns the correct symbol" do
           last_name_argv = ["--sort", "-l"]
           last_name_cli = CommandLineInterface.new(last_name_argv)
           expect(last_name_cli.sort_by).to eql(:last_name)

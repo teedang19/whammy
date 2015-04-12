@@ -52,7 +52,7 @@ module Whammy
         end
 
         context "no sorting params" do
-          it "returns nil for sorting params" do
+          it "returns nil" do
             sortless_argv = ["spec/fixtures/files/commas.txt"]
             sortless_parser = CommandLineOptionsParser.new(sortless_argv)
             expect(sortless_parser.parse_options![1]).to eql(nil)
