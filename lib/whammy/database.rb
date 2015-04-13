@@ -18,6 +18,10 @@ module Whammy
       "#{data_dir}#{MASTER_DB}"
     end
 
+    def self.master_read
+      Parser.new.parse_file(master_filename)
+    end
+
     def data_dir
       self.class.data_dir
     end

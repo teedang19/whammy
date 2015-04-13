@@ -31,6 +31,40 @@ module Whammy
       end
     end
 
+    describe ".master_read" do
+      before do
+        allow(Database).to receive(:master_filename).and_return("spec/fixtures/files/example_db.txt")
+      end
+
+      it "reads from the master database" do
+        expect(Database.master_read).to eql(
+          [
+            {
+              last_name: "Schemel",
+              first_name: "Patty",
+              gender: "female",
+              favorite_color: "orange",
+              date_of_birth: "04/24/1967"
+            },
+            {
+              last_name: "Schuldiner",
+              first_name: "Chuck",
+              gender: "male",
+              favorite_color: "orange",
+              date_of_birth: "05/13/1967"
+            },
+            {
+              last_name: "Reinhardt",
+              first_name: "Django",
+              gender: "male",
+              favorite_color: "green",
+              date_of_birth: "01/23/1910"
+            }
+          ]
+        )
+      end
+    end
+
     describe "#data_dir" do
       it "calls the class method to return the data directory" do
         expect(Database).to receive(:data_dir)
