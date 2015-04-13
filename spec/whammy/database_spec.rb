@@ -17,7 +17,26 @@ module Whammy
       File.open(test_db, "w") {}
     end
 
+    describe ".data_dir" do
+      it "returns the path of the data directory" do
+        expect(Database.data_dir).to eql("data/")
+      end
+    end
+
+    describe ".master_filename" do
+      it "returns the path of the master file" do
+        stub_const("Whammy::Database::MASTER_DB", "example_db.txt")
+        data_dir = Database.data_dir
+        expect(Database.master_filename).to eql("#{data_dir}example_db.txt")
+      end
+    end
+
     describe "#data_dir" do
+      it "calls the class method to return the data directory" do
+        expect(Database).to receive(:data_dir)
+        master_db.data_dir
+      end
+
       it "returns the path of the data directory" do
         expect(master_db.data_dir).to eql("data/")
       end

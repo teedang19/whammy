@@ -10,8 +10,16 @@ module Whammy
       @parser = Parser.new
     end
 
-    def data_dir
+    def self.data_dir
       "data/"
+    end
+
+    def self.master_filename
+      "#{data_dir}#{MASTER_DB}"
+    end
+
+    def data_dir
+      self.class.data_dir
     end
 
     def data_filename
