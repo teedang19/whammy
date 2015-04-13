@@ -5,7 +5,7 @@ module Whammy
     let(:sorter) { Sorter.new }
 
     before(:each) do
-      allow_any_instance_of(Database).to receive(:data_filename).and_return("spec/fixtures/files/example_db.txt")
+      allow(Database).to receive(:master_filename).and_return("spec/fixtures/files/example_db.txt")
     end
 
     describe "#initialize" do

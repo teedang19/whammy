@@ -120,7 +120,7 @@ module Whammy
       let(:example_db) { "spec/fixtures/files/example_db.txt" }
 
       before(:each) do
-        allow_any_instance_of(Database).to receive(:data_filename).and_return(example_db)
+        allow(Database).to receive(:master_filename).and_return(example_db)
       end
 
       describe "GET /api/v1/records/gender" do
