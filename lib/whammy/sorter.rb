@@ -3,7 +3,7 @@ require "date"
 module Whammy
   class Sorter
     def initialize(database = nil)
-      @data = database ? database.read : Database.new.read # will be master
+      @data = database ? database.read : Database.master_read
     end
 
     def sort!(method = nil)
