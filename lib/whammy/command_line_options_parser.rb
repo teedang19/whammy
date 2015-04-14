@@ -1,5 +1,9 @@
 module Whammy
   class CommandLineOptionsParser
+    private
+    attr_reader :options_parser, :argv
+
+    public
     attr_reader :files, :sort_by, :write_to_master
 
     def initialize(argv)
@@ -12,7 +16,7 @@ module Whammy
       sort_by = nil
       write_to_master = false
 
-      @options_parser.on("--sort ENUM", ["-b", "-g", "-l"]) do |flag|
+      options_parser.on("--sort ENUM", ["-b", "-g", "-l"]) do |flag|
         case flag
         when "-b" then sort_by = :birthdate
         when "-g" then sort_by = :gender
@@ -20,9 +24,9 @@ module Whammy
         end
       end
       
-      @options_parser.on("--master") { write_to_master = true }
+      options_parser.on("--master") { write_to_master = true }
 
-      files = @options_parser.parse(@argv)
+      files = options_parser.parse(argv)
       [files, sort_by, write_to_master]
 
       rescue OptionParser::InvalidOption => e
