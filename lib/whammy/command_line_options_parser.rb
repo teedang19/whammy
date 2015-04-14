@@ -1,9 +1,5 @@
 module Whammy
   class CommandLineOptionsParser
-    private
-    attr_reader :options_parser, :argv
-
-    public
     attr_reader :files, :sort_by, :write_to_master
 
     def initialize(argv)
@@ -34,5 +30,9 @@ module Whammy
       rescue OptionParser::InvalidArgument => e
         puts "#{e.message}\nTry again!"
     end
+
+    private
+
+    attr_reader :options_parser, :argv
   end
 end

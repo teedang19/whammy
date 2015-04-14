@@ -1,10 +1,5 @@
 module Whammy
   class CommandLineInterface
-    private
-    attr_reader :options_parser, :database
-
-    public
-
     def initialize(argv)
       @options_parser = CommandLineOptionsParser.new(argv)
       @database = Database.new(write_to_master?)
@@ -49,5 +44,9 @@ module Whammy
     def compiled_filename
       database.data_filename
     end
+
+    private
+
+    attr_reader :options_parser, :database
   end
 end
