@@ -1,5 +1,10 @@
 module Whammy
   class CommandLineInterface
+    private
+    attr_reader :options_parser, :database
+
+    public
+
     def initialize(argv)
       @options_parser = CommandLineOptionsParser.new(argv)
       @database = Database.new(write_to_master?)
@@ -18,7 +23,7 @@ module Whammy
     end
 
     def sorted_data
-      Sorter.new(@database).sort!(sort_by)
+      Sorter.new(database).sort!(sort_by)
     end
 
     def display_file_location
@@ -26,23 +31,23 @@ module Whammy
     end
 
     def sort_by
-      @options_parser.sort_by
+      options_parser.sort_by
     end
 
     def files
-      @options_parser.files
+      options_parser.files
     end
 
     def write_to_master?
-      @options_parser.write_to_master
+      options_parser.write_to_master
     end
 
     def write_files!
-      @database.write_files(files)
+      database.write_files(files)
     end
 
     def compiled_filename
-      @database.data_filename
+      database.data_filename
     end
   end
 end
