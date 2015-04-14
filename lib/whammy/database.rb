@@ -15,11 +15,11 @@ module Whammy
     end
 
     def data_filename
-      "#{data_dir}#{@filename}"
+      "#{data_dir}#{filename}"
     end
 
     def read
-      @parser.parse_file(data_filename)
+      parser.parse_file(data_filename)
     end
 
     def write_files(files)
@@ -40,8 +40,10 @@ module Whammy
 
     private
 
+    attr_reader :filename, :parser
+
     def get_data(entry)
-      @parser.parse_entry(entry)
+      parser.parse_entry(entry)
     end
 
     def normalize(record) # defines a format consistency for records to be written
